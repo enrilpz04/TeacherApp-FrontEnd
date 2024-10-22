@@ -21,4 +21,22 @@
   left: 0;
 }
 
+button {
+  padding: 0.5rem 1rem;
+  margin-left: 1.2rem;
+  border-radius: 4px;
+}
+
+.btn-signup {
+  background-color: #435055;
+  border: 1px solid #fff;
+  color: #fff;
+}
+
+.btn-login {
+  background-color: #A3F7BF;
+  color: #435055;
+  border: none;
+}
+
 

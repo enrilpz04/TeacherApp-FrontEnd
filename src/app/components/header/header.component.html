@@ -17,4 +17,11 @@
       </ul>
     </div>
   </div>
+  @if (!isLoggedIn) {
+    <div class="d-flex ms-auto">
+      <button class="btn-signup" type="button">Registrarse</button>
+      <button class="btn-login" type="button">Iniciar sesión</button>
+    </div>
+  }
+
 </nav>
