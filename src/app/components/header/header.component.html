@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand p-4">
+  <div class="d-flex">
+    <a class="navbar-brand" [routerLink]="['/home']">
+      <img src="logo.png" alt="Bootstrap" width="200">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" [routerLink]="['/search']">Buscar Tutores</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Convierteté en tutor</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  @if (!isLoggedIn) {
+  <div class="d-flex ms-auto">
+    <button class="btn-signup" type="button">Registrarse</button>
+    <button class="btn-login" type="button">Iniciar sesión</button>
+  </div>
+  } @else {
+  <div class="d-flex ms-auto gap-3 align-items-center">
+    <!-- Ícono de mensajes con badge -->
+    <div class="position-relative">
+      <a [routerLink]="['']">
+        <i class="fa-regular fa-envelope fa-2xl"></i>
+      </a>
+      @if (numMessages > 0) {
+      <span class="badge bg-danger">{{numMessages}}</span>
+      }
+    </div>
+    <!-- Ícono de campana con badge -->
+    <div class="position-relative">
+      <a [routerLink]="['']">
+        <i class="fa-regular fa-bell fa-2xl"></i>
+      </a>
+      @if (numNotifications > 0) {
+      <span class="badge bg-danger">{{numNotifications}}</span>
+      }
+
+    </div>
+    <div class="dropdown">
+      <div class="d-flex align-items-center gap-3 profile" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="https://placehold.co/50x50" class="profile-image ms-auto">
+        <h5 class="m-0">Enrique López</h5>
+      </div>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+        <li><a class="dropdown-item" href="#">Perfil</a></li>
+        <li><a class="dropdown-item" href="#">Configuración</a></li>
+        <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+      </ul>
+    </div>
+
+  </div>
+  }
+</nav>

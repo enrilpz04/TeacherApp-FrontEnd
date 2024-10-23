@@ -1,0 +1,75 @@
+/* Estilo general para la barra de navegación */
+.nav-link {
+  color: #fff;
+  margin-left: 1.2rem;
+  position: relative;
+  text-decoration: none;
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: #fff;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.nav-link:hover::before {
+  width: 100%;
+  left: 0;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  margin-left: 1.2rem;
+  border-radius: 4px;
+}
+
+.btn-signup {
+  background-color: #435055;
+  border: 1px solid #fff;
+  color: #fff;
+}
+
+.btn-login {
+  background-color: #A3F7BF;
+  color: #435055;
+  border: none;
+}
+
+i {
+  color: #fff;
+  margin-right: 2rem;
+}
+
+h5 {
+  color: #fff;
+  font-weight: 300;
+}
+
+/* Estilo para el badge */
+.badge {
+  position: absolute;
+  top: -15px;
+  right: 15px;
+  padding: 0.35em 0.6em;
+  font-size: 0.9rem;
+  border-radius: 50%;
+  color: white;
+  line-height: 1;
+}
+
+.profile-image {
+  border-radius: 4px;
+}
+
+.profile :hover {
+  cursor: pointer;
+}
+
+.dropdown-item :hover {
+  background-color: red;
+}
