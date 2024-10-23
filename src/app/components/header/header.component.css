@@ -1,3 +1,4 @@
+/* Estilo general para la barra de navegación */
 .nav-link {
   color: #fff;
   margin-left: 1.2rem;
@@ -39,4 +40,36 @@ button {
   border: none;
 }
 
+i {
+  color: #fff;
+  margin-right: 2rem;
+}
 
+h5 {
+  color: #fff;
+  font-weight: 300;
+}
+
+/* Estilo para el badge */
+.badge {
+  position: absolute;
+  top: -15px;
+  right: 15px;
+  padding: 0.35em 0.6em;
+  font-size: 0.9rem;
+  border-radius: 50%;
+  color: white;
+  line-height: 1;
+}
+
+.profile-image {
+  border-radius: 4px;
+}
+
+.profile :hover {
+  cursor: pointer;
+}
+
+.dropdown-item :hover {
+  background-color: red;
+}
