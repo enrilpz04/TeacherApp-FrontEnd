@@ -1,0 +1,21 @@
+input, select {
+  margin-top: 4px;
+  padding: 10px 20px 10px 20px;
+  border: 1px solid gray;
+  border-radius: 4px;
+}
+
+i {
+  cursor: pointer;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+}
+
+.btn-login {
+  background-color: #A3F7BF;
+  color: #435055;
+  border: 1px solid #435055;
+}
