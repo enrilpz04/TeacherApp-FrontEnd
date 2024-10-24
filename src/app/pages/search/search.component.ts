@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FilterComponent } from '../../components/filter/filter.component';
 import { TeacherListComponent } from '../../components/teacher-list/teacher-list.component';
 import { IFilterOptions } from '../../interfaces/ifilter-options';
-import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-search',
