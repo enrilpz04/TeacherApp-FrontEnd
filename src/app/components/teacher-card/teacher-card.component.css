@@ -1,0 +1,8 @@
+.card-container {
+  border: 1px solid lightgray;
+  border-radius: 8px;
+}
+
+.card-container:hover {
+  border: 1px solid black;
+}
