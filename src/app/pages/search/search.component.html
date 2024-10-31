@@ -1,7 +1,7 @@
 <section class="container my-5">
   <h2>Encuentra tutores para tus clases privadas</h2>
   <hr>
-  <app-filter (filterOptions)="getFilterOptions($event)"></app-filter>
+  <app-filter [knowledgeList]="knowledgeList" (filterOptions)="getFilterOptions($event)"></app-filter>
   <hr>
   <app-teacher-list [teacherList]="teacherList"></app-teacher-list>
 </section>

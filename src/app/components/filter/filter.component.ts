@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IFilterOptions } from '../../interfaces/ifilter-options';
+import { IKnowledge } from '../../interfaces/iknowledge.interface';
 
 @Component({
   selector: 'app-filter',
@@ -11,50 +12,22 @@ import { IFilterOptions } from '../../interfaces/ifilter-options';
 })
 export class FilterComponent {
 
+  @Input() knowledgeList: IKnowledge[] = [];
   @Output() filterOptions = new EventEmitter<IFilterOptions>();
 
-  knowledgeList: string[] = ['Angular', 'React', 'Vue', 'Svelte', 'Ember', 'Backbone'];
-  orderOptions: string[] = ['Newest', 'Oldest', 'Price Ascending', 'Price Descending'];
-  dropdownOpen: boolean = false;
-
-  knowledge: string = '';
-  schedule: string = '';
-  minPrice: number = 0;
-  maxPrice: number = 1000;
-  orderOption: string = '';
-  name: string = '';
-
+  scheduleOptions: string[] = ['Mañana', 'Tarde', 'Noche'];
+  orderOptions: string[] = ['Mejor Valoracion', 'Precio más bajo', 'Precio más alto'];
   filterForm: FormGroup;
 
   constructor() {
     this.filterForm = new FormGroup({
-      knowledge: new FormControl(null, []),
-      schedule: new FormControl(null, []),
-      minPrice: new FormControl(null, []),
-      maxPrice: new FormControl(null, []),
-      orderOption: new FormControl(null, []),
-      name: new FormControl(null, [])
+      knowledge: new FormControl("", []),
+      schedule: new FormControl("", []),
+      minPrice: new FormControl(0, []),
+      maxPrice: new FormControl(100, []),
+      orderOption: new FormControl("", []),
+      name: new FormControl("", [])
     })
-  }
-
-  get priceRange(): string {
-    return `${this.minPrice} - ${this.maxPrice} €`;
-  }
-
-  updateMinPrice(): void {
-    if (this.minPrice > this.maxPrice) {
-      this.minPrice = this.maxPrice;
-    }
-  }
-
-  updateMaxPrice(): void {
-    if (this.maxPrice < this.minPrice) {
-      this.maxPrice = this.minPrice;
-    }
-  }
-
-  toggleDropdown(): void {
-    this.dropdownOpen = !this.dropdownOpen;
   }
 
   getDataForm(){

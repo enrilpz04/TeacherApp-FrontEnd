@@ -5,6 +5,8 @@ import { IFilterOptions } from '../../interfaces/ifilter-options';
 import { ITeacher } from '../../interfaces/iteacher.interface';
 import { UsersService } from '../../services/users.service';
 import { TeachersService } from '../../services/teachers.service';
+import { KnowledgesService } from '../../services/knowledges.service';
+import { IKnowledge } from '../../interfaces/iknowledge.interface';
 
 @Component({
   selector: 'app-search',
@@ -15,9 +17,11 @@ import { TeachersService } from '../../services/teachers.service';
 })
 export class SearchComponent {
   teacherList : ITeacher[] = []
+  knowledgeList : IKnowledge[] = []
 
   usersService = inject(UsersService);
   teachersService = inject(TeachersService);
+  knowledgeService = inject(KnowledgesService);
 
   filterOptions: IFilterOptions = {
     name: '',
@@ -31,6 +35,7 @@ export class SearchComponent {
 
   ngOnInit() {
     this.getTeachers();
+    this.knowledgeList = this.knowledgeService.getAllKnowledges();
   }
 
   getFilterOptions(event: IFilterOptions): void {
