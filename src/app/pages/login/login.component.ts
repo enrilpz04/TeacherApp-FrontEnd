@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
@@ -19,15 +19,17 @@ export class LoginComponent {
   }
 
   login() {
-    this.userService.login(this.userForm.value['email'], this.userForm.value['password']).then(
-      (response: any) => {
-        console.log(response);
-        // Manejar la respuesta del login
-      },
-      (error: any) => {
-        console.error(error);
-      }
-    );
+    if (this.userForm.valid) {
+      this.userService.login(this.userForm.value.email, this.userForm.value.password).then(
+        (response: any) => {
+          console.log(response);
+          // Manejar la respuesta del login
+        },
+        (error: any) => {
+          console.error(error);
+        }
+      );
+    }
   }
 
   checkControl(formControlName: string, validator: string): boolean | undefined {

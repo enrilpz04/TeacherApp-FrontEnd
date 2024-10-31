@@ -5,7 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class UserService {
   login(email: string, password: string) : Promise<any> {
-    throw new Error('Method not implemented.');
+    console.log('Email: ' + email + ' - Contraseña: ' + password);
+    return new Promise(() => "");
   }
 
   constructor() { }

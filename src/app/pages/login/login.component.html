@@ -1,5 +1,7 @@
 <div class="login">
   <h2>Iniciar Sesión</h2>
+
+  <form [formGroup]="userForm">
   <div>
       <label class="form-label" for="email">Email:</label>
       <input class="form-control" type="text" id="email" placeholder="Introduce un email:" formControlName="email">
@@ -9,15 +11,15 @@
   </div>
   <div>
       <label class="form-label" for="password">Contraseña:</label>
-      <input class="form-control" type="text" id="password" placeholder="Introduce un apellido:"
-          formControlName="password">
+      <input class="form-control" type="text" id="password" placeholder="Introduce un apellido:" formControlName="password">
 
       @if(checkControl("password", "required")) {
       <p class="text-danger">Campo requerido</p>
       }
       @if(checkControl("password", "minlength")){
-      <p class="text-danger">Introduce al menos 3 caracteres</p>
+      <p class="text-danger">Introduce al menos 8 caracteres</p>
       }
   </div>
   <button (click)="login()">Iniciar Sesión</button>
+  </form>
 </div>
