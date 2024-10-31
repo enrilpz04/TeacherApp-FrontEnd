@@ -24,30 +24,21 @@ export class SearchComponent {
   knowledgeService = inject(KnowledgesService);
 
   filterOptions: IFilterOptions = {
-    name: '',
-    knowledge: '',
+    name: "",
+    knowledge: "",
     minPrice: 0,
     maxPrice: 1000,
-    schedule: '',
-    orderOption: ''
-
+    schedule: "",
+    orderOption: ""
   };
 
   ngOnInit() {
-    this.getTeachers();
+    this.teacherList = this.teachersService.getTeachersFiltered(this.filterOptions);
     this.knowledgeList = this.knowledgeService.getAllKnowledges();
   }
 
   getFilterOptions(event: IFilterOptions): void {
     this.filterOptions = event;
-    this.getTeachers()
+    this.teacherList = this.teachersService.getTeachersFiltered(this.filterOptions);
   }
-
-  getTeachers(): void {
-    const users = this.usersService.getTeachersByName(this.filterOptions.name);
-    this.teacherList = this.teachersService.getTeachersFiltered(users, this.filterOptions);
-  }
-
-
-
 }

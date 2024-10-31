@@ -7,15 +7,6 @@ import { USER } from '../../database/user.db';
 })
 export class UsersService {
 
-  users : IUser[] = USER
-
   constructor() { }
-
-  getTeachersByName(name: string) : IUser[] {
-    if (name === '') {
-      return this.users.filter(user => user.rol === Rol.TEACHER);
-    }
-    return this.users.filter(user => user.rol === Rol.TEACHER && user.name.startsWith(name));
-  }
 
 }
