@@ -33,12 +33,25 @@ export class SearchComponent {
   };
 
   ngOnInit() {
-    this.teacherList = this.teachersService.getTeachersFiltered(this.filterOptions);
+    this.getTeachers();
     this.knowledgeList = this.knowledgeService.getAllKnowledges();
   }
 
-  getFilterOptions(event: IFilterOptions): void {
-    this.filterOptions = event;
-    this.teacherList = this.teachersService.getTeachersFiltered(this.filterOptions);
+  async getFilterOptions(event: IFilterOptions): Promise<void> {
+    try {
+      this.teacherList = await this.teachersService.getTeachersFiltered(event);
+      console.log(this.teacherList);
+    } catch (error) {
+      console.error('Error fetching teachers:', error);
+    }
+  }
+
+  async getTeachers(): Promise<void> {
+    try {
+      this.teacherList = await this.teachersService.getAll();
+      console.log(this.teacherList);
+    } catch (error) {
+      console.error('Error fetching teachers:', error);
+    }
   }
 }

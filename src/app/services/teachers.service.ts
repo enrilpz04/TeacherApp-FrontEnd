@@ -1,21 +1,26 @@
-import { Injectable } from '@angular/core';
-import { IUser } from '../interfaces/iuser.interface';
-import { IFilterOptions } from '../interfaces/ifilter-options';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { ITeacher } from '../interfaces/iteacher.interface';
-import { TEACHERS } from '../../database/teacher.db';
+import { IFilterOptions } from '../interfaces/ifilter-options';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TeachersService {
 
-  teachers : ITeacher[] = TEACHERS
+  private apiUrl = 'http://localhost:3000/api/teachers/';
+  private http = inject(HttpClient)
 
-  constructor() {
-
+  async getAll(): Promise<ITeacher[]> {
+    return firstValueFrom(this.http.get<any>(this.apiUrl)).then(response => {
+      return response;
+    });
   }
 
-  getTeachersFiltered(filterOptions: IFilterOptions) : ITeacher[]{
-    return this.teachers;
+  async getTeachersFiltered(filterOptions: IFilterOptions): Promise<ITeacher[]> {
+    return firstValueFrom(this.http.post<any>(this.apiUrl + 'filter', filterOptions)).then(response => {
+      return response;
+    });
   }
 }

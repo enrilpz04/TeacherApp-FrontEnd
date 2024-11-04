@@ -1,7 +1,7 @@
 <div class="card-container d-flex w-100 p-3 gap-3">
   <figure class="h-100"><img src="https://placehold.co/100x100" alt=""></figure>
   <div class="d-flex flex-column">
-    <h4>{{teacher.name + " " + teacher.surname}}</h4>
+    <h4>{{teacher.user.name + " " + teacher.user.surname}}</h4>
     <div class="d-flex gap-4">
       @for (knowledge of teacher.knowledges; track $index) {
         <div class="d-flex align-items-center gap-2">
@@ -10,7 +10,7 @@
         </div>
       }
     </div>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, temporibus quibusdam, aperiam nihil, voluptatibus inventore pariatur incidunt nemo quasi corporis dolorum illum. Amet, vero aliquid. Ex numquam dolor culpa totam!</p>
+    <p>{{teacher.description}}</p>
   </div>
   <div>
     <div>

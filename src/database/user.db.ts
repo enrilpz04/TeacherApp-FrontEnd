@@ -1,6 +1,6 @@
 import { Rol } from '../app/interfaces/iuser.interface'
 
-export const USER = [
+export const USERS = [
   {
     id: 1,
     name: 'Fernando',
