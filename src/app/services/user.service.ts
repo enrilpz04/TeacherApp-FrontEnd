@@ -20,5 +20,10 @@ export class UserService {
     return lastValueFrom(this.httpClient.post<string>(this.apiUrl + "/login", body, options));
   }
 
+  search(filtro1: string, filtro2: string) : Promise<any> {
+    console.log('filtro1: ' + filtro1 + ' - filtro2: ' + filtro2);
+    return lastValueFrom(this.httpClient.get<string>(`${this.apiUrl}/search?filtro1=${filtro1}&filtro2=${filtro2}`));
+  }
+
   constructor() { }
 }

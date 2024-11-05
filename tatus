@@ -1,0 +1,41 @@
+[33mcommit bb6de73e7d591240e316dac6be16ffcbbe2f10e5[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature_login_front[m[33m)[m
+Author: mlpz <miguelkrasnob@gmail.com>
+Date:   Tue Nov 5 18:17:14 2024 +0100
+
+    Modificado login post
+
+[33mcommit b42a79631c4b6d1fddb0cc832274250f3e3cf8b9[m[33m ([m[1;31morigin/feature_login_front[m[33m)[m
+Author: mlpz <miguelkrasnob@gmail.com>
+Date:   Tue Nov 5 18:06:19 2024 +0100
+
+    Correcciones login front
+
+[33mcommit 6f17706b0f2a1760a6a6892c19458560170f4264[m
+Author: mlpz <miguelkrasnob@gmail.com>
+Date:   Fri Nov 1 00:14:27 2024 +0100
+
+    Arreglada validacion datos y arreglado envio datos a angular desde html
+
+[33mcommit a42c9eaf8fdd4cd3a9e6fb6523c9ad55d45c2434[m
+Author: mlpz <miguelkrasnob@gmail.com>
+Date:   Thu Oct 31 23:43:28 2024 +0100
+
+    Creado formulario dummy de prueba de login conectado a user.service.ts
+
+[33mcommit c4ebecad87c42525b3e811b5855028e162b875eb[m
+Author: mlpz <miguelkrasnob@gmail.com>
+Date:   Thu Oct 31 23:01:27 2024 +0100
+
+    Agregada ruta de login en app.routes.ts
+
+[33mcommit 6bbb1be991deaeed677617492947c2212df51e6f[m
+Author: mlpz <miguelkrasnob@gmail.com>
+Date:   Thu Oct 31 23:00:49 2024 +0100
+
+    Generados componentes de login y service de user
+
+[33mcommit f5eacffe5445b9c19d7e6dbfbe1ebaac0841405c[m[33m ([m[1;32mmain[m[33m)[m
+Author: mlpz <miguelkrasnob@gmail.com>
+Date:   Thu Oct 31 22:07:08 2024 +0100
+
+    initial commit

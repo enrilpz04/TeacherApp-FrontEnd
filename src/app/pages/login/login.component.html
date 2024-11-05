@@ -23,4 +23,27 @@
   <pre [innerText]="result"></pre>
   <button (click)="login()">Iniciar Sesión</button>
   </form>
+
+  <form [formGroup]="searchForm">
+  <div>
+      <label class="form-label" for="filtro1">filtro1:</label>
+      <input class="form-control" type="text" id="filtro1" placeholder="Introduce un filtro1:" formControlName="filtro1">
+      @if(checkControl("filtro1", "filtro2")) {
+      <p class="text-danger">Introduce un filtro1 válido</p>
+      }
+  </div>
+  <div>
+      <label class="form-label" for="filtro2">filtro2:</label>
+      <input class="form-control" type="text" id="filtro2" placeholder="Introduce un apellido:" formControlName="filtro2">
+
+      @if(checkControl("filtro2", "required")) {
+      <p class="text-danger">Campo requerido</p>
+      }
+      @if(checkControl("filtro2", "minlength")){
+      <p class="text-danger">Introduce al menos 8 caracteres</p>
+      }
+  </div>
+  <pre [innerText]="result_search"></pre>
+  <button (click)="search()">Buscar</button>
+  </form>
 </div>
