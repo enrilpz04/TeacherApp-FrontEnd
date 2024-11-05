@@ -3,7 +3,7 @@ import { FilterComponent } from '../../components/filter/filter.component';
 import { TeacherListComponent } from '../../components/teacher-list/teacher-list.component';
 import { IFilterOptions } from '../../interfaces/ifilter-options';
 import { ITeacher } from '../../interfaces/iteacher.interface';
-import { UsersService } from '../../services/users.service';
+import { UserService } from '../../services/users.service';
 import { TeachersService } from '../../services/teachers.service';
 import { KnowledgesService } from '../../services/knowledges.service';
 import { IKnowledge } from '../../interfaces/iknowledge.interface';
@@ -19,7 +19,7 @@ export class SearchComponent {
   teacherList : ITeacher[] = []
   knowledgeList : IKnowledge[] = []
 
-  usersService = inject(UsersService);
+  usersService = inject(UserService);
   teachersService = inject(TeachersService);
   knowledgeService = inject(KnowledgesService);
 
