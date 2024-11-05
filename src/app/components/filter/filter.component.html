@@ -1,0 +1,50 @@
+<section>
+  <form [formGroup]="filterForm" (ngSubmit)="getDataForm()">
+    <div class="d-flex gap-4">
+      <div class="d-flex flex-column flex-grow-1">
+        <label for="knowledge">Lenguaje</label>
+        <select id="knowledge" formControlName="knowledge">
+          <option value="">Selecciona una opción:</option>
+          @for (knowledge of knowledgeList; track $index) {
+          <option [value]="knowledge.name">{{knowledge.name}}</option>
+          }
+        </select>
+      </div>
+      <div class="d-flex flex-column flex-grow-1">
+        <label for="schedule">Horario</label>
+        <select id="knowledge" formControlName="schedule">
+          <option value="">Selecciona una opción:</option>
+          @for (schedule of scheduleOptions; track $index) {
+          <option [value]="schedule">{{schedule}}</option>
+          }
+        </select>
+      </div>
+      <div class="d-flex gap-4 flex-grow-1">
+        <div class="d-flex flex-column flex-grow-1">
+          <label for="schedule">Precio min.</label>
+          <input type="text" id="schedule" formControlName="minPrice" />
+        </div>
+        <div class="d-flex flex-column flex-grow-1">
+          <label for="schedule">Precio max.</label>
+          <input type="text" id="schedule" formControlName="maxPrice" />
+        </div>
+      </div>
+    </div>
+    <div class="d-flex gap-4 my-3">
+      <div class="d-flex flex-column w-75">
+        <label for="name">Buscar por nombre</label>
+        <input type="text" id="name" formControlName="name" />
+      </div>
+      <div class="d-flex flex-column flex-grow-1">
+        <label for="orderOption">Ordenar por</label>
+        <select id="orderOption" formControlName="orderOption">
+          <option value="">Selecciona una opción:</option>
+          @for (orderOption of orderOptions; track $index) {
+          <option [value]="orderOption">{{orderOption}}</option>
+          }
+        </select>
+      </div>
+    </div>
+    <button class="btn-login" type="button" type="submit">Buscar profesores</button>
+  </form>
+</section>

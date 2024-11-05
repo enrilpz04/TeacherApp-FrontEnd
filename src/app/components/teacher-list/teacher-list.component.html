@@ -1,0 +1,7 @@
+<section>
+  @for (teacher of teacherList; track $index) {
+    <article class="my-3">
+      <app-teacher-card [teacher]="teacher"></app-teacher-card>
+    </article>
+  }
+</section>
