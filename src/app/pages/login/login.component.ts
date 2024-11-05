@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -11,24 +11,23 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 })
 export class LoginComponent {
   @Input() userForm: FormGroup;
+  @Output() result: String;
   constructor(private userService: UserService) {
     this.userForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(8)]),
     });
+    this.result = "";
   }
 
   login() {
     if (this.userForm.valid) {
-      this.userService.login(this.userForm.value.email, this.userForm.value.password).then(
-        (response: any) => {
-          console.log(response);
-          // Manejar la respuesta del login
-        },
-        (error: any) => {
-          console.error(error);
-        }
-      );
+      this.userService.login(this.userForm.value.email, this.userForm.value.password).then((response) => {
+        this.result = JSON.stringify(response, null, 4);
+      }), (error: any) => {
+        this.result = "Ha habido un error en el login" + error;
+        console.error(error);
+      };
     }
   }
 
