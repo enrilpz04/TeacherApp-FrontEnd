@@ -18,6 +18,12 @@ export class TeachersService {
     });
   }
 
+  async getTeacherById(id: string): Promise<ITeacher> {
+    return firstValueFrom(this.http.get<any>(this.apiUrl + id)).then(response => {
+      return response;
+    });
+  }
+
   async getTeachersFiltered(filterOptions: IFilterOptions): Promise<ITeacher[]> {
     return firstValueFrom(this.http.post<any>(this.apiUrl + 'filter', filterOptions)).then(response => {
       return response;

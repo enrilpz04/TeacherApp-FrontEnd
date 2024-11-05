@@ -6,6 +6,7 @@ export interface ITeacher {
   user: IUser;
   description: string;
   price_p_hour: number;
+  schedule: string;
   experience: string;
   rating: number;
   validated: boolean;

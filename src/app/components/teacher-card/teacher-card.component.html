@@ -1,26 +1,29 @@
-<div class="card-container d-flex w-100 p-3 gap-3">
+<div class="card-container d-flex w-100 p-4 gap-3">
   <figure class="h-100"><img src="https://placehold.co/100x100" alt=""></figure>
-  <div class="d-flex flex-column">
+  <div class="d-flex flex-column w-75">
     <h4>{{teacher.user.name + " " + teacher.user.surname}}</h4>
     <div class="d-flex gap-4">
       @for (knowledge of teacher.knowledges; track $index) {
-        <div class="d-flex align-items-center gap-2">
-          <i class="fa-brands fa-python"></i>
-          <p>{{knowledge.name}}</p>
+        <div class="d-flex gap-2 align">
+          <i class="fa-solid fa-code"></i>
+          <p >{{knowledge.name}}</p>
         </div>
       }
     </div>
-    <p>{{teacher.description}}</p>
+  <!--<p>{{teacher.description}}</p>-->
+  <p class="mt-3">Lorem ipsum, dolor sit amet consectetur adipisicing elit. A corrupti cum, doloremque sunt fuga rerum molestiae, reiciendis delectus illo vel obcaecati maxime magnam adipisci et beatae enim aliquid harum numquam.</p>
   </div>
-  <div>
-    <div>
-      <div>
-
+  <div class="d-flex flex-column">
+    <div class="d-flex w-100 flex-grow-1 ratingprice">
+      <div class="d-flex gap-2 align">
+        <p >{{teacher.rating}}</p>
+        <i class="fa-solid fa-star"></i>
       </div>
-      <div>
-
+      <div class="d-flex gap-2 align">
+        <p >{{teacher.price_p_hour}}</p>
+        <i class="fa-solid fa-euro"></i>
       </div>
     </div>
-    <button>Reservar clase</button>
+    <button class="book align-bottom" [routerLink]="['/teacher', teacher.id]">Reservar clase</button>
   </div>
 </div>

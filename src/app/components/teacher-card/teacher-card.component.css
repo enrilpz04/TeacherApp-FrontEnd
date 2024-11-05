@@ -6,3 +6,39 @@
 .card-container:hover {
   border: 1px solid black;
 }
+
+.align {
+  display: flex;
+  align-items: center;
+  color: gray;
+}
+
+.align i {
+  margin-right: 2px; /* Ajusta el espacio entre el icono y el texto */
+}
+
+.align p {
+  margin: 0; /* Elimina el margen del párrafo para una mejor alineación */
+}
+
+.book {
+  background-color: #A3F7BF;
+  color: #435055;
+  border: 1px solid #435055;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  &:hover {
+    background-color: #435055;
+    color: #A3F7BF;
+  }
+}
+
+.ratingprice {
+  justify-content: space-between;
+  align-items: start;
+
+  & > div {
+    color: black;
+  }
+}
+
