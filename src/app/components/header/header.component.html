@@ -18,10 +18,10 @@
       </ul>
     </div>
   </div>
-  @if (!isLoggedIn) {
+  @if ( this.authService.isLoggedIn() === false ) {
   <div class="d-flex ms-auto">
-    <button class="btn-signup" type="button">Registrarse</button>
-    <button class="btn-login" type="button">Iniciar sesión</button>
+    <a class="btn-signup" type="button" [routerLink]="['/signup']">Registrarse</a>
+    <a class="btn-login" type="button" [routerLink]="['/login']">Iniciar sesión</a>
   </div>
   } @else {
   <div class="d-flex ms-auto gap-3 align-items-center">
