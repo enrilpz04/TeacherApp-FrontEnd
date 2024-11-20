@@ -16,13 +16,13 @@ export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent },
   { path: 'register-teacher', component: SignupTeacherComponent },
   { path: 'search', component: SearchComponent },
   { path: 'teacher/:id', component: TeacherViewComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], children: [
-    { path: '', redirectTo: 'home', pathMatch: 'full' },
-    { path: 'home', component: DashboardHomeComponent },
+    { path: '', redirectTo: 'dashboard-home', pathMatch: 'full' },
+    { path: 'dashboard-home', component: DashboardHomeComponent },
     { path: 'messages', component: MessagesComponent },
     { path: 'notifications', component: NotificationsComponent },
     { path: 'pending-classes', component: ClassesComponent }
