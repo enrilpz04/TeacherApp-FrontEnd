@@ -25,6 +25,6 @@ export const routes: Routes = [
     { path: 'dashboard-home', component: DashboardHomeComponent },
     { path: 'messages', component: MessagesComponent },
     { path: 'notifications', component: NotificationsComponent },
-    { path: 'pending-classes', component: ClassesComponent }
+    { path: 'classes', component: ClassesComponent }
   ]}
 ];
