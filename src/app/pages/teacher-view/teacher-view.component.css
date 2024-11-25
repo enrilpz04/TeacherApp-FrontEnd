@@ -1,0 +1,17 @@
+.align {
+  display: flex;
+  align-items: center;
+  color: gray;
+}
+
+.align i {
+  margin-right: 2px; /* Ajusta el espacio entre el icono y el texto */
+}
+
+.align p {
+  margin: 0; /* Elimina el margen del párrafo para una mejor alineación */
+}
+
+div .card h5 {
+  text-align: center;
+}
