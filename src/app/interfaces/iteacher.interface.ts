@@ -1,16 +1,16 @@
-import { IKnowledge } from "./iknowledge.interface";
-import { IUser } from "./iuser.interface";
+import { IUser } from './iuser.interface';
+import { IKnowledge } from './iknowledge.interface';
 
 export interface ITeacher {
   id: number;
-  user: IUser;
   description: string;
+  schedule: 'Morning' | 'Afternoon' | 'Night';
   price_p_hour: number;
-  schedule: string;
   experience: string;
   rating: number;
   validated: boolean;
   latitude: string;
   longitude: string;
+  user: IUser;
   knowledges: IKnowledge[];
 }
