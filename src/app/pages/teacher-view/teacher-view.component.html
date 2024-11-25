@@ -1,16 +1,17 @@
 <section class="container my-5">
   <div class="d-flex">
     <div class="d-flex gap-3 w-75">
-      <figure class="h-100"><img src="https://i.pravatar.cc/500?u=clemente.alonzomayorga@peticiones.online" alt="" width="200"></figure>
+      <figure class="h-100"><img src="https://i.pravatar.cc/500?u=clemente.alonzomayorga@peticiones.online" alt=""
+          width="200"></figure>
       <div class="d-flex flex-column gap-3">
         <h2>{{teacher.user.name + " " + teacher.user.surname}}</h2>
         <p>{{teacher.experience}}</p>
         <div class="d-flex gap-4">
           @for (knowledge of teacher.knowledges; track $index) {
-            <div class="d-flex gap-2 align">
-              <i class="fa-solid fa-code"></i>
-              <p >{{knowledge.name}}</p>
-            </div>
+          <div class="d-flex gap-2 align">
+            <i class="fa-solid fa-code"></i>
+            <p>{{knowledge.name}}</p>
+          </div>
           }
         </div>
 
@@ -27,78 +28,83 @@
         <p class="flex-grow-1">Precio por hora:</p>
         <p><strong>{{teacher.price_p_hour}}€</strong></p>
       </div>
-
-
-
     </div>
   </div>
-
   <h4 class="mt-3">Sobre mí</h4>
   <p>{{teacher.description}}</p>
+
+  <!-- Card de valoraciones -->
   <div class="card card-shadow py-4 px-4">
     <div class="d-flex">
+
+      <!-- Valoración media -->
       <div class="d-flex flex-column w-25 pt-4">
-        <h1>5</h1>
+        <h1>{{averageRating}}</h1>
         <div class="d-flex gap-2">
+          @for (number of numbers; track $index) {
+          @if (averageRating >= number) {
           <i class="fa-solid fa-star"></i>
-          <i class="fa-solid fa-star"></i>
-          <i class="fa-solid fa-star"></i>
-          <i class="fa-solid fa-star"></i>
-          <i class="fa-solid fa-star"></i>
+          } @else if (number - 0.5 <= averageRating) { <i class="fa-regular fa-star-half-stroke"></i>
+            } @else {
+            <i class="fa-regular fa-star"></i>
+            }
+            }
         </div>
-        <p class="mt-3">22 reviews</p>
+        <p class="mt-3">{{reviews.length}} reseñas</p>
       </div>
+
+      <!-- Barras de valoración -->
       <div class="w-75">
         <!-- Barra de 5 estrellas -->
-        <div class="d-flex align-items-center mb-2">
-          <span>5</span>
-          <i class="fa-solid fa-star mx-2"></i>
-          <div class="progress w-100">
-            <div class="progress-bar" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
-          <span class="ml-2">80%</span>
+      <div class="d-flex align-items-center mb-2">
+        <span>5</span>
+        <i class="fa-solid fa-star mx-2"></i>
+        <div class="progress w-100">
+          <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[4]" aria-valuenow="starPercentages[4]" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
+        <span class="ml-2">{{starPercentages[4]}}%</span>
+      </div>
 
-        <!-- Barra de 4 estrellas -->
-        <div class="d-flex align-items-center mb-2">
-          <span>4</span>
-          <i class="fa-solid fa-star mx-2"></i>
-          <div class="progress w-100">
-            <div class="progress-bar" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
-          <span class="ml-2">60%</span>
+      <!-- Barra de 4 estrellas -->
+      <div class="d-flex align-items-center mb-2">
+        <span>4</span>
+        <i class="fa-solid fa-star mx-2"></i>
+        <div class="progress w-100">
+          <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[3]" aria-valuenow="starPercentages[3]" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
+        <span class="ml-2">{{starPercentages[3]}}%</span>
+      </div>
 
-        <!-- Barra de 3 estrellas -->
-        <div class="d-flex align-items-center mb-2">
-          <span>3</span>
-          <i class="fa-solid fa-star mx-2"></i>
-          <div class="progress w-100">
-            <div class="progress-bar" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
-          <span class="ml-2">30%</span>
+      <!-- Barra de 3 estrellas -->
+      <div class="d-flex align-items-center mb-2">
+        <span>3</span>
+        <i class="fa-solid fa-star mx-2"></i>
+        <div class="progress w-100">
+          <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[2]" aria-valuenow="starPercentages[2]" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
+        <span class="ml-2">{{starPercentages[2]}}%</span>
+      </div>
 
-        <!-- Barra de 2 estrellas -->
-        <div class="d-flex align-items-center mb-2">
-          <span>2</span>
-          <i class="fa-solid fa-star mx-2"></i>
-          <div class="progress w-100">
-            <div class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
-          <span class="ml-2">10%</span>
+      <!-- Barra de 2 estrellas -->
+      <div class="d-flex align-items-center mb-2">
+        <span>2</span>
+        <i class="fa-solid fa-star mx-2"></i>
+        <div class="progress w-100">
+          <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[1]" aria-valuenow="starPercentages[1]" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
+        <span class="ml-2">{{starPercentages[1]}}%</span>
+      </div>
 
-        <!-- Barra de 1 estrella -->
-        <div class="d-flex align-items-center">
-          <span>1</span>
-          <i class="fa-solid fa-star mx-2"></i>
-          <div class="progress w-100">
-            <div class="progress-bar" role="progressbar" style="width: 5%;" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
-          <span class="ml-2">5%</span>
+      <!-- Barra de 1 estrella -->
+      <div class="d-flex align-items-center mb-2">
+        <span>1</span>
+        <i class="fa-solid fa-star mx-2"></i>
+        <div class="progress w-100">
+          <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[0]" aria-valuenow="starPercentages[0]" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-    </div>
+        <span class="ml-2">{{starPercentages[0]}}%</span>
+      </div>
+      </div>
     </div>
   </div>
 </section>
