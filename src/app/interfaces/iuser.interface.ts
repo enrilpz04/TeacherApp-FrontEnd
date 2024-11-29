@@ -1,11 +1,11 @@
 export interface IUser {
-  id: number;
+  id?: number;
   name: string;
   surname: string;
   email: string;
   password: string;
   avatar?: string;
-  rol: Rol;
+  rol?: Rol;
 }
 
 

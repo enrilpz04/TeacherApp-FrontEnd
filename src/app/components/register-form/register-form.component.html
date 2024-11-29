@@ -1,0 +1,57 @@
+<h1>Registro</h1>
+<div>
+<form [formGroup]="registerForm" class="card p-3 w-75 shadow" (ngSubmit)="getDataForm()" novalidate>
+  <div class="my-2">
+    <label for="name" class="form-label">Nombre</label>
+    <input type="text" class="form-control" formControlName="name" id="name">
+    @if(checkControl('name','required')){
+      <p class="text-danger" >el campo es requerido</p>
+
+  }
+  @if(checkControl('name','minlength')){
+      <p class="error">La longitud minima es de 3 caracteres</p>
+
+  }
+  </div>
+  <div class="my-2">
+    <label for="surname" class="form-label">Apellidos</label>
+    <input type="text" class="form-control" formControlName="surname" id="surname">
+
+  </div>
+  <div class="my-2">
+    <label for="email" class="form-label">Email</label>
+    <input type="email" class="form-control" formControlName="email" id="email">
+    @if(checkControl('email','required')){
+      <p class="text-danger" >el campo es requerido</p>
+
+  } @if(checkEmail()){
+    <p class="text-danger" >El correo ya esta registrado</p>
+
+}
+  </div>
+
+  <div class="my-2">
+    <label for="pssw" class="form-label">Pasword</label>
+    <input type="password" class="form-control" formControlName="pssw" id="pssw">
+    @if(checkControl('pssw','required')){
+      <p class="text-danger" >el campo es requerido</p>
+
+  }
+  </div>
+  <div class="my-2">
+    <label for="repssw" class="form-label">Repite Pasword</label>
+    <input type="password" class="form-control" formControlName="repssw" id="repssw">
+    @if(checkControl('repsw','required')){
+      <p class="text-danger" >el campo es requerido</p>
+
+  }
+  @if(checkRepitPassw()){
+    <p class="text-danger">Las contraseñas no coinciden</p>
+  }
+  </div>
+
+<input type="submit" class="w-25  btn btn-danger" value="Enviar" [disabled]="!registerForm.valid">
+
+</form>
+
+</div>
