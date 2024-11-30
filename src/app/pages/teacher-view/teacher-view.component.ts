@@ -4,18 +4,19 @@ import { TeachersService } from '../../services/teachers.service';
 import { ActivatedRoute } from '@angular/router';
 import { ReviewsService } from '../../services/reviews.service';
 import { IReview } from '../../interfaces/ireview.interface';
+import { ReviewListComponent } from '../../components/review-list/review-list.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-teacher-view',
   standalone: true,
-  imports: [],
+  imports: [ReviewListComponent, CommonModule],
   templateUrl: './teacher-view.component.html',
   styleUrl: './teacher-view.component.css'
 })
 export class TeacherViewComponent {
 
   teacher!: ITeacher;
-  schedule!: string;
   reviews!: IReview[];
   averageRating: number = 0;
   numbers = [1, 2, 3, 4, 5];
@@ -29,17 +30,6 @@ export class TeacherViewComponent {
     this.activatedRoute.params.subscribe( async (params: any) => {
       let id = params.id;
       this.teacher = await this.teachersService.getTeacherById(id);
-      switch(this.teacher.schedule) {
-        case 'Morning':
-          this.schedule = '10:00h - 14:00h';
-          break;
-        case 'Afternoon':
-          this.schedule = '14:00h - 18:00h';
-          break;
-        case 'Night':
-          this.schedule = '18:00h - 22:00h';
-          break;
-      }
       this.reviews = await this.reviewsService.getAllReviewsByTeacherId(id);
       this.calculateAverageRating();
       this.calculateStarPercentages();
