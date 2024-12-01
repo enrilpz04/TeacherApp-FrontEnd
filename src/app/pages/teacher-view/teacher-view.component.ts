@@ -23,13 +23,13 @@ export class TeacherViewComponent {
       let id = params.id;
       this.teacher = await this.teachersService.getTeacherById(id);
       switch(this.teacher.schedule) {
-        case 'Mañana':
+        case 'Morning':
           this.schedule = '10:00h - 14:00h';
           break;
-        case 'Tarde':
+        case 'Afternoon':
           this.schedule = '14:00h - 18:00h';
           break;
-        case 'Noche':
+        case 'Night':
           this.schedule = '18:00h - 22:00h';
           break;
       }
