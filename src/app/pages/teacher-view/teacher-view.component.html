@@ -1,63 +1,75 @@
 <section class="container my-5">
-  <div class="d-flex">
-    <div class="d-flex gap-3 w-75">
-      <figure class="h-100"><img src="https://i.pravatar.cc/500?u=clemente.alonzomayorga@peticiones.online" alt="" width="200"></figure>
+  <div class="row">
+    <div class="col-12 col-md-8 d-flex gap-3">
+      <figure class="h-100"><img src="https://i.pravatar.cc/500?u=clemente.alonzomayorga@peticiones.online" alt=""
+          width="200"></figure>
       <div class="d-flex flex-column gap-3">
         <h2>{{teacher.user.name + " " + teacher.user.surname}}</h2>
         <p>{{teacher.experience}}</p>
-        <div class="d-flex gap-4">
+        <div class="d-flex gap-4 flex-wrap">
           @for (knowledge of teacher.knowledges; track $index) {
-            <div class="d-flex gap-2 align">
-              <i class="fa-solid fa-code"></i>
-              <p >{{knowledge.name}}</p>
-            </div>
+          <div class="d-flex gap-2 align-items-center align">
+            <i class="fa-solid fa-code"></i>
+            <p>{{knowledge.name}}</p>
+          </div>
           }
-
         </div>
-        <p>+ 300 clases completadas</p>
       </div>
     </div>
-    <div class="card card-shadow py-4 px-4 w-25">
-      <h5>Reservar clase</h5>
-      <hr>
-      <div class="d-flex">
-        <p class="flex-grow-1">Horario:</p>
-        <p><strong>{{schedule}}</strong></p>
+    @if (true) {
+    <div class="col-12 col-md-4">
+      <div class="card card-shadow py-4 px-4">
+        <h5>Reservar clase</h5>
+        <hr>
+        <div class="d-flex">
+          <p class="flex-grow-1">Horario:</p>
+          <p><strong>{{teacher.schedule}}</strong></p>
+        </div>
+        <div class="d-flex">
+          <p class="flex-grow-1">Precio por hora:</p>
+          <p><strong>{{teacher.price_p_hour}}€</strong></p>
+        </div>
+        <button (click)="openDialog()">
+          Resevar clase
+        </button>
       </div>
-      <div class="d-flex">
-        <p class="flex-grow-1">Precio por hora:</p>
-        <p><strong>{{teacher.price_p_hour}}€</strong></p>
-      </div>
-
-
-
     </div>
+    }
   </div>
-
   <h4 class="mt-3">Sobre mí</h4>
   <p>{{teacher.description}}</p>
+
+  <!-- Card de valoraciones -->
   <div class="card card-shadow py-4 px-4">
-    <div class="d-flex">
-      <div class="d-flex flex-column w-25 pt-4">
-        <h1>5</h1>
-        <div class="d-flex gap-2">
+    <div class="d-flex flex-column flex-md-row">
+
+      <!-- Valoración media -->
+      <div class="d-flex flex-column w-100 w-md-25 pt-4">
+        <h1>{{averageRating}}</h1>
+        <div class="d-flex gap-2 justify-content-center justify-content-md-start">
+          @for (number of numbers; track $index) {
+          @if (averageRating >= number) {
           <i class="fa-solid fa-star"></i>
-          <i class="fa-solid fa-star"></i>
-          <i class="fa-solid fa-star"></i>
-          <i class="fa-solid fa-star"></i>
-          <i class="fa-solid fa-star"></i>
+          } @else if (number - 0.5 <= averageRating) { <i class="fa-regular fa-star-half-stroke"></i>
+            } @else {
+            <i class="fa-regular fa-star"></i>
+            }
+            }
         </div>
-        <p class="mt-3">22 reviews</p>
+        <p class="mt-3 text-center text-md-start">{{reviews.length}} reseñas</p>
       </div>
-      <div class="w-75">
+
+      <!-- Barras de valoración -->
+      <div class="w-100 w-md-75 mt-4 mt-md-0">
         <!-- Barra de 5 estrellas -->
         <div class="d-flex align-items-center mb-2">
           <span>5</span>
           <i class="fa-solid fa-star mx-2"></i>
           <div class="progress w-100">
-            <div class="progress-bar" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[4]"
+              aria-valuenow="starPercentages[4]" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-          <span class="ml-2">80%</span>
+          <span class="ml-2">{{starPercentages[4]}}%</span>
         </div>
 
         <!-- Barra de 4 estrellas -->
@@ -65,9 +77,10 @@
           <span>4</span>
           <i class="fa-solid fa-star mx-2"></i>
           <div class="progress w-100">
-            <div class="progress-bar" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[3]"
+              aria-valuenow="starPercentages[3]" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-          <span class="ml-2">60%</span>
+          <span class="ml-2">{{starPercentages[3]}}%</span>
         </div>
 
         <!-- Barra de 3 estrellas -->
@@ -75,9 +88,10 @@
           <span>3</span>
           <i class="fa-solid fa-star mx-2"></i>
           <div class="progress w-100">
-            <div class="progress-bar" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[2]"
+              aria-valuenow="starPercentages[2]" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-          <span class="ml-2">30%</span>
+          <span class="ml-2">{{starPercentages[2]}}%</span>
         </div>
 
         <!-- Barra de 2 estrellas -->
@@ -85,21 +99,75 @@
           <span>2</span>
           <i class="fa-solid fa-star mx-2"></i>
           <div class="progress w-100">
-            <div class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[1]"
+              aria-valuenow="starPercentages[1]" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-          <span class="ml-2">10%</span>
+          <span class="ml-2">{{starPercentages[1]}}%</span>
         </div>
 
         <!-- Barra de 1 estrella -->
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center mb-2">
           <span>1</span>
           <i class="fa-solid fa-star mx-2"></i>
           <div class="progress w-100">
-            <div class="progress-bar" role="progressbar" style="width: 5%;" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[0]"
+              aria-valuenow="starPercentages[0]" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-          <span class="ml-2">5%</span>
+          <span class="ml-2">{{starPercentages[0]}}%</span>
         </div>
-    </div>
+      </div>
     </div>
   </div>
+  <app-review-list [reviews]="reviews"></app-review-list>
+
+  <!-- Dialog -->
+  @if (isDialogOpen) {
+  <div class="dialog-overlay">
+    <div class="dialog">
+      <div class="dialog-header">
+        <h5>Reservar clase</h5>
+        <button type="button" class="close" (click)="closeDialog()">&times;</button>
+      </div>
+      <div class="dialog-body">
+        <!-- Formulario de reserva -->
+        <form [formGroup]="bookingForm" (ngSubmit)="submitBooking()">
+          <div class="mb-3">
+            <label for="date" class="form-label">Fecha</label>
+            <input type="date" id="date" class="form-control" formControlName="date">
+          </div>
+          <div class="mb-3">
+            @if (!this.selectedTimeSlot) {
+              @if (showTimeSlots) {
+                <label class="form-label">Horarios disponibles</label>
+                @for (timeSlot of timeSlots; track $index) {
+                  @if (timeSlot.available === true) {
+                  <div class="d-flex gap-2 mb-2">
+                    <input type="checkbox" class="form-check" formControlName="startTime" (change)="setStartTime(timeSlot.time)">
+                    <label for="">{{timeSlot.time}}</label>
+                  </div>
+                  }
+
+                }
+                }
+            } @else {
+              <div class="d-flex gap-2 mb-2">
+                <input type="checkbox" [value]="this.selectedTimeSlot" class="form-check" formControlName="startTime" (change)="removeStartTime()">
+                <label for="">{{this.selectedTimeSlot}}</label>
+              </div>
+            }
+
+          </div>
+          <div class="mb-3">
+            <p>Precio total: {{ totalPrice }}€</p>
+          </div>
+          <div class="dialog-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeDialog()">Cerrar</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!bookingForm.valid">Confirmar reserva</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  }
+
 </section>
