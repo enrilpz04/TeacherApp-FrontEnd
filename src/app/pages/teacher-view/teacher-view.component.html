@@ -1,7 +1,8 @@
 <section class="container my-5">
   <div class="row">
     <div class="col-12 col-md-8 d-flex gap-3">
-      <figure class="h-100"><img src="https://i.pravatar.cc/500?u=clemente.alonzomayorga@peticiones.online" alt="" width="200"></figure>
+      <figure class="h-100"><img src="https://i.pravatar.cc/500?u=clemente.alonzomayorga@peticiones.online" alt=""
+          width="200"></figure>
       <div class="d-flex flex-column gap-3">
         <h2>{{teacher.user.name + " " + teacher.user.surname}}</h2>
         <p>{{teacher.experience}}</p>
@@ -15,6 +16,7 @@
         </div>
       </div>
     </div>
+    @if (true) {
     <div class="col-12 col-md-4">
       <div class="card card-shadow py-4 px-4">
         <h5>Reservar clase</h5>
@@ -32,6 +34,7 @@
         </button>
       </div>
     </div>
+    }
   </div>
   <h4 class="mt-3">Sobre mí</h4>
   <p>{{teacher.description}}</p>
@@ -63,7 +66,8 @@
           <span>5</span>
           <i class="fa-solid fa-star mx-2"></i>
           <div class="progress w-100">
-            <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[4]" aria-valuenow="starPercentages[4]" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[4]"
+              aria-valuenow="starPercentages[4]" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
           <span class="ml-2">{{starPercentages[4]}}%</span>
         </div>
@@ -73,7 +77,8 @@
           <span>4</span>
           <i class="fa-solid fa-star mx-2"></i>
           <div class="progress w-100">
-            <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[3]" aria-valuenow="starPercentages[3]" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[3]"
+              aria-valuenow="starPercentages[3]" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
           <span class="ml-2">{{starPercentages[3]}}%</span>
         </div>
@@ -83,7 +88,8 @@
           <span>3</span>
           <i class="fa-solid fa-star mx-2"></i>
           <div class="progress w-100">
-            <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[2]" aria-valuenow="starPercentages[2]" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[2]"
+              aria-valuenow="starPercentages[2]" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
           <span class="ml-2">{{starPercentages[2]}}%</span>
         </div>
@@ -93,7 +99,8 @@
           <span>2</span>
           <i class="fa-solid fa-star mx-2"></i>
           <div class="progress w-100">
-            <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[1]" aria-valuenow="starPercentages[1]" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[1]"
+              aria-valuenow="starPercentages[1]" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
           <span class="ml-2">{{starPercentages[1]}}%</span>
         </div>
@@ -103,7 +110,8 @@
           <span>1</span>
           <i class="fa-solid fa-star mx-2"></i>
           <div class="progress w-100">
-            <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[0]" aria-valuenow="starPercentages[0]" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[0]"
+              aria-valuenow="starPercentages[0]" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
           <span class="ml-2">{{starPercentages[0]}}%</span>
         </div>
@@ -113,38 +121,53 @@
   <app-review-list [reviews]="reviews"></app-review-list>
 
   <!-- Dialog -->
-   @if (isDialogOpen) {
-    <div class="dialog-overlay">
-      <div class="dialog">
-        <div class="dialog-header">
-          <h5>Reservar clase</h5>
-          <button type="button" class="close" (click)="closeDialog()">&times;</button>
-        </div>
-        <div class="dialog-body">
-          <!-- Formulario de reserva -->
-          <form [formGroup]="bookingForm" (ngSubmit)="submitBooking()">
-            <div class="mb-3">
-              <label for="date" class="form-label">Fecha</label>
-              <input type="date" id="date" class="form-control" formControlName="date">
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Horarios disponibles</label>
-              <div *ngFor="let slot of timeSlots; let i = index" class="form-check">
-                <input type="checkbox" class="form-check-input" [id]="'slot' + i" [formControlName]="i" [disabled]="!slot.available">
-                <label class="form-check-label" [for]="'slot' + i">{{ slot.time }}</label>
+  @if (isDialogOpen) {
+  <div class="dialog-overlay">
+    <div class="dialog">
+      <div class="dialog-header">
+        <h5>Reservar clase</h5>
+        <button type="button" class="close" (click)="closeDialog()">&times;</button>
+      </div>
+      <div class="dialog-body">
+        <!-- Formulario de reserva -->
+        <form [formGroup]="bookingForm" (ngSubmit)="submitBooking()">
+          <div class="mb-3">
+            <label for="date" class="form-label">Fecha</label>
+            <input type="date" id="date" class="form-control" formControlName="date">
+          </div>
+          <div class="mb-3">
+            @if (!this.selectedTimeSlot) {
+              @if (showTimeSlots) {
+                <label class="form-label">Horarios disponibles</label>
+                @for (timeSlot of timeSlots; track $index) {
+                  @if (timeSlot.available === true) {
+                  <div class="d-flex gap-2 mb-2">
+                    <input type="checkbox" class="form-check" formControlName="startTime" (change)="setStartTime(timeSlot.time)">
+                    <label for="">{{timeSlot.time}}</label>
+                  </div>
+                  }
+
+                }
+                }
+            } @else {
+              <div class="d-flex gap-2 mb-2">
+                <input type="checkbox" [value]="this.selectedTimeSlot" class="form-check" formControlName="startTime" (change)="removeStartTime()">
+                <label for="">{{this.selectedTimeSlot}}</label>
               </div>
-            </div>
-            <div class="mb-3">
-              <p>Precio total: {{ totalPrice }}€</p>
-            </div>
-            <div class="dialog-footer">
-              <button type="button" class="btn btn-secondary" (click)="closeDialog()">Cerrar</button>
-              <button type="submit" class="btn btn-primary" [disabled]="!bookingForm.valid">Confirmar reserva</button>
-            </div>
-          </form>
-        </div>
+            }
+
+          </div>
+          <div class="mb-3">
+            <p>Precio total: {{ totalPrice }}€</p>
+          </div>
+          <div class="dialog-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeDialog()">Cerrar</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!bookingForm.valid">Confirmar reserva</button>
+          </div>
+        </form>
       </div>
     </div>
-   }
+  </div>
+  }
 
 </section>
