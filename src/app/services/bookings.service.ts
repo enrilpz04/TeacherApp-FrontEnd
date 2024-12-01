@@ -1,56 +1,63 @@
-import { Injectable } from '@angular/core';
-import { IBooking } from '../interfaces/ibooking.interface';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { Rol } from '../interfaces/iuser.interface';
+import { IBooking } from '../interfaces/ibooking.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookingsService {
 
-  async getBookingsByDateAndTeacherId(date: Date, teacherId: number): Promise<IBooking[]> {
-    const bookings: IBooking[] = [
-      {
-        id: 1,
-        date: new Date('2024-12-01'),
-        startTime: '08:00',
-        duration: 1,
-        status: 'confirmed',
-        totalPrice: 20,
-        student: {
-          id: 1,
-          name: 'Juan',
-          surname: 'Pérez',
-          email: 'juan.perez@example.com',
-          password: 'password',
-          rol: Rol.STUDENT
-        },
-        teacher: {
-          id: 1,
-          description: 'Profesor de matemáticas con 10 años de experiencia.',
-          schedule: 'Morning',
-          price_p_hour: 20,
-          experience: '10 años enseñando matemáticas en diferentes niveles.',
-          rating: 4.8,
-          validated: true,
-          latitude: '40.4165',
-          longitude: '-3.70256',
-          user: {
-            id: 1,
-            name: 'Carlos',
-            surname: 'García',
-            email: 'carlos.garcia@example.com',
-            password: 'password',
-            rol: Rol.TEACHER
-          },
-          knowledges: [
-            { id: 1, name: 'Matemáticas' },
-            { id: 2,  name: 'Física' }
-          ]
-        }
-      }
-    ]
-    return bookings;
+  private apiUrl = 'http://localhost:3000/api/bookings/';
+  private http = inject(HttpClient)
+
+  async getBookingById(id: string): Promise<IBooking> {
+    return firstValueFrom(this.http.get<any>(this.apiUrl + id)).then(response => {
+      return response;
+    });
+  }
+
+  async getAllBookingsFromStudent(studentId: string): Promise<IBooking[]> {
+    return firstValueFrom(this.http.get<any>(this.apiUrl + 'student/' + studentId))
+    .then(response => { return response; });
+  }
+
+  async getAllBookingsFromTeacher(teacherId: string): Promise<IBooking[]> {
+    return firstValueFrom(this.http.get<any>(this.apiUrl + 'teachers/' + teacherId))
+    .then(response => { return response; });
+  }
+
+  async getAllBookingsBetweenStudentAndTeacher(studentId: string, teacherId: string): Promise<IBooking[]> {
+    const options = studentId && teacherId ? 
+    { params: new HttpParams().set('studentId', studentId).set('teacherId', teacherId) } : {};
+    return firstValueFrom(this.http.get<any>(this.apiUrl + 'between', options)).then(response => {
+      return response;
+    });
+  }
+  
+  async createBooking(booking: IBooking) : Promise<IBooking> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+     });
+    let options = { headers: headers };
+    return firstValueFrom(this.http.post<any>(this.apiUrl, booking, options)).then(response => {
+      return response;
+    });
+  }
+  
+  async updateBooking(booking: IBooking) : Promise<IBooking> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+     });
+    let options = { headers: headers };
+    return firstValueFrom(this.http.put<any>(this.apiUrl + booking.id, booking, options)).then(response => {
+      return response;
+    });
+  }
+  
+  async deleteBooking(id: string) : Promise<IBooking> {
+    return firstValueFrom(this.http.delete<any>(this.apiUrl + id)).then(response => {
+      return response;
+    });
   }
 }
