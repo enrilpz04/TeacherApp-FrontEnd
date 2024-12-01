@@ -20,42 +20,46 @@ div .card h5 {
   background-color: #63b87f;
 }
 
-@media (max-width: 767.98px) {
-  .card-shadow {
-    padding: 1rem;
-  }
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
-  .d-flex.flex-column.w-100.w-md-25.pt-4 {
-    align-items: center;
-  }
+.dialog {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+}
 
-  .d-flex.gap-2.justify-content-center.justify-content-md-start {
-    justify-content: center;
-  }
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .text-center.text-md-start {
-    text-align: center;
-  }
+.dialog-body {
+  margin-top: 10px;
+}
 
-  .w-100.w-md-75.mt-4.mt-md-0 {
-    margin-top: 1rem;
-  }
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
 
-  .d-flex.flex-column.gap-3 {
-    align-items: center;
-  }
-
-  .d-flex.gap-4.flex-wrap {
-    justify-content: center;
-  }
-
-  .d-flex.gap-3.w-75 {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .card.card-shadow.py-4.px-4.w-25 {
-    width: 100%;
-    margin-top: 1rem;
-  }
+.close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
