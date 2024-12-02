@@ -28,9 +28,10 @@ export class BookingsService {
   }
 
   async getBookingsByDateAndTeacherId(date: Date, teacherId: number): Promise<IBooking[]> {
+    console.log(date, teacherId);
     const options = date && teacherId ?
       { params: new HttpParams().set('date', date.toString()).set('teacherId', teacherId) } : {};
-    return firstValueFrom(this.http.get<any>(this.apiUrl + 'date', options)).then(response => {
+    return firstValueFrom(this.http.get<any>(this.apiUrl + 'date/', options)).then(response => {
       return response;
     })
   }
