@@ -56,7 +56,7 @@
             }
             }
         </div>
-        <p class="mt-3 text-center text-md-start">{{reviews.length}} reseñas</p>
+        <p class="mt-3 text-center text-md-start">{{getReviewsLength()}} reseñas</p>
       </div>
 
       <!-- Barras de valoración -->
@@ -69,7 +69,7 @@
             <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[4]"
               aria-valuenow="starPercentages[4]" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-          <span class="ml-2">{{starPercentages[4]}}%</span>
+          <span class="ml-2 ms-4">{{starPercentages[4]}}%</span>
         </div>
 
         <!-- Barra de 4 estrellas -->
@@ -80,7 +80,7 @@
             <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[3]"
               aria-valuenow="starPercentages[3]" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-          <span class="ml-2">{{starPercentages[3]}}%</span>
+          <span class="ml-2 ms-4">{{starPercentages[3]}}%</span>
         </div>
 
         <!-- Barra de 3 estrellas -->
@@ -91,7 +91,7 @@
             <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[2]"
               aria-valuenow="starPercentages[2]" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-          <span class="ml-2">{{starPercentages[2]}}%</span>
+          <span class="ml-2 ms-4">{{starPercentages[2]}}%</span>
         </div>
 
         <!-- Barra de 2 estrellas -->
@@ -102,18 +102,18 @@
             <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[1]"
               aria-valuenow="starPercentages[1]" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-          <span class="ml-2">{{starPercentages[1]}}%</span>
+          <span class="ml-2 ms-4">{{starPercentages[1]}}%</span>
         </div>
 
         <!-- Barra de 1 estrella -->
         <div class="d-flex align-items-center mb-2">
-          <span>1</span>
+          <span class="me-1">1</span>
           <i class="fa-solid fa-star mx-2"></i>
           <div class="progress w-100">
             <div class="progress-bar" role="progressbar" [style.width.%]="starPercentages[0]"
               aria-valuenow="starPercentages[0]" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-          <span class="ml-2">{{starPercentages[0]}}%</span>
+          <span class="ml-2 ms-4">{{starPercentages[0]}}%</span>
         </div>
       </div>
     </div>
@@ -139,14 +139,17 @@
             @if (!this.selectedTimeSlot) {
               @if (showTimeSlots) {
                 <label class="form-label">Horarios disponibles</label>
-                @for (timeSlot of timeSlots; track $index) {
-                  @if (timeSlot.available === true) {
-                  <div class="d-flex gap-2 mb-2">
-                    <input type="checkbox" class="form-check" formControlName="startTime" (change)="setStartTime(timeSlot.time)">
-                    <label for="">{{timeSlot.time}}</label>
-                  </div>
+                @if (timeSlots.length === 0) {
+                <p>No hay horarios disponibles para esta fecha</p>
+                } @else {
+                  @for (timeSlot of timeSlots; track $index) {
+                    @if (timeSlot.available === true) {
+                    <div class="d-flex gap-2 mb-2">
+                      <input type="checkbox" class="form-check" formControlName="startTime" (change)="setStartTime(timeSlot.time)">
+                      <label for="">{{timeSlot.time}}</label>
+                    </div>
+                    }
                   }
-
                 }
                 }
             } @else {
@@ -161,7 +164,6 @@
             <p>Precio total: {{ totalPrice }}€</p>
           </div>
           <div class="dialog-footer">
-            <button type="button" class="btn btn-secondary" (click)="closeDialog()">Cerrar</button>
             <button type="submit" class="btn btn-primary" [disabled]="!bookingForm.valid">Confirmar reserva</button>
           </div>
         </form>

@@ -18,6 +18,11 @@ div .card h5 {
 
 .progress-bar {
   background-color: #63b87f;
+  width: 80%;
+}
+
+span {
+  align-items: end;
 }
 
 .dialog-overlay {

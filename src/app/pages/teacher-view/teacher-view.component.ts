@@ -10,6 +10,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { AuthService } from '../../services/auth.service';
 import { IUser } from '../../interfaces/iuser.interface';
 import { BookingsService } from '../../services/bookings.service';
+import { IBooking } from '../../interfaces/ibooking.interface';
 
 @Component({
   selector: 'app-teacher-view',
@@ -32,15 +33,15 @@ export class TeacherViewComponent {
   starPercentages: number[] = [0, 0, 0, 0, 0];
 
   // Booking Dialog boolean
-  isDialogOpen: boolean = true;
+  isDialogOpen: boolean = false;
 
   // Booking form and available time slots
   bookingForm: FormGroup;
   timeSlots = [
-    { time: '08:00', available: true },
-    { time: '09:00', available: true },
-    { time: '10:00', available: true },
-    { time: '11:00', available: true }
+    { time: '08:00:00', available: true },
+    { time: '09:00:00', available: true },
+    { time: '10:00:00', available: true },
+    { time: '11:00:00', available: true }
   ];
 
   // Show time slots boolean and selected time slot
@@ -76,7 +77,8 @@ export class TeacherViewComponent {
     this.activatedRoute.params.subscribe(async (params: any) => {
       let id = params.id;
       this.teacher = await this.teachersService.getTeacherById(id);
-      this.reviews = await this.reviewsService.getAllReviewsByTeacherId(id);
+      this.setTimeSlot()
+      this.reviews = await this.reviewsService.getAllReviewsByTeacherId(this.teacher.id.toString());
       this.user = await this.authService.getUser();
       this.calculateAverageRating();
       this.calculateStarPercentages();
@@ -84,18 +86,54 @@ export class TeacherViewComponent {
 
     // Listen to date changes
     this.bookingForm.get('date')?.valueChanges.subscribe(date => {
+      if(date === null) return;
+      this.setTimeSlot();
       this.getAvailableTimeSlots(date);
     });
 
     // Listen to start time changes
     this.bookingForm.get('startTime')?.valueChanges.subscribe(startTime => {
       this.selectedTimeSlot = startTime;
-      if(startTime !== '') {
+      if (startTime !== '') {
         this.totalPrice = this.teacher.price_p_hour;
       } else {
         this.totalPrice = 0;
       }
     });
+  }
+
+  getReviewsLength(): number {
+    return this.reviews ? this.reviews.length : 0;
+  }
+
+  // Set time slot
+  setTimeSlot(): void {
+    switch (this.teacher.schedule) {
+      case 'Morning':
+        this.timeSlots = [
+          { time: '08:00:00', available: true },
+          { time: '09:00:00', available: true },
+          { time: '10:00:00', available: true },
+          { time: '11:00:00', available: true }
+        ]
+        break;
+      case 'Afternoon':
+        this.timeSlots = [
+          { time: '12:00:00', available: true },
+          { time: '13:00:00', available: true },
+          { time: '14:00:00', available: true },
+          { time: '15:00:00', available: true }
+        ]
+        break;
+      case 'Night':
+        this.timeSlots = [
+          { time: '16:00:00', available: true },
+          { time: '17:00:00', available: true },
+          { time: '18:00:00', available: true },
+          { time: '19:00:00', available: true }
+        ]
+        break;
+    }
   }
 
   // Calculate average rating
@@ -110,10 +148,11 @@ export class TeacherViewComponent {
 
   // Calculate star percentages
   calculateStarPercentages(): void {
-    const totalReviews = this.reviews.length;
+    const totalReviews = this.getReviewsLength();
     if (totalReviews > 0) {
       const starCounts = this.reviews.reduce((counts, review) => {
-        counts[review.rating - 1] = (counts[review.rating - 1] || 0) + 1;
+        const rating = Math.floor(review.rating); // Redondear hacia abajo para obtener el valor entero
+        counts[rating - 1] = (counts[rating - 1] || 0) + 1;
         return counts;
       }, [0, 0, 0, 0, 0]);
 
@@ -133,22 +172,20 @@ export class TeacherViewComponent {
 
   closeDialog(): void {
     this.isDialogOpen = false;
+    this.bookingForm.reset();
+    this.removeStartTime();
+    this.setTimeSlot();
+    this.showTimeSlots = false;
   }
 
   // Get available time slots
-  async getAvailableTimeSlots(date : Date): Promise<void> {
+  async getAvailableTimeSlots(date: Date): Promise<void> {
     const bookings = await this.bookingsService.getBookingsByDateAndTeacherId(date, this.teacher.id);
-    console.log(bookings);
     this.timeSlots.forEach(slot => slot.available = true);
     bookings.forEach(booking => {
       const startIndex = this.timeSlots.findIndex(slot => slot.time === booking.startTime);
       if (startIndex !== -1) {
-        console.log(startIndex);
-        for (let i = 0; i < booking.duration; i++) {
-          if (startIndex + i < this.timeSlots.length) {
-            this.timeSlots[startIndex + i].available = false;
-          }
-        }
+        this.timeSlots.splice(startIndex, 1); // Eliminar la posición del array si cumple la condición
       }
     });
     this.showTimeSlots = true;
@@ -164,9 +201,8 @@ export class TeacherViewComponent {
   }
 
   // Submit booking
-  submitBooking(): void {
-    console.log(this.bookingForm.value);
-    const booking = {
+  async submitBooking(): Promise<void> {
+    const booking : IBooking = {
       date: this.bookingForm.get('date')?.value,
       startTime: this.bookingForm.get('startTime')?.value,
       duration: 1,
@@ -175,6 +211,7 @@ export class TeacherViewComponent {
       student: this.user,
       teacher: this.teacher
     }
-    console.log(booking)
+    const response = await this.bookingsService.createBooking(booking);
+    this.closeDialog();
   }
 }

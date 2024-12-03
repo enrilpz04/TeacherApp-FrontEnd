@@ -9,8 +9,8 @@ import { Rol } from '../interfaces/iuser.interface';
 })
 export class ReviewsService {
 
-  private apiUrl = 'http://localhost:3000/api/reviews/';
-  private http = inject(HttpClient)
+  private apiUrl = 'http://localhost:3000/api/reviews/teacher/';
+  private http = inject(HttpClient);
 
   async getAllReviewsByTeacherId(id: string): Promise<IReview[]> {
 
