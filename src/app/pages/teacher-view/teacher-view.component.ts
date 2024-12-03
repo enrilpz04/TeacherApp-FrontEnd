@@ -79,7 +79,11 @@ export class TeacherViewComponent {
       this.teacher = await this.teachersService.getTeacherById(id);
       this.setTimeSlot()
       this.reviews = await this.reviewsService.getAllReviewsByTeacherId(this.teacher.id.toString());
-      this.user = await this.authService.getUser();
+      this.authService.getUser().subscribe(user => {
+        if (user) {
+          this.user = user;
+        }
+      });
       this.calculateAverageRating();
       this.calculateStarPercentages();
     })

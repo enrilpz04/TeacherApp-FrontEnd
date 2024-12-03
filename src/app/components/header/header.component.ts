@@ -15,10 +15,11 @@ import { INotification } from '../../interfaces/inotification.interface';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  isLoggedIn : boolean = false;
+  isLoggedIn: boolean = false;
   user!: IUser;
-  userNotifications! : INotification[];
-  userMessages! : IMessage[];
+  userNotifications: INotification[] = [];
+  userMessages: IMessage[] = [];
+  isLoading: boolean = true;
 
   authService = inject(AuthService);
   messagesService = inject(MessagesService);
@@ -27,16 +28,25 @@ export class HeaderComponent {
   ngOnInit(): void {
     this.authService.getLoggedInStatus().subscribe(status => {
       this.isLoggedIn = status;
-      if(this.isLoggedIn) {
-        this.user = this.authService.getUser();
-        this.getMessages();
+      if (this.isLoggedIn) {
+        this.authService.getUser().subscribe(user => {
+          if (user) {
+            this.user = user;
+            console.log(this.user);
+            this.getMessages();
+            this.getNotifications();
+            this.isLoading = false;
+          }
+        });
       }
-    });
-    // Aquí puedes agregar lógica para obtener el número de mensajes y notificaciones
+    }
+    );
+    this.isLoading = false
   }
 
   async getMessages() {
     this.userMessages = await this.messagesService.getLastMessagesByUser(this.user.id ? this.user.id : '');
+    console.log(this.userMessages);
   }
 
   getMessagesCount() {
