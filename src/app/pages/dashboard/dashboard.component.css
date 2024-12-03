@@ -1,0 +1,22 @@
+/* Estilo general para la barra de navegación */
+.nav-link {
+  color: #435055;
+  position: relative;
+  text-decoration: none;
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: #435055;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.nav-link:hover::before {
+  width: 100%;
+  left: 0;
+}

@@ -14,7 +14,7 @@
           <a class="nav-link" aria-current="page" [routerLink]="['/search']">Buscar Tutores</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Convierteté en tutor</a>
+          <a class="nav-link" [routerLink]="['/signup-teacher']">Convierteté en tutor</a>
         </li>
       </ul>
     </div>
@@ -28,7 +28,7 @@
   <div class="d-flex ms-auto gap-3 align-items-center">
     <!-- Ícono de mensajes con badge -->
     <div class="position-relative">
-      <a [routerLink]="['']">
+      <a [routerLink]="['/dashboard/messages']">
         <i class="fa-regular fa-envelope fa-2xl"></i>
       </a>
       @if (getMessagesCount() > 0) {
@@ -37,7 +37,7 @@
     </div>
     <!-- Ícono de campana con badge -->
     <div class="position-relative">
-      <a [routerLink]="['']">
+      <a [routerLink]="['/dashboard/notifications']">
         <i class="fa-regular fa-bell fa-2xl"></i>
       </a>
       @if (getNotificationsCount() > 0) {
