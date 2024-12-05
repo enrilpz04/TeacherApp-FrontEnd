@@ -1,1 +1,27 @@
-<p>classes works!</p>
+<section class="container my-4">
+  <h2>Lista de Clases</h2>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Fecha</th>
+          <th scope="col">Hora</th>
+          @if (user.rol === "student") {
+            <th scope="col">Profesor</th>
+          } @else {
+            <th scope="col">Alumno</th>
+          }
+          <th scope="col">Estado</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (booking of bookings; track $index) {
+          <tr>
+            <td>{{booking.date | date: 'MMMM d, yyyy'}}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

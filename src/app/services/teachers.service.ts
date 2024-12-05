@@ -29,4 +29,10 @@ export class TeachersService {
       return response;
     });
   }
+
+  async getTeacherByUserId(userId: string): Promise<ITeacher> {
+    return firstValueFrom(this.http.get<any>(this.apiUrl + 'user/' + userId)).then(response => {
+      return response;
+    });
+  }
 }

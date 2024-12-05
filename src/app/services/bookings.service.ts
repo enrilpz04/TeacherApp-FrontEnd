@@ -23,11 +23,11 @@ export class BookingsService {
   }
 
   async getAllBookingsFromTeacher(teacherId: string): Promise<IBooking[]> {
-    return firstValueFrom(this.http.get<any>(this.apiUrl + 'teachers/' + teacherId))
+    return firstValueFrom(this.http.get<any>(this.apiUrl + 'teacher/' + teacherId))
       .then(response => { return response; });
   }
 
-  async getBookingsByDateAndTeacherId(date: Date, teacherId: number): Promise<IBooking[]> {
+  async getBookingsByDateAndTeacherId(date: Date, teacherId: string): Promise<IBooking[]> {
     console.log(date, teacherId);
     const options = date && teacherId ?
       { params: new HttpParams().set('date', date.toString()).set('teacherId', teacherId) } : {};
