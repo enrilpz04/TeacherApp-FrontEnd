@@ -20,13 +20,12 @@ export class MapsComponent {
   teacherServices= Inject(TeachersService)
   countriesServices= Inject(MapsService);
 
-  ngOninit(){
+  ngOnInit(){
     navigator.geolocation.getCurrentPosition(position=>{
       let center= new google.maps.LatLng(position.coords.latitude,position.coords.longitude)
       
       this.myposition.set(center);
     });
-    debugger
     console.log("cargando mapa")
     console.log(this.myposition)
     // this.countriesServices.getAll().then((countries:Icountry[])=>{

@@ -1,13 +1,5 @@
 <google-map width="65vh" height="50vh" [zoom]="4" [center]="myposition()">
     <map-marker [position]="myposition()"></map-marker>
-    <!-- @for(country of arrCountries; track country.cca2){
-        <map-marker #miKarker="mapMarker" [position]="getPosition(country.capitalInfo.latlang)" (mapClick)="openInfoWindow(miKarker,infoWindow)">
-            <map-info-window #infoWindow="mapInfoWindow">
-                <h5>{{country.name.common}}</h5>
-            </map-info-window>
-        </map-marker>
-
-    } -->
     @for (teacher of arrTeachers; track teacher.id){
         <map-marker #teacherMarker="mapMarker" [position]="getPositionTeacher(teacher.longitude,teacher.latitude)" (mapMouseover)="openInfoWindow(teacherMarker,infoWindow)")>
             <map-info-window #infoWindow="mapInfoWindow">
