@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MapsComponent } from "../../components/maps/maps.component";
 
@@ -10,5 +10,15 @@ import { MapsComponent } from "../../components/maps/maps.component";
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
+  myposittion= signal<any>("");
+
+  ngOninit(){
+    navigator.geolocation.getCurrentPosition(
+      posittion=>{
+        let center= new google.maps.LatLng(posittion.coords.latitude,posittion.coords.longitude)
+        this.myposittion.set(center);
+      }
+    )
+  }
 
 }
