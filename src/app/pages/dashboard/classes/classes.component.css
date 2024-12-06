@@ -46,3 +46,29 @@
 .confirmed {
   background-color: lightgreen;
 }
+
+.archived {
+  background-color: lightgray;
+}
+
+a {
+  cursor: pointer;
+}
+
+.fa-check {
+  color: green;
+}
+
+.fa-xmark {
+  color: red;
+}
+
+.fa-box-archive {
+  color: gray;
+}
+
+.fa-clock{
+  color: orange;
+}
+
+

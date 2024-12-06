@@ -69,4 +69,21 @@ export class BookingsService {
       return response;
     });
   }
+
+  async getAllBookingsByTeacherIdDateAndStatus(teacherId: string, date: Date | null, status: string | null): Promise<IBooking[]> {
+    let params = new HttpParams().set('teacherId', teacherId);
+
+    if (date) {
+      params = params.set('date', date.toString());
+    }
+
+    if (status) {
+      console.log(status)
+      params = params.set('status', status);
+    }
+
+    return firstValueFrom(this.http.get<any>(this.apiUrl + 'teacher/status/date/', { params })).then(response => {
+      return response;
+    });
+  }
 }

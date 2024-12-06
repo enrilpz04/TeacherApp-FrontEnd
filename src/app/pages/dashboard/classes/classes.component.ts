@@ -21,7 +21,8 @@ export class ClassesComponent {
   bookings!: IBooking[];
   user!: IUser;
   teacher!: ITeacher;
-  filterForm! : FormGroup;
+  filterForm!: FormGroup;
+  showArchived = false;
 
   bookingsService = inject(BookingsService);
   teachersService = inject(TeachersService);
@@ -41,52 +42,59 @@ export class ClassesComponent {
         if (this.user.rol === 'student') {
           this.bookingsService.getAllBookingsFromStudent(this.user.id!).then(bookings => {
             this.bookings = bookings;
-            console.log(this.bookings);
           });
         } else {
           this.teacher = await this.teachersService.getTeacherByUserId(this.user.id!);
           this.bookingsService.getAllBookingsFromTeacher(this.teacher.id!).then(bookings => {
             this.bookings = bookings;
-            console.log(this.bookings);
           })
         }
       }
     });
   }
 
+  getBookingsLength() {
+    return this.bookings.length;
+  }
+
   async cancelBooking(booking: IBooking) {
-    const accepted = await this.alert('Are you sure?', 'Do you want to cancel this booking?', 'Yes', 'No');
+    const accepted = await this.alert('Alerta', '¿Estas seguro de cancelar esta clase?', 'Aceptar', 'Cancelar');
     if (!accepted) return;
     const updatedBooking = await this.bookingsService.updateBooking({ ...booking, status: 'cancelled' });
     this.updateBookingInList(updatedBooking);
+    this.confirmation('Cambio realizado', 'La clase ha sido cancelada', 'Ok');
   }
 
   async acceptBooking(booking: IBooking) {
-    const accepted = await this.alert('Are you sure?', 'Do you want to accept this booking?', 'Yes', 'No');
+    const accepted = await this.alert('Alerta', '¿Estas seguro de confirmar esta clase?', 'Aceptar', 'Cancelar');
     if (!accepted) return;
     const updatedBooking = await this.bookingsService.updateBooking({ ...booking, status: 'confirmed' });
     this.updateBookingInList(updatedBooking);
+    this.confirmation('Cambio realizado', 'La clase ha sido confirmada', 'Ok');
   }
 
   async completeBooking(booking: IBooking) {
-    const accepted = await this.alert('Are you sure?', 'Do you want to complete this booking?', 'Yes', 'No');
+    const accepted = await this.alert('Alerta', '¿Estas seguro de completar esta clase?', 'Aceptar', 'Cancelar');
     if (!accepted) return;
     const updatedBooking = await this.bookingsService.updateBooking({ ...booking, status: 'completed' });
     this.updateBookingInList(updatedBooking);
+    this.confirmation('Cambio realizado', 'La clase ha sido completada', 'Ok');
   }
 
   async archiveBooking(booking: IBooking) {
-    const accepted = await this.alert('Are you sure?', 'Do you want to archive this booking?', 'Yes', 'No');
+    const accepted = await this.alert('Alerta', '¿Estas seguro de archivar esta clase?', 'Aceptar', 'Cancelar');
     if (!accepted) return;
     const updatedBooking = await this.bookingsService.updateBooking({ ...booking, status: 'archived' });
     this.updateBookingInList(updatedBooking);
+    this.confirmation('Cambio realizado', 'La clase ha sido archivada', 'Ok');
   }
 
   async activeBooking(booking: IBooking) {
-    const accepted = await this.alert('Are you sure?', 'Do you want to reactive this booking?', 'Yes', 'No');
+    const accepted = await this.alert('Alerta', '¿Estas seguro de confirmar esta clase?', 'Aceptar', 'Cancelar');
     if (!accepted) return;
     const updatedBooking = await this.bookingsService.updateBooking({ ...booking, status: 'confirmed' });
     this.updateBookingInList(updatedBooking);
+    this.confirmation('Cambio realizado', 'La clase se ha reactivado', 'Ok');
   }
 
   updateBookingInList(updatedBooking: IBooking) {
@@ -109,11 +117,28 @@ export class ClassesComponent {
     });
   }
 
-  async confirmation() {
-
+  async confirmation(title: string, text: string, confirmButtonText: string): Promise<boolean> {
+    return Swal.fire({
+      title: title,
+      text: text,
+      icon: 'success',
+      confirmButtonText: confirmButtonText,
+    }).then((result) => {
+      return result.isConfirmed;
+    });
   }
 
-  getDataForm(){
-    console.log(this.filterForm.value)
+  cleanFilters() {
+    this.filterForm.reset();
+  }
+
+  viewArchived() {
+    this.showArchived = !this.showArchived;
+  }
+
+  getDataForm() {
+    this.bookingsService.getAllBookingsByTeacherIdDateAndStatus(this.teacher.id, this.filterForm.value.date, this.filterForm.value.status).then(bookings => {
+      this.bookings = bookings;
+    });
   }
 }
