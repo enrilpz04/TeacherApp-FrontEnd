@@ -1,9 +1,15 @@
 <google-map width="65vh" height="50vh" [zoom]="4" [center]="myposition()">
-    <map-marker [position]="myposition()"></map-marker>
-    @for (teacher of arrTeachers; track teacher.id){
-        <map-marker #teacherMarker="mapMarker" [position]="getPositionTeacher(teacher.longitude,teacher.latitude)" (mapMouseover)="openInfoWindow(teacherMarker,infoWindow)")>
+    <map-marker #miPosicion="mapMarker" [position]="myposition()">
+        <map-info-window #infoWindow="mapInfoWindow" (mapClick)="consolaPosicion()">
+            <h4>Soy yo</h4>
+        </map-info-window>
+    </map-marker>
+    @for (teacher of arrTeachers; track teacher.id){ 
+        <map-marker #teacherMarker="mapMarker" [position]="getPositionTeacher(teacher.longitude,teacher.latitude)" (mapClick)="openInfoWindow(teacherMarker,infoWindow)" (mapMouseover)="closeInfoWindow(infoWindow)">
             <map-info-window #infoWindow="mapInfoWindow">
                 <h4>{{teacher.user.name}}</h4>
+                <p>{{teacher.description}}</p>
+                
             </map-info-window>
         </map-marker>
     }

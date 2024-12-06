@@ -1,4 +1,4 @@
-import { Component, Inject, signal } from '@angular/core';
+import { Component, inject, Inject, signal } from '@angular/core';
 import { Icountry } from '../../interfaces/icountry.type=interfaces';
 import { MapsService } from '../../services/maps.service';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
@@ -15,10 +15,16 @@ import { TeachersService } from '../../services/teachers.service';
 export class MapsComponent {
 
   myposition= signal<any>("");
-  arrCountries: Icountry[]=[];
+  // arrCountries: Icountry[]=[];
   arrTeachers: ITeacher[]=[];
-  teacherServices= Inject(TeachersService)
-  countriesServices= Inject(MapsService);
+  teacherServices= inject(TeachersService)
+  // countriesServices= Inject(MapsService);
+
+  teacherList : ITeacher[] = []
+  teachersService = inject(TeachersService);
+
+
+
 
   ngOnInit(){
     navigator.geolocation.getCurrentPosition(position=>{
@@ -26,11 +32,8 @@ export class MapsComponent {
       
       this.myposition.set(center);
     });
-    console.log("cargando mapa")
-    console.log(this.myposition)
-    // this.countriesServices.getAll().then((countries:Icountry[])=>{
-    //   this.arrCountries=countries
-    // }).catch((error:any)=>{console.log(error)})
+    
+    
     this.getTeacher();
 
   }
@@ -38,19 +41,35 @@ export class MapsComponent {
   async getTeacher(): Promise<void>{
     try {
       this.arrTeachers= await this.teacherServices.getAll();
+      console.log("datos de arrTeachers: ",this.arrTeachers)
     } catch (error) {
       console.log('Error fetching teachers: ', error)
     }
   }
+  // async getTeachers(): Promise<void> {
+  //   try {
+  //     this.teacherList = await this.teachersService.getAll();
+  //     console.log(this.teacherList);
+  //   } catch (error) {
+  //     console.error('Error fetching teachers:', error);
+  //   }
+  // }
+
   getPosition(LatLng:any){
     return new google.maps.LatLng(LatLng[0],LatLng[1])
   }
   getPositionTeacher(latitude:string,longitude:string){
-
     return new google.maps.LatLng(Number(latitude),Number(longitude))
   }
 
-  openInfoWindow(marker:MapMarker,inforWindow:MapInfoWindow){
-    inforWindow.open(marker)
+  openInfoWindow(marker:MapMarker,infoWindow:MapInfoWindow){
+    infoWindow.open(marker)
+  }
+  closeInfoWindow(inforWindow:MapInfoWindow){
+    inforWindow.close();
+  }
+
+  consolaPosicion(){
+    console.log("has hecho click")
   }
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+  import { Component, inject } from '@angular/core';
 import { ITeacher } from '../../interfaces/iteacher.interface';
 import { TeachersService } from '../../services/teachers.service';
 import { ActivatedRoute } from '@angular/router';
