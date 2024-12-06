@@ -2,7 +2,7 @@ import { IUser } from './iuser.interface';
 import { IKnowledge } from './iknowledge.interface';
 
 export interface ITeacher {
-  id: number;
+  id: string;
   description: string;
   schedule: 'Morning' | 'Afternoon' | 'Night';
   price_p_hour: number;

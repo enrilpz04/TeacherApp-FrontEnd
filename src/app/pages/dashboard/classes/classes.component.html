@@ -1,1 +1,123 @@
-<p>classes works!</p>
+<section class="container my-4">
+  <h2>Lista de Clases</h2>
+  <hr>
+  @if (bookings.length > 0) {
+  <div>
+    <form [formGroup]="filterForm" (ngSubmit)="getDataForm()">
+      <div class="d-flex gap-3 mb-4 align-items-center">
+        <div class="flex-grow-1">
+          <label for="date" class="form-label">Fecha</label>
+          <input type="date" id="date" class="form-control" formControlName="date">
+        </div>
+        <div class="flex-grow-1">
+          <label for="status" class="form-label">Estado</label>
+          <select name="status" id="status" class="form-control" formControlName="status">
+            <option value="pending">Pendiente</option>
+            <option value="confirmed">Confirmada</option>
+            <option value="completed">Completada</option>
+            <option value="cancelled">Cancelada</option>
+          </select>
+        </div>
+        <div class="flex-grow-1 d-flex gap-3 mt-4">
+          <div class="d-flex">
+            <button type="submit" class="btn btn-primary" [disabled]="!filterForm.valid">Aplicar filtros</button>
+          </div>
+          <div class="d-flex">
+            <button class="btn btn-warning" [disabled]="!filterForm.valid" (click)="cleanFilters()">Limpiar
+              filtros</button>
+          </div>
+          <div class="d-flex">
+            <button class="btn btn-secondary" [disabled]="!filterForm.valid" (click)="viewArchived()">Mostrar
+              archivadas</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col" class="col-date">Fecha</th>
+          <th scope="col" class="col-time">Hora</th>
+          @if (user.rol === "student") {
+          <th scope="col" class="col-name">Profesor</th>
+          } @else {
+          <th scope="col" class="col-name">Alumno</th>
+          }
+          <th scope="col" class="col-email">Email</th>
+          <th scope="col" class="col-status">Estado</th>
+          <th scope="col" class="col-actions">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (booking of bookings; track $index) {
+        <tr>
+          @if (!showArchived) {
+          @if (booking.status !== 'archived') {
+          <td class="col-date">{{booking.date | date: 'd/M/Y'}}</td>
+          <td class="col-time">{{booking.startTime}}</td>
+          @if (user.rol === "student") {
+          <td class="col-name">{{booking.teacher.user.name + " " + booking.teacher.user.surname}}</td>
+          <td class="col-email">{{booking.teacher.user.email}}</td>
+          } @else {
+          <td class="col-name">{{booking.student.name + " " + booking.student.surname}}</td>
+          <td class="col-email">{{booking.student.email}}</td>
+          }
+          @if (booking.status === "pending") {
+          <td class="col-status pending">Pendiente</td>
+          } @else if (booking.status === "confirmed") {
+          <td class="col-status confirmed">Confirmada</td>
+          } @else if (booking.status === "completed") {
+          <td class="col-status completed">Completada</td>
+          } @else if (booking.status === "cancelled") {
+          <td class="col-status cancelled">Cancelada</td>
+          }
+          <td class="col-actions d-flex ps-2 gap-3 w-100">
+            @if (booking.status === "pending") {
+            @if (user.rol === 'teacher') {
+            <a (click)="acceptBooking(booking)"><i class="fa-solid fa-check fa-xl"></i></a>
+            <a (click)="cancelBooking(booking)"><i class="fa-solid fa-xmark fa-xl"></i></a>
+            }
+            } @else if (booking.status === "confirmed") {
+            @if (user.rol === 'teacher') {
+            <a (click)="completeBooking(booking)"><i class="fa-solid fa-check fa-xl"></i></a>
+            }
+            <a (click)="cancelBooking(booking)"><i class="fa-solid fa-xmark fa-xl"></i></a>
+            } @else if (booking.status === "completed") {
+            <a (click)="archiveBooking(booking)"><i class="fa-solid fa-box-archive fa-xl"></i></a>
+            } @else if (booking.status === "cancelled") {
+            @if (user.rol === 'teacher') {
+            <a (click)="archiveBooking(booking)"><i class="fa-solid fa-box-archive fa-xl"></i></a>
+            <a (click)="activeBooking(booking)"><i class="fa-regular fa-clock fa-xl"></i></a>
+            }
+            }
+          </td>
+          }
+          } @else {
+          @if (booking.status == 'archived') {
+
+          <td class="col-date">{{booking.date | date: 'd/M/Y'}}</td>
+          <td class="col-time">{{booking.startTime}}</td>
+          @if (user.rol === "student") {
+          <td class="col-name">{{booking.teacher.user.name + " " + booking.teacher.user.surname}}</td>
+          <td class="col-email">{{booking.teacher.user.email}}</td>
+          } @else {
+          <td class="col-name">{{booking.student.name + " " + booking.student.surname}}</td>
+          <td class="col-email">{{booking.student.email}}</td>
+          <td class="col-status archived">Archivada</td>
+          }
+          }
+          }
+
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  } @else {
+  <div class="alert alert-warning" role="alert">
+    No hay clases disponibles
+  </div>
+  }
+</section>

@@ -215,6 +215,7 @@ export class TeacherViewComponent {
       student: this.user,
       teacher: this.teacher
     }
+    console.log(booking)
     const response = await this.bookingsService.createBooking(booking);
     this.closeDialog();
   }

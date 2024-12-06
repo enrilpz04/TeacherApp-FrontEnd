@@ -23,11 +23,11 @@ export class BookingsService {
   }
 
   async getAllBookingsFromTeacher(teacherId: string): Promise<IBooking[]> {
-    return firstValueFrom(this.http.get<any>(this.apiUrl + 'teachers/' + teacherId))
+    return firstValueFrom(this.http.get<any>(this.apiUrl + 'teacher/' + teacherId))
       .then(response => { return response; });
   }
 
-  async getBookingsByDateAndTeacherId(date: Date, teacherId: number): Promise<IBooking[]> {
+  async getBookingsByDateAndTeacherId(date: Date, teacherId: string): Promise<IBooking[]> {
     console.log(date, teacherId);
     const options = date && teacherId ?
       { params: new HttpParams().set('date', date.toString()).set('teacherId', teacherId) } : {};
@@ -66,6 +66,23 @@ export class BookingsService {
 
   async deleteBooking(id: string): Promise<IBooking> {
     return firstValueFrom(this.http.delete<any>(this.apiUrl + id)).then(response => {
+      return response;
+    });
+  }
+
+  async getAllBookingsByTeacherIdDateAndStatus(teacherId: string, date: Date | null, status: string | null): Promise<IBooking[]> {
+    let params = new HttpParams().set('teacherId', teacherId);
+
+    if (date) {
+      params = params.set('date', date.toString());
+    }
+
+    if (status) {
+      console.log(status)
+      params = params.set('status', status);
+    }
+
+    return firstValueFrom(this.http.get<any>(this.apiUrl + 'teacher/status/date/', { params })).then(response => {
       return response;
     });
   }
