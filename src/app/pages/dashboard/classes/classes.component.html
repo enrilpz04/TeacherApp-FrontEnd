@@ -1,25 +1,91 @@
 <section class="container my-4">
   <h2>Lista de Clases</h2>
+  <hr>
+  <div>
+    <form [formGroup]="filterForm" (ngSubmit)="getDataForm()">
+      <div class="d-flex gap-3 mb-4 align-items-center">
+        <div class="flex-grow-1">
+          <label for="date" class="form-label">Fecha</label>
+          <input type="date" id="date" class="form-control" formControlName="date">
+        </div>
+        <div class="flex-grow-1">
+          <label for="status" class="form-label">Estado</label>
+          <select name="status" id="status" class="form-control" formArrayName="status">
+            <option value="">Selecciona una opción:</option>
+            <option value="pending">Pendiente</option>
+            <option value="confirmed">Confirmada</option>
+            <option value="completed">Completada</option>
+            <option value="cancelled">Cancelada</option>
+          </select>
+        </div>
+        <div class="flex-grow-1">
+          <br>
+          <button type="submit" class="btn btn-primary" [disabled]="!filterForm.valid">Aplicar filtros</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
   <div class="table-responsive">
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover table-bordered">
       <thead class="thead-dark">
         <tr>
-          <th scope="col">Fecha</th>
-          <th scope="col">Hora</th>
+          <th scope="col" class="col-date">Fecha</th>
+          <th scope="col" class="col-time">Hora</th>
           @if (user.rol === "student") {
-            <th scope="col">Profesor</th>
+          <th scope="col" class="col-name">Profesor</th>
           } @else {
-            <th scope="col">Alumno</th>
+          <th scope="col" class="col-name">Alumno</th>
           }
-          <th scope="col">Estado</th>
-          <th scope="col">Acciones</th>
+          <th scope="col" class="col-email">Email</th>
+          <th scope="col" class="col-status">Estado</th>
+          <th scope="col" class="col-actions">Acciones</th>
         </tr>
       </thead>
       <tbody>
         @for (booking of bookings; track $index) {
-          <tr>
-            <td>{{booking.date | date: 'MMMM d, yyyy'}}</td>
-          </tr>
+        @if (booking.status !== 'archived') {
+        <tr>
+          <td class="col-date">{{booking.date | date: 'd/M/Y'}}</td>
+          <td class="col-time">{{booking.startTime}}</td>
+          @if (user.rol === "student") {
+          <td class="col-name">{{booking.teacher.user.name + " " + booking.teacher.user.surname}}</td>
+          <td class="col-email">{{booking.teacher.user.email}}</td>
+          } @else {
+          <td class="col-name">{{booking.student.name + " " + booking.student.surname}}</td>
+          <td class="col-email">{{booking.student.email}}</td>
+          }
+          @if (booking.status === "pending") {
+          <td class="col-status pending">Pendiente</td>
+          } @else if (booking.status === "confirmed") {
+          <td class="col-status confirmed">Confirmada</td>
+          } @else if (booking.status === "completed") {
+          <td class="col-status completed">Completada</td>
+          } @else if (booking.status === "cancelled") {
+          <td class="col-status cancelled">Cancelada</td>
+          }
+          <td class="col-actions gap-3">
+            @if (booking.status === "pending") {
+            @if (user.rol === 'teacher') {
+            <button class="btn btn-success btn-sm" (click)="acceptBooking(booking)">Aceptar</button>
+            <button class="btn btn-danger btn-sm" (click)="cancelBooking(booking)">Rechazar</button>
+            }
+            } @else if (booking.status === "confirmed") {
+            @if (user.rol === 'teacher') {
+            <button class="btn btn-danger btn-sm" (click)="completeBooking(booking)">Completar</button>
+            }
+            <button class="btn btn-danger btn-sm" (click)="cancelBooking(booking)">Cancelar</button>
+            } @else if (booking.status === "completed") {
+            <button class="btn btn-danger btn-sm" (click)="archiveBooking(booking)">Archivar</button>
+            } @else if (booking.status === "cancelled") {
+            @if (user.rol === 'teacher') {
+            <button class="btn btn-danger btn-sm" (click)="archiveBooking(booking)">Archivar</button>
+            <button class="btn btn-danger btn-sm" (click)="activeBooking(booking)">Reactivar</button>
+            }
+            }
+          </td>
+        </tr>
+        }
         }
       </tbody>
     </table>
