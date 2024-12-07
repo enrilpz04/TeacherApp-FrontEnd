@@ -45,7 +45,7 @@
       <p class="text-danger" >el campo es requerido</p>
 
   }
-  @if(checkRepitPassw()){
+  @if(checkRepitPassw() && registerForm.controls['repssw'].touched){
     <p class="text-danger">Las contraseñas no coinciden</p>
   }
   </div>
