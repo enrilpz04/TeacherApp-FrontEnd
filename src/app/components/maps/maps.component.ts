@@ -4,11 +4,12 @@ import { MapsService } from '../../services/maps.service';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { ITeacher } from '../../interfaces/iteacher.interface';
 import { TeachersService } from '../../services/teachers.service';
+import { TeacherCardComponent } from '../teacher-card/teacher-card.component';
 
 @Component({
   selector: 'app-maps',
   standalone: true,
-  imports: [GoogleMap,MapMarker,MapInfoWindow],
+  imports: [GoogleMap,MapMarker,MapInfoWindow, TeacherCardComponent],
   templateUrl: './maps.component.html',
   styleUrl: './maps.component.css'
 })
@@ -29,11 +30,11 @@ export class MapsComponent {
   ngOnInit(){
     navigator.geolocation.getCurrentPosition(position=>{
       let center= new google.maps.LatLng(position.coords.latitude,position.coords.longitude)
-      
+
       this.myposition.set(center);
     });
-    
-    
+
+
     this.getTeacher();
 
   }
