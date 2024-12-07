@@ -7,5 +7,5 @@ export interface IReview {
   comment?: string;
   date: Date;
   user: IUser;
-  teacher: ITeacher;
+  teacher?: ITeacher;
 }

@@ -11,13 +11,15 @@ import { DashboardHomeComponent } from './pages/dashboard/dashboard-home/dashboa
 import { MessagesComponent } from './pages/dashboard/messages/messages.component';
 import { NotificationsComponent } from './pages/dashboard/notifications/notifications.component';
 import { ClassesComponent } from './pages/dashboard/classes/classes.component';
+import { MapsComponent } from './components/maps/maps.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
+  { path: 'mapa', component: MapsComponent},
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'register-teacher', component: SignupTeacherComponent },
+  { path: 'signup-teacher', component: SignupTeacherComponent },
   { path: 'search', component: SearchComponent },
   { path: 'teacher/:id', component: TeacherViewComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], children: [

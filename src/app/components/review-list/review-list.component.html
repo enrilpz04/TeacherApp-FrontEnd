@@ -1,0 +1,11 @@
+<section class="mt-5">
+  <h2>Reseñas de estudiantes</h2>
+  <hr>
+  <div class="row">
+    @for (review of reviews; track $index) {
+      <div class="col-12 col-md-6 my-3">
+        <app-review-card [review]="review"></app-review-card>
+      </div>
+    }
+  </div>
+</section>
