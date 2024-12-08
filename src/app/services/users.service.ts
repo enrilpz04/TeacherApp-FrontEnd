@@ -31,9 +31,16 @@ export class UserService {
     return firstValueFrom(this.httpClient.get<any>(this.apiUrl)).then(response => {return response})
   }
 
- async register(newUser:IUser): Promise<any>{
-
-    return firstValueFrom( this.httpClient.post(this.registerApiUrl,newUser)).then(response => {return response});
+  async register(newUser: IUser): Promise<any> {
+    try {
+      return await firstValueFrom(this.httpClient.post(this.registerApiUrl, newUser));
+    } catch (error: any) {
+      if (error.error && error.error.message) {
+        throw new Error(error.error.message);
+      } else {
+        throw new Error('Error al registrar el usuario');
+      }
+    }
   }
 
   constructor() { }
