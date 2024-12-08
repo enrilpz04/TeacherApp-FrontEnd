@@ -1,3 +1,16 @@
+section .header h3, p {
+  text-align: center;
+}
+
+p.text-danger {
+  text-align: start;
+}
+
+.form-div {
+  align-items: center;
+  width: 100%;
+}
+
 .error{
   margin: 0;
   padding: 0;
