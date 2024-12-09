@@ -1,0 +1,35 @@
+section {
+  border: 1px solid lightgray;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.recipient {
+  justify-content: flex-start;
+  align-items: flex-start;
+  display: flex;
+}
+
+.sender {
+  justify-content: flex-end;
+  align-items: flex-end;
+  display: flex;
+}
+
+.message-box {
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 60%;
+  margin: 5px 10px;
+}
+
+.sender .message-box {
+  background-color: #007bff;
+  color: white;
+}
+
+.recipient .message-box {
+  background-color: #f1f1f1;
+  color: black;
+}
