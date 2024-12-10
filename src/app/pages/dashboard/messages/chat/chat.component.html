@@ -1,35 +1,39 @@
-<section class="h-100">
+<section class="h-100 d-flex flex-column">
   @if (chat !== undefined) {
   @if (chatLength !== 0) {
-  <div class="w-100">
-    <div class="d-flex w-100">
+  <div class="w-100 h-100">
+    <div class="d-flex w-100 p-3 header gap-3">
       @if (userChat.avatar !== null) {
-      <img src="{{ userChat.avatar }}" alt="{{ userChat.name }}" class="rounded-circle" width="25%" />
+      <img src="{{ userChat.avatar }}" alt="{{ userChat.name }}" class="rounded-circle" width="50px" />
       } @else {
-      <img src="user-icon.png" alt="{{ userChat.name }}" class="rounded-circle" width="25%" />
+      <img src="user-icon.png" alt="{{ userChat.name }}" class="rounded-circle" width="50px" />
       }
       <h5 class="w-50">{{userChat.name + " " + userChat.surname}}</h5>
-      @if (userChat.rol === 'student') {
-      <p class="w-25">Estudiante</p>
+    </div>
+    <hr>
+    <div #messagesContainer class="messages-container flex-grow-1 overflow-auto my-3">
+      @for (message of chat; track $index) {
+      @if (message.recipient.id === activeUser.id) {
+      <div class="d-flex w-100 recipient">
+        <div class="w-50 message-box d-flex flex-column gap-2">
+          <p>{{message.text}}</p>
+          <p class="text-muted">{{message.date | date: "MMMM d, YYYY"}}</p>
+        </div>
+      </div>
       } @else {
-      <p class="w-25">Profesor</p>
+      <div class="d-flex w-100 sender">
+        <div class="w-50 message-box d-flex flex-column gap-2">
+          <p>{{message.text}}</p>
+          <p class="text-muted">{{message.date | date: "MMMM d, YYYY"}}</p>
+        </div>
+      </div>
+      }
       }
     </div>
-    @for (message of chat; track $index) {
-    @if (message.recipient.id !== activeUser.id) {
-    <div class="d-flex w-100 recipient">
-      <div class="w-50 message-box">
-        <p>{{message.text}}</p>
-      </div>
-    </div>
-    } @else {
-    <div class="d-flex w-100 sender">
-      <div class="w-50 message-box">
-        <p>{{message.text}}</p>
-      </div>
-    </div>
-    }
-    }
+  </div>
+  <div class="message-input d-flex p-3 gap-3">
+    <input type="text" class="form-control w-75" placeholder="Escribe un mensaje..." [(ngModel)]="messageText">
+    <button class="btn btn-primary ml-2 w-25" (click)="sendMessage()">Enviar mensaje</button>
   </div>
   } @else {
   <h2>No tienes mensajes con esta persona</h2>

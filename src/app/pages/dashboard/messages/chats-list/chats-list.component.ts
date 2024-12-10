@@ -25,9 +25,7 @@ export class ChatsListComponent {
     }
 
     const searchTextLower = this.searchText.toLowerCase();
-    console.log(searchTextLower.split(''))
     const regex = new RegExp(`^${searchTextLower.split('').join('.*')}`, 'i');
-    console.log(regex)
     return this.chats.filter(chat =>
       regex.test(`${chat.name} ${chat.surname}`)
     );

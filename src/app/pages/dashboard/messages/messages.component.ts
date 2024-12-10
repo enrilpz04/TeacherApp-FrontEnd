@@ -5,6 +5,7 @@ import { MessagesService } from '../../../services/messages.service';
 import { AuthService } from '../../../services/auth.service';
 import { ChatComponent } from "./chat/chat.component";
 import { IMessage } from '../../../interfaces/imessage.interface';
+import { NotificationsService } from '../../../services/notifications.service';
 
 @Component({
   selector: 'app-messages',
@@ -18,8 +19,10 @@ export class MessagesComponent {
   user!: IUser
   selectedUser!: IUser
   selectedChat!: IMessage[];
+  message! : IMessage;
 
   messagesService: MessagesService = inject(MessagesService)
+  notificationsService: NotificationsService = inject(NotificationsService)
   authService: AuthService = inject(AuthService)
 
   ngOnInit() {
@@ -35,5 +38,20 @@ export class MessagesComponent {
     this.selectedUser = event
     const chat: IUser = event as IUser;
     this.selectedChat = await this.messagesService.getAllMessagesBetweenUsers(chat.id ? chat.id : '', this.user.id ? this.user.id : '');
+  }
+
+  async sendMessage(event : IMessage) {
+    const message : IMessage = event as IMessage
+    const response = await this.messagesService.createMessage(message)
+    const responseNotification = await this.notificationsService.createNotification(
+      {
+        type: 'new_message',
+        message: 'Tienes un nuevo mensaje de ' + message.sender.name + ' ' + message.sender.surname + ' , el día ' + message.date.toString(),
+        date: new Date(),
+        read: false,
+        user: message.recipient
+      }
+    )
+    console.log(responseNotification)
   }
 }

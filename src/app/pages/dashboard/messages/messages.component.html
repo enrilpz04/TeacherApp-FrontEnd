@@ -1,10 +1,10 @@
-<section>
+<section class="my-5">
   <div class="d-flex flex-row">
     <div class="w-25">
       <app-chats-list [chats]="chats" (chatSelected)="selectChat($event)"></app-chats-list>
     </div>
     <div class="w-75">
-      <app-chat [chat]="selectedChat" [activeUser]="user" [userChat]="selectedUser"></app-chat>
+      <app-chat [chat]="selectedChat" [activeUser]="user" [userChat]="selectedUser" (message)="sendMessage($event)"></app-chat>
     </div>
   </div>
 </section>

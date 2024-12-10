@@ -14,4 +14,8 @@ export class NotificationsService {
   async getNotificationsByUserId(userId: string): Promise<INotification[]> {
     return firstValueFrom(this.http.get<INotification[]>(this.apiURL + '/user/' + userId));
   }
+
+  async createNotification(notification: INotification): Promise<any> {
+    return firstValueFrom(this.http.post<INotification>(this.apiURL, notification))
+  }
 }
