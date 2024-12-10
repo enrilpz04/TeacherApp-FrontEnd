@@ -34,7 +34,7 @@ export class SearchComponent {
 
   ngOnInit() {
     this.getTeachers();
-    this.knowledgeList = this.knowledgeService.getAllKnowledges();
+    // this.knowledgeList = this.knowledgeService.getAllKnowledges();
   }
 
   async getFilterOptions(event: IFilterOptions): Promise<void> {

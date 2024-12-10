@@ -43,6 +43,11 @@ export class AuthService {
   getUser(): Observable<IUser | null> {
     return this.userSubject.asObservable();
   }
+  // getUserId(): number | null{
+  //    this.userSubject.asObservable().subscribe(user=>{
+  //     return user?.id;
+  //   })
+  // }
 
   getLoggedInStatus(): Observable<boolean> {
     return this.loggedIn.asObservable();

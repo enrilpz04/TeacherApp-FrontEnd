@@ -51,7 +51,7 @@
         <h5 class="m-0">{{ user.name + " " + user.surname }}</h5>
       </div>
       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-        <li><a class="dropdown-item" href="#">Perfil</a></li>
+        <li><a class="dropdown-item" [routerLink]="['/perfil']">Perfil</a></li>
         <li><a class="dropdown-item" href="#">Configuración</a></li>
         <li><a class="dropdown-item" href="#" (click)="logout()">Cerrar sesión</a></li>
       </ul>

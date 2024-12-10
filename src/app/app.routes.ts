@@ -11,6 +11,7 @@ import { DashboardHomeComponent } from './pages/dashboard/dashboard-home/dashboa
 import { MessagesComponent } from './pages/dashboard/messages/messages.component';
 import { NotificationsComponent } from './pages/dashboard/notifications/notifications.component';
 import { ClassesComponent } from './pages/dashboard/classes/classes.component';
+import { PerfilComponent } from './pages/perfil/perfil.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -20,6 +21,7 @@ export const routes: Routes = [
   { path: 'signup-teacher', component: SignupTeacherComponent },
   { path: 'search', component: SearchComponent },
   { path: 'teacher/:id', component: TeacherViewComponent },
+  { path: 'perfil', component:PerfilComponent},
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], children: [
     { path: '', redirectTo: 'dashboard-home', pathMatch: 'full' },
     { path: 'dashboard-home', component: DashboardHomeComponent },

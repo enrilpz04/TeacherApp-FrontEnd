@@ -35,4 +35,19 @@ export class TeachersService {
       return response;
     });
   }
+
+  async createTeacher(desciption: string, schedule: string, price: number,experience:string,lat:string,long:string, idUser: number){
+    const teacher={
+      desciption:desciption,
+      schedule:schedule,
+      price_p_hour:price,
+      experience:experience,
+      latitude:lat,
+      longitude:long,
+      userId:idUser
+    }
+    return firstValueFrom(this.http.post<any>(this.apiUrl,teacher)).then(response=>{
+      return response;
+    })
+  }
 }
