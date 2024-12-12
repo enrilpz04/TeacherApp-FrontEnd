@@ -12,6 +12,7 @@ import { MessagesComponent } from './pages/dashboard/messages/messages.component
 import { NotificationsComponent } from './pages/dashboard/notifications/notifications.component';
 import { ClassesComponent } from './pages/dashboard/classes/classes.component';
 import { MapsComponent } from './components/maps/maps.component';
+import { AdminPanelComponent } from './pages/dashboard/admin-panel/admin-panel.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -27,6 +28,7 @@ export const routes: Routes = [
     { path: 'dashboard-home', component: DashboardHomeComponent },
     { path: 'messages', component: MessagesComponent },
     { path: 'notifications', component: NotificationsComponent },
-    { path: 'classes', component: ClassesComponent }
+    { path: 'classes', component: ClassesComponent },
+    { path: 'admin', component: AdminPanelComponent }
   ]}
 ];
