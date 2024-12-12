@@ -1,18 +1,99 @@
-section .header h3, p {
+/* General */
+body {
+  background-color: #f7f7f7;
+  font-family: 'Arial', sans-serif;
+}
+
+.container {
+  margin-top: 50px;
+  padding: 20px;
+}
+
+/* Encabezado */
+.header h3 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 10px;
   text-align: center;
 }
 
-p.text-danger {
-  text-align: start;
+.header p {
+  font-size: 1.1rem;
+  color: #777;
+  text-align: center;
 }
 
+/* Formulario */
 .form-div {
-  align-items: center;
+  display: flex;
+  justify-content: center;
   width: 100%;
 }
 
-.error{
-  margin: 0;
-  padding: 0;
+form.card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 80%;
+}
+
+.card-shadow {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Inputs y etiquetas */
+.form-label {
+  font-weight: 500;
+  color: #555;
+}
+
+input.form-control {
+  border-radius: 4px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-top: 5px;
+}
+
+input.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Mensajes de error */
+.text-danger {
+  font-size: 0.9rem;
+  color: #dc3545;
+  margin-top: 5px;
+}
+
+.error {
   color: tomato;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+/* Botón */
+input[type="submit"] {
+  background-color: #dc3545;
+  border: none;
+  color: #fff;
+  padding: 12px;
+  font-size: 1.1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #c82333;
+  transform: translateY(-2px); /* Ligero efecto de elevación */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  form.card {
+    width: 100%;
+    padding: 20px;
+  }
 }
