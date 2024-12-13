@@ -11,6 +11,7 @@ export class KnowledgesService {
 
   knowledges: IKnowledge[] = KNOWLEDGES
   private apiUrl = 'http://localhost:3000/api/knowledges';
+  private apiUrlTeachKnow= 'http://localhost:300/api/teacherknowledge';
   private http = inject(HttpClient)
 
   constructor() { }
@@ -18,6 +19,16 @@ export class KnowledgesService {
   getAllKnowledges():Promise<IKnowledge[]> {
     return firstValueFrom(this.http.get<any>(this.apiUrl)).then(response=>{
       return response;
+    })
+  }
+
+  postTeacherKnowledge(teacherId:number, knowledge:number):Promise<any>{
+    const teacherknowldege={
+      teacherId:teacherId,
+      knowledge:knowledge
+    }
+    return firstValueFrom(this.http.post<any>(this.apiUrlTeachKnow,teacherknowldege)).then(response=>{
+      return response
     })
   }
 }
