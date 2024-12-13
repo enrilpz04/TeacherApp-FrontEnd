@@ -1,0 +1,19 @@
+.col-id {
+  width: 5%;
+}
+
+.col-name {
+  width: 15%;
+}
+
+.col-surname {
+  width: 15%;
+}
+
+.col-email {
+  width: 25%;
+}
+
+.col-validated {
+  width: 15%;
+}

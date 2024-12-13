@@ -1,0 +1,35 @@
+<section class="mt-4">
+  <h2>Lista de Profesores</h2>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col" class="col-id">Id</th>
+          <th scope="col" class="col-name">Nombre</th>
+          <th scope="col" class="col-surname">Apellido</th>
+          <th scope="col" class="col-email">Email</th>
+          <th scope="col" class="col-validated">Validado</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (teacher of teachers; track $index) {
+          <tr>
+            <td>{{teacher.id}}</td>
+            <td>{{teacher.user.name}}</td>
+            <td>{{teacher.user.surname}}</td>
+            <td>{{teacher.user.email}}</td>
+            <td>
+              <input type="checkbox" [checked]="teacher.validated" (change)="updateTeacherValidation(teacher, $event)">
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="pagination-buttons d-flex gap-3 justify-content-center align-items-center">
+    <button class="btn btn-primary" (click)="previousPage()" [disabled]="page === 1"><i class="fa-solid fa-arrow-left"></i></button>
+    <span>Página {{page}}</span>
+    <button class="btn btn-primary" (click)="nextPage()" [disabled]="page === totalPages"><i class="fa-solid fa-arrow-right"></i></button>
+  </div>
+</section>
+
