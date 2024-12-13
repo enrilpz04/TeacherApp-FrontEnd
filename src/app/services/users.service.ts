@@ -31,8 +31,6 @@ export class UserService {
     return firstValueFrom(this.httpClient.get<any>(this.apiUrl)).then(response => {return response})
   }
 
-
-
   async register(newUser: IUser): Promise<any> {
     try {
       return await firstValueFrom(this.httpClient.post(this.registerApiUrl, newUser));

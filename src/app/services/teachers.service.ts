@@ -18,6 +18,19 @@ export class TeachersService {
     });
   }
 
+  async getTeachersWithPagination(page: number, size: number) : Promise<any> {
+    const url = `${this.apiUrl}pagination?page=${page}&size=${size}`;
+    return firstValueFrom(this.http.get<any>(url)).then(response => {
+      return response;
+    })
+  }
+
+  async updateTeacher(teacher : ITeacher) : Promise<ITeacher> {
+    return firstValueFrom(this.http.put<any>(this.apiUrl + teacher.id, teacher)).then(response => {
+      return response;
+    })
+  }
+
   async getTeacherById(id: string): Promise<ITeacher> {
     return firstValueFrom(this.http.get<any>(this.apiUrl + id)).then(response => {
       return response;
