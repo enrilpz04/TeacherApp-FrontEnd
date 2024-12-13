@@ -1,0 +1,13 @@
+<form [formGroup]="regKnowledges" class="card p3 w-75 shadow" (ngSubmit)="getDataForm()" novalidate>
+  <div class="my-2">
+    <label for="knowledge" class="form-label">Conocimientos</label>
+    <select name="knowledge" formControlName="knowledge" class="form-select" aria-label="DEfault select example">
+      <option selected>Elige opcion</option>
+      @for(knowledge of arrKnoledge; track knowledge.id){
+        <option value={{knowledge.id}}>{{knowledge.name}}</option>
+      }    </select>
+  </div>
+  <input type="submit" class="w-25  btn btn-danger" value="Añadir" [disabled]="!regKnowledges.valid">
+
+
+</form>

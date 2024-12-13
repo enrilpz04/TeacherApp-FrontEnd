@@ -12,11 +12,12 @@ import { IUser, Rol } from '../../interfaces/iuser.interface';
 import { AuthService } from '../../services/auth.service';
 import { GoogleMap } from '@angular/google-maps';
 import { TeachersService } from '../../services/teachers.service';
+import { TeacherKnowledgesComponent } from "../teacher-knowledges/teacher-knowledges.component";
 
 @Component({
   selector: 'app-teacher-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, TeacherKnowledgesComponent],
   templateUrl: './teacher-form.component.html',
   styleUrl: './teacher-form.component.css',
 })
@@ -29,6 +30,8 @@ export class TeacherFormComponent {
   mapa1 = new google.maps.Geocoder();
   loc = new google.maps.Geocoder();
 
+  hiddenTeacher:boolean=false;
+  hiddenKnoledge:boolean=true;
 
   arrKnowledge: IKnowledge[] = [];
 
@@ -40,11 +43,10 @@ export class TeacherFormComponent {
   constructor() {
     this.regTeacherForm = new FormGroup(
       {
-        desciption: new FormControl(null, [Validators.required]),
-        schedule: new FormControl(null, [Validators.required]),
+        description: new FormControl(null, [Validators.required]),
+        schedule: new FormControl(null, []),
         price: new FormControl(null, [Validators.required]),
-        experience: new FormControl(null, [Validators.required]),
-        direccion: new FormControl(null, [Validators.required]),
+        experience: new FormControl(null, [Validators.required])
       },
       []
     );
@@ -67,20 +69,32 @@ export class TeacherFormComponent {
   }
 
   getDataForm() {
-    const description = this.regTeacherForm.value.desciption;
+    const description = this.regTeacherForm.value.description;
     const schedule = this.regTeacherForm.value.schedule;
     const price = this.regTeacherForm.value.price;
     const experience = this.regTeacherForm.value.experience;
-    this.teacherServices.createTeacher(
-      description,
-      schedule,
-      price,
-      experience,
-      this.myposition.lat().toString()   ,
-      this.myposition.lng.toString(),
-      this.id
-    );
 
-    // console.log(loc.geocode(this.regTeacherForm.value.direccion));
+      const resutl = this.teacherServices.createTeacher(
+        description,
+        schedule,
+        price,
+        experience,
+        this.myposition.lat().toString()   ,
+        this.myposition.lng().toString(),
+        this.id
+      );
+      this.regTeacherForm.reset();
+      console.log("resultado crear teacher: ",resutl)
+      this.hiddenKnoledge=!this.hiddenKnoledge
+      this.hiddenTeacher=!this.hiddenTeacher;
+  }
+  checkControl(formControlName:string, validator:string){
+    return this.regTeacherForm.get(formControlName)?.hasError(validator) && this.regTeacherForm.get(formControlName)?.touched;
+  }
+
+  selectChanged():any{
+    return {'checkSelect':true}
+
+
   }
 }

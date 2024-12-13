@@ -36,16 +36,19 @@ export class TeachersService {
     });
   }
 
-  async createTeacher(desciption: string, schedule: string, price: number,experience:string,lat:string,long:string, idUser: number){
+  async createTeacher(description: string, schedule: string, price: number,experience:string,lat:string,long:string, idUser: number){
     const teacher={
-      desciption:desciption,
+      description:description,
       schedule:schedule,
       price_p_hour:price,
       experience:experience,
+      rating:2,
+      validated:1,
       latitude:lat,
       longitude:long,
       userId:idUser
     }
+    console.log('Teacher antes de enviarlo: ',teacher)
     return firstValueFrom(this.http.post<any>(this.apiUrl,teacher)).then(response=>{
       return response;
     })

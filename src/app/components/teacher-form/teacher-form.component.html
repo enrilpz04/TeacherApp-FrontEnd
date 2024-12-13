@@ -1,44 +1,58 @@
-<h2>Rellena los campos y convierte te en profesor</h2>
+<div class="container" [hidden]="hiddenTeacher">
+  <h2>Rellena los campos y convierte te en profesor</h2>
 
 <form [formGroup]="regTeacherForm" class="card p3 w-75 shadow" (ngSubmit)="getDataForm()" novalidate>
   <div class="my-2">
     <label for="description" class="form-label">Descripcion</label>
     <input type="text" class="form-control" formControlName="description" id="description">
+    @if(checkControl('description','required')){
+      <p class="text-danger" >el campo es requerido</p>
+
+  }
 
   </div>
-  <!-- <div class="my-2">
-    <label for="schedule" class="form-label">Conocimiento</label>
-    <input type="text" class="form-control" formControlName="schedule" id="schedule">
 
-  </div> -->
 <div>
-  <label for="schedule" class="form-label">Conocimiento</label>
-  <select name="schedule" formControlName="schedule" class="form-select" aria-label="Default select example">
-    <option selected>Open this select menu</option>
-    <!-- <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option> -->
-    @for(knowledge of arrKnowledge; track knowledge.id){
-      <option value={{knowledge.id}}>{{knowledge.name}}</option>
-    }
+  <label for="schedule" class="form-label">Disponibilidad</label>
+  <select name="schedule" formControlName="schedule" class="form-select" aria-label="Default select example"
+   (ngModelChange)="selectChanged()">
+    <option value="Mornig">Mañana</option>
+    <option value="Afternoon">Tarde</option>
+    <option value="Night">Noche</option>
+
   </select>
+  @if(checkControl('schedule','required')){
+    <p class="text-danger" >el campo es requerido</p>
+
+}
+
 </div>
   <div class="my-2">
     <label for="price" class="form-label">Precio</label>
-    <input type="text" class="form-control" formControlName="price" id="price">
+    <input type="number" class="form-control" formControlName="price" id="price">
+    @if(checkControl('price','required')){
+      <p class="text-danger" >el campo es requerido</p>
+
+  }
 
   </div>
   <div class="my-2">
     <label for="experience" class="form-label">Experiencia</label>
     <textarea class="form-control" formControlName="experience" id="experience" rows="3"></textarea>
     <!-- <input type="text" class="form-control" formControlName="experience" id="experience" rows="3"> -->
+    @if(checkControl('experience','required')){
+      <p class="text-danger" >el campo es requerido</p>
+
+  }
 
   </div>
-  <!-- <div class="my-2">
-    <label for="direccion" class="form-label">Direccion</label>
-    <input type="text" class="form-control" formControlName="direccion" id="direccion">
 
-  </div> -->
-  <input type="submit" class="w-25  btn btn-danger" value="Enviar" [disabled]="!regTeacherForm.valid">
+  <input type="submit" class="w-25  btn btn-danger" value="Enviar" [disabled]="!regTeacherForm.valid" >
 
 </form>
+
+</div>
+<div class="container" [hidden]="hiddenKnoledge">
+  <h3>Añade conocimientos</h3>
+  <app-teacher-knowledges></app-teacher-knowledges>
+</div>
