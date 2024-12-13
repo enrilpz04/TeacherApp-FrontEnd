@@ -31,6 +31,8 @@ export class UserService {
     return firstValueFrom(this.httpClient.get<any>(this.apiUrl)).then(response => {return response})
   }
 
+
+
   async register(newUser: IUser): Promise<any> {
     try {
       return await firstValueFrom(this.httpClient.post(this.registerApiUrl, newUser));
@@ -43,5 +45,25 @@ export class UserService {
     }
   }
 
-  constructor() { }
+  // Método para obtener estudiantes con paginación
+  async getStudentsWithPagination(page: number, size: number): Promise<any> {
+    const url = `${this.apiUrl}/students?page=${page}&size=${size}`;
+    try {
+      return await firstValueFrom(this.httpClient.get<any>(url));
+    } catch (error: any) {
+      console.error('Error fetching students:', error);
+      throw error;
+    }
+  }
+
+  // Método para actualizar un estudiante
+  async updateStudent(student: IUser): Promise<any> {
+    const url = `${this.apiUrl}/students/${student.id}`;
+    try {
+      return await firstValueFrom(this.httpClient.put<any>(url, student));
+    } catch (error: any) {
+      console.error('Error updating student:', error);
+      throw error;
+    }
+  }
 }
