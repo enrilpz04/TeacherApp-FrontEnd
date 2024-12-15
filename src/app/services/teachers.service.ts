@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { ITeacher } from '../interfaces/iteacher.interface';
@@ -47,5 +47,13 @@ export class TeachersService {
     return firstValueFrom(this.http.get<any>(this.apiUrl + 'user/' + userId)).then(response => {
       return response;
     });
+  }
+
+  async createTeacher(teacher: ITeacher) : Promise<ITeacher> {
+    const headers = new HttpHeaders({
+          'Content-Type': 'application/json'
+        });
+        const options = { headers: headers };
+    return firstValueFrom(this.http.post<ITeacher>(this.apiUrl, teacher, options))
   }
 }

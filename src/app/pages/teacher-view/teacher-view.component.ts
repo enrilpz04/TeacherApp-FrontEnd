@@ -1,4 +1,4 @@
-  import { Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ITeacher } from '../../interfaces/iteacher.interface';
 import { TeachersService } from '../../services/teachers.service';
 import { ActivatedRoute } from '@angular/router';
@@ -11,6 +11,10 @@ import { AuthService } from '../../services/auth.service';
 import { IUser } from '../../interfaces/iuser.interface';
 import { BookingsService } from '../../services/bookings.service';
 import { IBooking } from '../../interfaces/ibooking.interface';
+import { IMessage } from '../../interfaces/imessage.interface';
+import { MessagesService } from '../../services/messages.service';
+import { NotificationsService } from '../../services/notifications.service';
+import { AlertUtils } from '../../utils/alert-utils';
 
 @Component({
   selector: 'app-teacher-view',
@@ -31,9 +35,12 @@ export class TeacherViewComponent {
   averageRating: number = 0;
   numbers = [1, 2, 3, 4, 5];
   starPercentages: number[] = [0, 0, 0, 0, 0];
+  messageText: string = ""
+  schedule = ""
 
   // Booking Dialog boolean
   isDialogOpen: boolean = false;
+  isReviewDialogOpen: boolean = false;
 
   // Booking form and available time slots
   bookingForm: FormGroup;
@@ -43,6 +50,10 @@ export class TeacherViewComponent {
     { time: '10:00:00', available: true },
     { time: '11:00:00', available: true }
   ];
+
+  //Review form
+  reviewForm: FormGroup
+  canReview: boolean = false
 
   // Show time slots boolean and selected time slot
   showTimeSlots: boolean = false;
@@ -57,6 +68,8 @@ export class TeacherViewComponent {
   reviewsService: ReviewsService = inject(ReviewsService);
   authService: AuthService = inject(AuthService);
   bookingsService: BookingsService = inject(BookingsService);
+  messagesService: MessagesService = inject(MessagesService)
+  notificationsService: NotificationsService = inject(NotificationsService)
 
   // Form initialization
   constructor() {
@@ -69,28 +82,64 @@ export class TeacherViewComponent {
       student: new FormControl("", []),
       teacher: new FormControl("", [])
     })
+
+    this.reviewForm = new FormGroup({
+      rating: new FormControl("", []),
+      comment: new FormControl("", []),
+      date: new FormControl("", []),
+      user: new FormControl("", []),
+      teacher: new FormControl("", [])
+    })
+
   }
+
+  loading: boolean = true;
 
   ngOnInit() {
 
-    // Get teacher, reviews and user
+    // Get user
+    this.authService.getUser().subscribe(user => {
+      if (user) {
+        this.user = user;
+      }
+    });
+
+    // Suscripcion a los parámetros de la ruta
     this.activatedRoute.params.subscribe(async (params: any) => {
       let id = params.id;
-      this.teacher = await this.teachersService.getTeacherById(id);
-      this.setTimeSlot()
-      this.reviews = await this.reviewsService.getAllReviewsByTeacherId(this.teacher.id.toString());
-      this.authService.getUser().subscribe(user => {
-        if (user) {
-          this.user = user;
+
+      // Realizar operaciones asincrónicas
+      try {
+
+        // Obtener profesor
+        this.teacher = await this.teachersService.getTeacherById(id);
+        if (this.teacher.schedule === "Morning") this.schedule = "Mañana"
+        if (this.teacher.schedule === "Afternoon") this.schedule = "Tarde"
+        if (this.teacher.schedule === "Night") this.schedule = "Noche"
+        this.setTimeSlot();
+
+        if(this.user) {
+          if (this.user.rol === 'student') {
+            const response = await this.bookingsService.getAllBookingsBetweenStudentAndTeacher(this.user.id!, this.teacher.id!)
+            if (response.length > 0) this.canReview = true
+          }
         }
-      });
-      this.calculateAverageRating();
-      this.calculateStarPercentages();
-    })
+
+        // Obtener reviews
+        this.reviews = await this.reviewsService.getAllReviewsByTeacherId(this.teacher.id!.toString());
+        this.calculateAverageRating();
+        this.calculateStarPercentages();
+
+      } catch (error) {
+        console.error('Error al cargar los datos:', error);
+      } finally {
+        this.loading = false;
+      }
+    });
 
     // Listen to date changes
     this.bookingForm.get('date')?.valueChanges.subscribe(date => {
-      if(date === null) return;
+      if (date === null) return;
       this.setTimeSlot();
       this.getAvailableTimeSlots(date);
     });
@@ -106,7 +155,7 @@ export class TeacherViewComponent {
     });
   }
 
-  getReviewsLength(): number {
+  get reviewsLength(): number {
     return this.reviews ? this.reviews.length : 0;
   }
 
@@ -152,7 +201,7 @@ export class TeacherViewComponent {
 
   // Calculate star percentages
   calculateStarPercentages(): void {
-    const totalReviews = this.getReviewsLength();
+    const totalReviews = this.reviewsLength;
     if (totalReviews > 0) {
       const starCounts = this.reviews.reduce((counts, review) => {
         const rating = Math.floor(review.rating); // Redondear hacia abajo para obtener el valor entero
@@ -163,7 +212,6 @@ export class TeacherViewComponent {
       for (let star = 0; star < 5; star++) {
         this.starPercentages[star] = (starCounts[star] / totalReviews) * 100;
       }
-      console.log(this.starPercentages);
     } else {
       this.starPercentages = [0, 0, 0, 0, 0];
     }
@@ -182,9 +230,19 @@ export class TeacherViewComponent {
     this.showTimeSlots = false;
   }
 
+  openReviewDialog(): void {
+    this.isReviewDialogOpen = true;
+  }
+
+  closeReviewDialog(): void {
+    this.isReviewDialogOpen = false;
+    this.reviewForm.reset();
+  }
+
   // Get available time slots
   async getAvailableTimeSlots(date: Date): Promise<void> {
-    const bookings = await this.bookingsService.getBookingsByDateAndTeacherId(date, this.teacher.id);
+    const bookings = await this.bookingsService.getAllBookingsFromUserByDateAndStatus(this.teacher.user.id!, date, null);
+    console.log(bookings)
     this.timeSlots.forEach(slot => slot.available = true);
     bookings.forEach(booking => {
       const startIndex = this.timeSlots.findIndex(slot => slot.time === booking.startTime);
@@ -193,6 +251,7 @@ export class TeacherViewComponent {
       }
     });
     this.showTimeSlots = true;
+    console.log(this.timeSlots)
   };
 
   // Set start time and remove start time
@@ -204,9 +263,16 @@ export class TeacherViewComponent {
     this.bookingForm.get('startTime')?.setValue('');
   }
 
-  // Submit booking
+  // Reserva una clase
   async submitBooking(): Promise<void> {
-    const booking : IBooking = {
+    if (this.bookingForm.get('startTime')?.value === "") return;
+
+    // Alert window
+    const accepted = await AlertUtils.alert('Alerta', '¿Estás seguro de reservar esta clase?', 'Aceptar', 'Cancelar')
+    if (!accepted) return;
+
+    // Booking creation
+    const booking: IBooking = {
       date: this.bookingForm.get('date')?.value,
       startTime: this.bookingForm.get('startTime')?.value,
       duration: 1,
@@ -215,8 +281,67 @@ export class TeacherViewComponent {
       student: this.user,
       teacher: this.teacher
     }
-    console.log(booking)
     const response = await this.bookingsService.createBooking(booking);
+
     this.closeDialog();
+
+    // Confirmation alert
+    AlertUtils.confirmation('Clase Reservada', 'Tu clase se ha reservado correctamente.', 'Ok');
+  }
+
+  async submitReview(): Promise<void> {
+    if(this.reviewForm.get('rating')?.value === "") return
+
+    // Alert window
+    const accepted = await AlertUtils.alert('Alerta', '¿Estás seguro de enviar esta reseña?', 'Aceptar', 'Cancelar')
+    if (!accepted) return;
+
+    const review : IReview = {
+      rating: this.reviewForm.get('rating')?.value,
+      comment: this.reviewForm.get('comment')?.value,
+      date: new Date(),
+      user: this.user,
+      teacher: this.teacher
+    }
+    const response = await this.reviewsService.createReview(review)
+    this.reviews.push(review)
+
+    this.closeReviewDialog()
+
+    // Confirmation alert
+    AlertUtils.confirmation('Reseña Creada', 'Tu reseña se ha enviado correctamente.', 'Ok');
+  }
+
+  // Enviar un mensaje al profesor
+  async sendMessage(): Promise<void> {
+    if (this.messageText === "") return;
+
+    // Alert window
+    const accepted = await AlertUtils.alert('Alerta', '¿Estás seguro de enviar este mensaje?', 'Aceptar', 'Cancelar')
+    if (!accepted) return;
+
+    // Message creation
+    const message: IMessage = {
+      text: this.messageText,
+      date: new Date(),
+      watched: false,
+      sender: this.user,
+      recipient: this.teacher.user
+    };
+    const response = await this.messagesService.createMessage(message)
+
+    // Notification creation
+    const responseNotification = await this.notificationsService.createNotification(
+      {
+        type: 'new_message',
+        message: 'Tienes un nuevo mensaje de ' + message.sender.name + ' ' + message.sender.surname + ' , el día ' + message.date.toString(),
+        date: new Date(),
+        read: false,
+        user: message.recipient
+      }
+    )
+
+    // Confirmation alert
+    AlertUtils.confirmation('Mensaje Enviado', 'Tu mensaje se ha enviado correctamente.', 'Ok');
   }
 }

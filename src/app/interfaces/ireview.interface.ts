@@ -2,7 +2,7 @@ import { IUser } from './iuser.interface';
 import { ITeacher } from './iteacher.interface';
 
 export interface IReview {
-  id: number;
+  id?: number;
   rating: number;
   comment?: string;
   date: Date;
