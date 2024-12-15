@@ -1,45 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IFilterOptions } from '../../interfaces/ifilter-options';
-import { IKnowledge } from '../../interfaces/iknowledge.interface';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-filter',
+  selector: 'app-footer',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
-  templateUrl: './filter.component.html',
-  styleUrl: './filter.component.css'
+  imports: [],
+  templateUrl: './footer.component.html',
+  styleUrl: './footer.component.css'
 })
-export class FilterComponent {
+export class FooterComponent {
 
-  @Input() knowledgeList: IKnowledge[] = [];
-  @Output() filterOptions = new EventEmitter<IFilterOptions>();
-
-  scheduleOptions: string[] = ['Mañana', 'Tarde', 'Noche'];
-  orderOptions: string[] = ['Mejor Valoracion', 'Precio más bajo', 'Precio más alto'];
-  filterForm: FormGroup;
-
-  constructor() {
-    this.filterForm = new FormGroup({
-      knowledge: new FormControl("", []),
-      schedule: new FormControl("", []),
-      minPrice: new FormControl(0, []),
-      maxPrice: new FormControl(100, []),
-      orderOption: new FormControl("", []),
-      name: new FormControl("", [])
-    })
-  }
-
-  getDataForm(){
-    console.log(this.filterForm.value)
-    const filterOptions: IFilterOptions = {
-      knowledge: this.filterForm.value.knowledge,
-      schedule: this.filterForm.value.schedule,
-      minPrice: this.filterForm.value.minPrice,
-      maxPrice: this.filterForm.value.maxPrice,
-      orderOption: this.filterForm.value.orderOption,
-      name: this.filterForm.value.name
-    };
-    this.filterOptions.emit(filterOptions);
-  }
 }

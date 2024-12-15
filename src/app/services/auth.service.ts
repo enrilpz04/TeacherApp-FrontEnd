@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 import { IUser, Rol } from '../interfaces/iuser.interface';
 
@@ -53,5 +52,22 @@ export class AuthService {
     const userJson = localStorage.getItem('user');
     return userJson ? JSON.parse(userJson) : null;
   }
-}
 
+  // Añadir los métodos faltantes
+  async changePassword(userId: string, newPassword: string): Promise<void> {
+    const url = `${this.apiURL}/change-password`;
+    const body = { userId, newPassword };
+    await firstValueFrom(this.http.post<void>(url, body));
+  }
+
+  async changeAvatar(formData: FormData): Promise<string> {
+    const url = `${this.apiURL}/change-avatar`;
+    const response = await firstValueFrom(this.http.post<{ uri: string }>(url, formData));
+    return response.uri;
+  }
+
+  setUserData(user: IUser): void {
+    localStorage.setItem('user', JSON.stringify(user));
+    this.userSubject.next(user);
+  }
+}

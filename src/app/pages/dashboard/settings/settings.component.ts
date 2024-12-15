@@ -1,5 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { IUser } from '../../../interfaces/iuser.interface';
 import { AuthService } from '../../../services/auth.service';
 import Swal from 'sweetalert2';
@@ -7,11 +8,11 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './settings.component.html',
-  styleUrl: './settings.component.css'
+  styleUrls: ['./settings.component.css']
 })
-export class SettingsComponent {
+export class SettingsComponent implements OnInit {
   private apiUrl = 'http://localhost:3000/api/';
 
   userForm: FormGroup;
@@ -43,37 +44,42 @@ export class SettingsComponent {
         });
       }
     });
-    this.isLoading = false
+    this.isLoading = false;
   }
 
-  changepassword(): void {
+  async changePassword() {
     if (this.userForm.valid) {
-      this.authService.changePassword(this.user.id ? this.user.id : '', this.userForm.value.password);
-      this.userForm.reset();
-      Swal.fire({
-        icon: 'success',
-        text: 'Contraseña cambiada con éxito',
-        confirmButtonText: 'Aceptar'
-      });
+      const { password, reppassword } = this.userForm.value;
+      if (password === reppassword) {
+        if (this.user.id) { // Verificar que this.user.id no sea undefined
+          try {
+            await this.authService.changePassword(this.user.id, password);
+            Swal.fire('Success', 'Password changed successfully', 'success');
+          } catch (err: any) {
+            Swal.fire('Error', err.message, 'error');
+          }
+        } else {
+          Swal.fire('Error', 'User ID is undefined', 'error');
+        }
+      } else {
+        Swal.fire('Error', 'Passwords do not match', 'error');
+      }
     }
   }
 
-  cambiarAvatar(event: any) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.imageChanged = event.target.files[0]; // Asignar el evento al image cropper
-    }
-  }
-
-  async subirImagen() {
-    if (this.imageChanged) {
+  async changeAvatar(event: any) {
+    const file = event.target.files[0];
+    if (file) {
       const formData = new FormData();
-      formData.append('image', this.imageChanged, this.imageChanged.name);
-      formData.append('id', this.user.id ? this.user.id : '');
-      let uri = await this.authService.changeAvatar(formData);
-      this.image = this.apiUrl + uri;
-      this.user.avatar = uri;//cambia la imagen
-      this.authService.setUserData(this.user);
+      formData.append('avatar', file);
+      try {
+        let uri = await this.authService.changeAvatar(formData);
+        this.user.avatar = uri;
+        this.authService.setUserData(this.user);
+        Swal.fire('Success', 'Avatar changed successfully', 'success');
+      } catch (err: any) {
+        Swal.fire('Error', err.message, 'error');
+      }
     }
   }
 
@@ -81,7 +87,13 @@ export class SettingsComponent {
     return this.userForm.get(formControlName)?.hasError(validator) && this.userForm.get(formControlName)?.touched;
   }
 
-  checkRepitPassw() {
-    return this.userForm.value.reppassword != this.userForm.value.password && this.userForm.value.reppassword.length > 6.
+  checkRepitPassw(): boolean {
+    const password = this.userForm.get('password')?.value;
+    const reppassword = this.userForm.get('reppassword')?.value;
+    return password === reppassword;
+  }
+
+  subirImagen(): void {
+    // Implementar la lógica para subir la imagen si es necesario
   }
 }
