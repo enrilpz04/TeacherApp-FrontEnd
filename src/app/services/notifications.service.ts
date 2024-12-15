@@ -1,9 +1,21 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { INotification } from '../interfaces/inotification.interface';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationsService {
 
-  constructor() { }
-}
+  private apiURL = 'http://localhost:3000/api/notifications';
+  private http = inject(HttpClient);
+
+  async getNotificationsByUserId(userId: string): Promise<INotification[]> {
+    return firstValueFrom(this.http.get<INotification[]>(this.apiURL + '/user/' + userId));
+  }
+
+  async watchedAllNotificationsByUserId(userId: string) {
+    firstValueFrom(this.http.put<any>(this.apiURL + '/user/clear/' + userId, ""));
+    }
+  }

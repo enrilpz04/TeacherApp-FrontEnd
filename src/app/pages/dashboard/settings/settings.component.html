@@ -1,0 +1,40 @@
+<div class="login container card card-shadow p-4 mt-3">
+  <div class="uploadimage">
+      <div>
+          <h2 [style]="{'margin-bottom': '1rem'}">Cambiar foto de perfil</h2>
+
+          <div [style]="{'margin-bottom': '1rem'}">
+              <input type="file" (change)="cambiarAvatar($event)" accept="image/*" /><br><br>
+              <button type="button" (click)="subirImagen()">Subir Imagen</button>
+          </div>
+      </div>
+      <img src="{{image}}" alt="" srcset="" width="120px" height="120px">
+  </div>
+  <hr>
+  <h2>Cambiar contraseña</h2>
+
+  <form [formGroup]="userForm">
+      <div class="mt-3">
+          <label class="form-label" for="password">Contraseña:</label>
+          <input class="form-control" type="password" id="password" placeholder="Introducir nueva contraseña:"
+              formControlName="password">
+          @if(checkControl("password", "required")) {
+          <p class="text-danger">Campo requerido</p>
+          }
+          @if(checkControl("password", "minlength")){
+          <p class="text-danger">Introduce al menos 8 caracteres</p>
+          }
+      </div>
+      <div class="mt-3">
+          <label class="form-label" for="reppassword">Repetir contraseña:</label>
+          <input class="form-control" type="password" id="reppassword" placeholder="Repetir nueva contraseña:"
+              formControlName="reppassword">
+
+          @if(checkRepitPassw()){
+          <p class="text-danger">Las contraseñas no coinciden</p>
+          }
+      </div>
+      <pre [innerText]="result"></pre>
+      <button (click)="changepassword()">Confirmar</button>
+  </form>
+</div>

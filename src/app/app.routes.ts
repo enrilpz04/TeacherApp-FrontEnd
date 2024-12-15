@@ -10,6 +10,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DashboardHomeComponent } from './pages/dashboard/dashboard-home/dashboard-home.component';
 import { MessagesComponent } from './pages/dashboard/messages/messages.component';
 import { NotificationsComponent } from './pages/dashboard/notifications/notifications.component';
+import {SettingsComponent} from './pages/dashboard/settings/settings.component';
 import { ClassesComponent } from './pages/dashboard/classes/classes.component';
 
 export const routes: Routes = [
@@ -17,14 +18,16 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'register-teacher', component: SignupTeacherComponent },
+  { path: 'signup-teacher', component: SignupTeacherComponent },
   { path: 'search', component: SearchComponent },
   { path: 'teacher/:id', component: TeacherViewComponent },
+
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], children: [
     { path: '', redirectTo: 'dashboard-home', pathMatch: 'full' },
     { path: 'dashboard-home', component: DashboardHomeComponent },
     { path: 'messages', component: MessagesComponent },
     { path: 'notifications', component: NotificationsComponent },
+    { path: 'settings', component: SettingsComponent },
     { path: 'classes', component: ClassesComponent }
   ]}
 ];
