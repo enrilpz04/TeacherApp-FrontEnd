@@ -1,7 +1,7 @@
 <section class="container my-5">
   <div class="header">
     <h3>¡Bienvenido a Teach4Dev!</h3>
-    <p>Completa el formulario de registro para darte de alta como estudiante.</p>
+    <p>Completa el formulario de registro para darte de alta como profesor.</p>
   </div>
   <div class="form-div d-flex w-100 justify-content-center">
     <form [formGroup]="registerForm" class="card p-3 w-75 card-shadow align-content-center" (ngSubmit)="getDataForm()"
@@ -54,11 +54,50 @@
         <p class="text-danger">Las contraseñas no coinciden</p>
         }
       </div>
+      <div class="my-2">
+        <label for="description" class="form-label">Descripcion</label>
+        <input type="text" class="form-control" formControlName="description" id="description">
+        @if(checkControl('description','required')){
+        <p class="text-danger">el campo es requerido</p>
+        }
+      </div>
+      <div>
+        <label for="schedule" class="form-label">Disponibilidad</label>
+        <select name="schedule" formControlName="schedule" class="form-select" aria-label="Default select example"
+          (ngModelChange)="selectChanged()">
+          <option value="Mornig">Mañana</option>
+          <option value="Afternoon">Tarde</option>
+          <option value="Night">Noche</option>
+
+        </select>
+        @if(checkControl('schedule','required')){
+        <p class="text-danger">el campo es requerido</p>
+
+        }
+
+      </div>
+      <div class="my-2">
+        <label for="price" class="form-label">Precio</label>
+        <input type="number" class="form-control" formControlName="price" id="price">
+        @if(checkControl('price','required')){
+        <p class="text-danger">el campo es requerido</p>
+
+        }
+
+      </div>
+      <div class="my-2">
+        <label for="experience" class="form-label">Experiencia</label>
+        <textarea class="form-control" formControlName="experience" id="experience" rows="3"></textarea>
+        <!-- <input type="text" class="form-control" formControlName="experience" id="experience" rows="3"> -->
+        @if(checkControl('experience','required')){
+        <p class="text-danger">el campo es requerido</p>
+        }
+      </div>
       <div class="my-3">
         <a [routerLink]="['/login']">Ya tienes una cuenta? Inicia sesión.</a>
       </div>
       <div class="my-3">
-        <a [routerLink]="['/signup-teacher']">Quieres ser profesor? Registrate como profesor.</a>
+        <a [routerLink]="['/signup-teacher']">Quieres ser estudiante? Registrate como estudiante.</a>
       </div>
       <input type="submit" class="mt-4" value="Enviar" [disabled]="!registerForm.valid">
     </form>

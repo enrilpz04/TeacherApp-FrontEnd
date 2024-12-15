@@ -15,7 +15,17 @@ export class FilterComponent {
   @Input() knowledgeList: IKnowledge[] = [];
   @Output() filterOptions = new EventEmitter<IFilterOptions>();
 
-  scheduleOptions: string[] = ['Mañana', 'Tarde', 'Noche'];
+  scheduleOptions: any[] = [
+    {
+      name: 'Mañana', value: 'Morning'
+    },
+    {
+      name: 'Tarde', value: 'Afternoon'
+    },
+    {
+      name: 'Noche', value: 'Night'
+    }
+  ];
   orderOptions: string[] = ['Mejor Valoracion', 'Precio más bajo', 'Precio más alto'];
   filterForm: FormGroup;
 
@@ -31,7 +41,6 @@ export class FilterComponent {
   }
 
   getDataForm(){
-    console.log(this.filterForm.value)
     const filterOptions: IFilterOptions = {
       knowledge: this.filterForm.value.knowledge,
       schedule: this.filterForm.value.schedule,

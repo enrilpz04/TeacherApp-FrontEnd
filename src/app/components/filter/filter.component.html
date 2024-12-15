@@ -15,7 +15,7 @@
         <select id="knowledge" formControlName="schedule">
           <option value="">Selecciona una opción:</option>
           @for (schedule of scheduleOptions; track $index) {
-          <option [value]="schedule">{{schedule}}</option>
+          <option [value]="schedule.value">{{schedule.name}}</option>
           }
         </select>
       </div>

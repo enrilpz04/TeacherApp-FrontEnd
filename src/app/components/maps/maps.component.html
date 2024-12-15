@@ -11,7 +11,7 @@
         </map-info-window>
       </map-marker>
       @for (teacher of arrTeachers; track teacher.id){
-      <map-marker #teacherMarker="mapMarker" [position]="getPositionTeacher(teacher.longitude,teacher.latitude)"
+      <map-marker #teacherMarker="mapMarker" [position]="getPositionTeacher(teacher.latitude, teacher.longitude)"
         (mapClick)="openInfoWindow(teacherMarker,infoWindow)" (mapMouseover)="closeInfoWindow(infoWindow)">
         <map-info-window #infoWindow="mapInfoWindow">
           <app-teacher-card [teacher]="teacher"></app-teacher-card>

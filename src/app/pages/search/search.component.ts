@@ -34,13 +34,12 @@ export class SearchComponent {
 
   ngOnInit() {
     this.getTeachers();
-    this.knowledgeList = this.knowledgeService.getAllKnowledges();
+    this.getKnowledges()
   }
 
   async getFilterOptions(event: IFilterOptions): Promise<void> {
     try {
       this.teacherList = await this.teachersService.getTeachersFiltered(event);
-      console.log(this.teacherList);
     } catch (error) {
       console.error('Error fetching teachers:', error);
     }
@@ -49,9 +48,12 @@ export class SearchComponent {
   async getTeachers(): Promise<void> {
     try {
       this.teacherList = await this.teachersService.getAll();
-      console.log(this.teacherList);
     } catch (error) {
       console.error('Error fetching teachers:', error);
     }
+  }
+
+  async getKnowledges() : Promise<void> {
+    this.knowledgeList = await this.knowledgeService.getAllKnowledges();
   }
 }

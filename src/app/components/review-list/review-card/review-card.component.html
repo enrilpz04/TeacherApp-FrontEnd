@@ -2,7 +2,11 @@
   <div class="card-body">
     <div class="d-flex justify-content-between flex-column">
       <div class="d-flex flex-row gap-3">
-        <figure><img src="https://i.pravatar.cc/500?u=clemente.alonzomayorga@peticiones.online" alt="" width="60"></figure>
+        @if (review.user.avatar !== null) {
+          <figure class="h-100"><img src="{{review.user.avatar}}" alt="" width="60"></figure>
+        } @else {
+          <figure class="h-100"><img src="user-icon.png" alt="" width="60"></figure>
+        }
         <div class="d-flex flex-column justify-content-start">
           <p class="mb-1">{{review.user.name + " " + review.user.surname}}</p>
           <p class="text-muted mb-0">{{review.date | date: 'MMMM d, yyyy'}}</p>

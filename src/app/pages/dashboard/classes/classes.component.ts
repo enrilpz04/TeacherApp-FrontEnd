@@ -60,7 +60,8 @@ export class ClassesComponent {
   async cancelBooking(booking: IBooking) {
     const accepted = await this.alert('Alerta', '¿Estas seguro de cancelar esta clase?', 'Aceptar', 'Cancelar');
     if (!accepted) return;
-    const updatedBooking = await this.bookingsService.updateBooking({ ...booking, status: 'cancelled' });
+    booking.status = 'cancelled'
+    const updatedBooking = await this.bookingsService.updateBooking(booking.id!, booking);
     this.updateBookingInList(updatedBooking);
     this.confirmation('Cambio realizado', 'La clase ha sido cancelada', 'Ok');
   }
@@ -68,7 +69,8 @@ export class ClassesComponent {
   async acceptBooking(booking: IBooking) {
     const accepted = await this.alert('Alerta', '¿Estas seguro de confirmar esta clase?', 'Aceptar', 'Cancelar');
     if (!accepted) return;
-    const updatedBooking = await this.bookingsService.updateBooking({ ...booking, status: 'confirmed' });
+    booking.status = 'confirmed'
+    const updatedBooking = await this.bookingsService.updateBooking(booking.id!, booking);
     this.updateBookingInList(updatedBooking);
     this.confirmation('Cambio realizado', 'La clase ha sido confirmada', 'Ok');
   }
@@ -76,7 +78,8 @@ export class ClassesComponent {
   async completeBooking(booking: IBooking) {
     const accepted = await this.alert('Alerta', '¿Estas seguro de completar esta clase?', 'Aceptar', 'Cancelar');
     if (!accepted) return;
-    const updatedBooking = await this.bookingsService.updateBooking({ ...booking, status: 'completed' });
+    booking.status = 'completed'
+    const updatedBooking = await this.bookingsService.updateBooking(booking.id!, booking);
     this.updateBookingInList(updatedBooking);
     this.confirmation('Cambio realizado', 'La clase ha sido completada', 'Ok');
   }
@@ -84,7 +87,8 @@ export class ClassesComponent {
   async archiveBooking(booking: IBooking) {
     const accepted = await this.alert('Alerta', '¿Estas seguro de archivar esta clase?', 'Aceptar', 'Cancelar');
     if (!accepted) return;
-    const updatedBooking = await this.bookingsService.updateBooking({ ...booking, status: 'archived' });
+    booking.status = 'archived'
+    const updatedBooking = await this.bookingsService.updateBooking(booking.id!, booking);
     this.updateBookingInList(updatedBooking);
     this.confirmation('Cambio realizado', 'La clase ha sido archivada', 'Ok');
   }
@@ -92,7 +96,8 @@ export class ClassesComponent {
   async activeBooking(booking: IBooking) {
     const accepted = await this.alert('Alerta', '¿Estas seguro de confirmar esta clase?', 'Aceptar', 'Cancelar');
     if (!accepted) return;
-    const updatedBooking = await this.bookingsService.updateBooking({ ...booking, status: 'confirmed' });
+    booking.status = 'confirmed'
+    const updatedBooking = await this.bookingsService.updateBooking(booking.id!, booking);
     this.updateBookingInList(updatedBooking);
     this.confirmation('Cambio realizado', 'La clase se ha reactivado', 'Ok');
   }
@@ -137,7 +142,7 @@ export class ClassesComponent {
   }
 
   getDataForm() {
-    this.bookingsService.getAllBookingsByTeacherIdDateAndStatus(this.teacher.id, this.filterForm.value.date, this.filterForm.value.status).then(bookings => {
+    this.bookingsService.getAllBookingsFromUserByDateAndStatus(this.user.id!, this.filterForm.value.date, this.filterForm.value.status).then(bookings => {
       this.bookings = bookings;
     });
   }

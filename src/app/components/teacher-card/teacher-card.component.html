@@ -1,5 +1,10 @@
 <div class="card-container d-flex w-100 p-4 gap-3">
-  <figure class="h-100"><img src="https://placehold.co/100x100" alt=""></figure>
+  @if (teacher.user.avatar !== null) {
+    <figure class="h-100"><img src="{{teacher.user.avatar}}" alt="" width="100"></figure>
+  } @else {
+    <figure class="h-100"><img src="user-icon.png" alt="" width="100"></figure>
+  }
+
   <div class="d-flex flex-column w-75">
     <h4>{{teacher.user.name + " " + teacher.user.surname}}</h4>
     <div class="d-flex gap-4">

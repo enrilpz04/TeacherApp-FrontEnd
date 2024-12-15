@@ -64,6 +64,7 @@ h5 {
 
 .profile-image {
   border-radius: 4px;
+  align-items: center;
 }
 
 .profile :hover {

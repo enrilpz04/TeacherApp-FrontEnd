@@ -2,35 +2,46 @@ import { Component, inject } from '@angular/core';
 import { AbstractControl, ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../services/users.service';
 import { IUser, Rol } from '../../interfaces/iuser.interface';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
   selector: 'app-register-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './register-form.component.html',
   styleUrl: './register-form.component.css'
 })
 export class RegisterFormComponent {
 
+  // Formulario válido
   valido: boolean = true;
-  userList: IUser[] = [];
+
+  // Nuevo user
   newUser: IUser = {
     name: "",
     surname: "",
     email: "",
     password: ""
   };
+
+  // Mensaje de error
   errorMessage: any = "";
 
+  // Formulario de registor
   registerForm: FormGroup;
+
+  // Servicios y router
   serviceUser = inject(UserService)
+  authService = inject(AuthService)
   router = inject(Router)
 
 
   constructor() {
+
+    // Init del formulario
     this.registerForm = new FormGroup({
       name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
       surname: new FormControl(null, [Validators.required, Validators.minLength(3)]),
@@ -40,16 +51,23 @@ export class RegisterFormComponent {
     }, []);
   }
 
+  // Método para enviar el formulario
   async getDataForm() {
+
+    // Asignaciones al nuevo user
     this.newUser.name = this.registerForm.value.name;
     this.newUser.surname = this.registerForm.value.surname;
     this.newUser.email = this.registerForm.value.email;
+    this.newUser.validated = true,
     this.newUser.password = this.registerForm.value.pssw;
     this.newUser.rol = Rol.STUDENT;
+
     try {
       const response = await this.serviceUser.register(this.newUser);
       if (response) {
+        console.log(response)
         await this.confirmation("Registro completado", "Usuario registrado correctamente", "Aceptar");
+        await this.authService.login(response.email, this.newUser.password)
         this.router.navigate(['/home']);
       } else {
         this.registerForm.reset();

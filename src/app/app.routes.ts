@@ -14,6 +14,7 @@ import { ClassesComponent } from './pages/dashboard/classes/classes.component';
 import { MapsComponent } from './components/maps/maps.component';
 import { StudentsListComponent } from './pages/dashboard/students-list/students-list.component';
 import { TeachersListComponent } from './pages/dashboard/teachers-list/teachers-list.component';
+import { RoleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -23,15 +24,15 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup-teacher', component: SignupTeacherComponent },
   { path: 'search', component: SearchComponent },
-  { path: 'teacher/:id', component: TeacherViewComponent },
+  { path: 'teacher/:id', component: TeacherViewComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], children: [
     { path: '', redirectTo: 'dashboard-home', pathMatch: 'full' },
     { path: 'dashboard-home', component: DashboardHomeComponent },
     { path: 'messages', component: MessagesComponent },
     { path: 'notifications', component: NotificationsComponent },
     { path: 'classes', component: ClassesComponent },
-    { path: 'students-list', component: StudentsListComponent },
-    { path: 'teachers-list', component: TeachersListComponent },
+    { path: 'students-list', component: StudentsListComponent, canActivate: [RoleGuard], data: { expectedRole: 'admin' } },
+    { path: 'teachers-list', component: TeachersListComponent, canActivate: [RoleGuard], data: { expectedRole: 'admin' } },
 
   ]}
 ];
