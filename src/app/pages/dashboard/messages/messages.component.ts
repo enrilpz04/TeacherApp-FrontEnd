@@ -6,6 +6,7 @@ import { AuthService } from '../../../services/auth.service';
 import { ChatComponent } from "./chat/chat.component";
 import { IMessage } from '../../../interfaces/imessage.interface';
 import { NotificationsService } from '../../../services/notifications.service';
+import { Tipo } from '../../../interfaces/inotification.interface';
 
 @Component({
   selector: 'app-messages',
@@ -43,15 +44,5 @@ export class MessagesComponent {
   async sendMessage(event : IMessage) {
     const message : IMessage = event as IMessage
     const response = await this.messagesService.createMessage(message)
-    const responseNotification = await this.notificationsService.createNotification(
-      {
-        type: 'new_message',
-        message: 'Tienes un nuevo mensaje de ' + message.sender.name + ' ' + message.sender.surname + ' , el día ' + message.date.toString(),
-        date: new Date(),
-        read: false,
-        user: message.recipient
-      }
-    )
-    console.log(responseNotification)
   }
 }

@@ -1,0 +1,12 @@
+.uploadimage{
+  display: flex;
+  justify-content: space-between;
+}
+
+.uploadimage img{
+  object-fit: cover;
+}
+
+.uploadimage input[type="file"]{
+  max-width: 500px;
+}

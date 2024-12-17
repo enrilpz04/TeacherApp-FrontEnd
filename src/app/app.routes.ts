@@ -10,6 +10,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DashboardHomeComponent } from './pages/dashboard/dashboard-home/dashboard-home.component';
 import { MessagesComponent } from './pages/dashboard/messages/messages.component';
 import { NotificationsComponent } from './pages/dashboard/notifications/notifications.component';
+import {SettingsComponent} from './pages/dashboard/settings/settings.component';
 import { ClassesComponent } from './pages/dashboard/classes/classes.component';
 import { MapsComponent } from './components/maps/maps.component';
 import { StudentsListComponent } from './pages/dashboard/students-list/students-list.component';

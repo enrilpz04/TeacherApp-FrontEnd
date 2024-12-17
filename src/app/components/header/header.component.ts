@@ -56,3 +56,4 @@ export class HeaderComponent {
     this.authService.logout();
   }
 }
+    // Aquí puedes agregar lógica para obtener el número de mensajes y notificaciones
