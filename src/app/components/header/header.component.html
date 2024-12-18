@@ -36,27 +36,35 @@
     </div>
     }
     <div class="position-relative">
-      <a [routerLink]="['/dashboard/notifications']">
+      <a (click)="showNotifications()">
         <i class="fa-regular fa-bell fa-2xl"></i>
       </a>
+      @if (getNotificationsCount() > 0) {
+      <span class="badge bg-danger">{{getNotificationsCount()}}</span>
+      }
+
     </div>
     <div class="dropdown">
       <div class="d-flex align-items-center gap-3 profile" id="profileDropdown" data-bs-toggle="dropdown"
         aria-expanded="false">
         @if (user.avatar !== null) {
-          <img [src]="'http://localhost:3000/uploads/avatars/' + user.avatar" alt="" width="50" >
+        <img [src]="'http://localhost:3000/uploads/avatars/' + user.avatar" alt="" width="50">
         } @else {
-          <img src="user-icon.png" alt="" width="50">
+        <img src="user-icon.png" alt="" width="50">
         }
         <h5 class="m-0">{{ user.name + " " + user.surname }}</h5>
       </div>
       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
         @if (user.rol !== 'admin') {
-        <li><a class="dropdown-item" [routerLink]="['/dashboard']">Dashboard</a></li>
         <li><a class="dropdown-item" [routerLink]="['/dashboard/classes']">Clases</a></li>
-        }
         <li><a class="dropdown-item" [routerLink]="['/dashboard/messages']">Mensajes</a></li>
         <li><a class="dropdown-item" [routerLink]="['/dashboard/notifications']">Notificaciones</a></li>
+        <li><a class="dropdown-item" [routerLink]="['/dashboard/settings']">Ajustes</a></li>
+        } @else if (user.rol === 'admin') {
+        <li><a class="dropdown-item" [routerLink]="['/dashboard/students-list']">Lista de Estudiantes</a></li>
+        <li><a class="dropdown-item" [routerLink]="['/dashboard/teachers-list']">Lista de Profesores</a></li>
+        <li><a class="dropdown-item" [routerLink]="['/dashboard/notifications']">Notificaciones</a></li>
+        }
         <li><a class="dropdown-item" href="#" (click)="logout()">Cerrar sesión</a></li>
       </ul>
     </div>

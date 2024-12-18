@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { UserService } from '../../../services/users.service';
-import { IUser } from '../../../interfaces/iuser.interface';
+import { IUser, Rol } from '../../../interfaces/iuser.interface';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -44,8 +44,17 @@ export class StudentsListComponent {
     student.validated = !student.validated;
 
     try {
-      const response = await this.usersService.updateStudent(student);
-      console.log(response)
+      const formData = new FormData();
+      formData.append('id', student.id!);
+      formData.append('name', student.name);
+      formData.append('surname', student.surname);
+      formData.append('email', student.email);
+      formData.append('validated', student.validated!.toString());
+      formData.append('rol', Rol.STUDENT);
+      formData.append('avatar', student.avatar!);
+
+      await this.usersService.updateStudent(formData);
+
       this.confirmation('Cambio realizado', 'Se ha modificado el estado del estudiante', 'Ok');
     } catch (error) {
       console.error('Error updating student validation:', error);
@@ -62,28 +71,28 @@ export class StudentsListComponent {
   }
 
   async alert(title: string, text: string, confirmButtonText: string, cancelButtonText: string): Promise<boolean> {
-      return Swal.fire({
-        title: title,
-        text: text,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: confirmButtonText,
-        cancelButtonText: cancelButtonText
-      }).then((result) => {
-        return result.isConfirmed;
-      });
-    }
+    return Swal.fire({
+      title: title,
+      text: text,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: confirmButtonText,
+      cancelButtonText: cancelButtonText
+    }).then((result) => {
+      return result.isConfirmed;
+    });
+  }
 
-    async confirmation(title: string, text: string, confirmButtonText: string): Promise<boolean> {
-      return Swal.fire({
-        title: title,
-        text: text,
-        icon: 'success',
-        confirmButtonText: confirmButtonText,
-      }).then((result) => {
-        return result.isConfirmed;
-      });
-    }
+  async confirmation(title: string, text: string, confirmButtonText: string): Promise<boolean> {
+    return Swal.fire({
+      title: title,
+      text: text,
+      icon: 'success',
+      confirmButtonText: confirmButtonText,
+    }).then((result) => {
+      return result.isConfirmed;
+    });
+  }
 
   previousPage() {
     if (this.page > 1) {

@@ -3,11 +3,11 @@
     <div>
       <h2 [style]="{'margin-bottom': '1rem'}">Cambiar foto de perfil</h2>
       <div [style]="{'margin-bottom': '1rem'}">
-        <input type="file" (change)="changeAvatar($event)" accept="image/*" /><br><br>
-        <button type="button" (click)="subirImagen()">Subir Imagen</button>
+        <label for="fileInput" class="btn btn-primary">Editar foto de perfil</label>
+          <input type="file" id="fileInput" (change)="onFileSelected($event)" hidden>
       </div>
     </div>
-    <img src="{{image}}" alt="" srcset="" width="120px" height="120px">
+    <img src="{{imageURL}}" alt="" srcset="" width="120px" height="120px">
   </div>
   <hr>
   <h2>Cambiar contraseña</h2>
@@ -24,6 +24,6 @@
       <p *ngIf="checkControl('reppassword', 'required')" class="text-danger">Campo requerido</p>
       <p *ngIf="!checkRepitPassw()" class="text-danger">Las contraseñas no coinciden</p>
     </div>
-    <button type="button" (click)="changePassword()">Confirmar</button>
+    <button type="button" class="btn btn-primary mt-3" (click)="changePassword()">Cambiar contraseña</button>
   </form>
 </div>

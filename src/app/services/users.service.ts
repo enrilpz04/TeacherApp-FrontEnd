@@ -55,10 +55,21 @@ export class UserService {
   }
 
   // Método para actualizar un estudiante
-  async updateStudent(student: IUser): Promise<any> {
-    const url = `${this.apiUrl}/students/${student.id}`;
+  async updateStudent(formData: FormData): Promise<any> {
+    const url = `${this.apiUrl}/students/${formData.get('id')}`;
     try {
-      return await firstValueFrom(this.httpClient.put<any>(url, student));
+      return await firstValueFrom(this.httpClient.put<any>(url, formData));
+    } catch (error: any) {
+      console.error('Error updating student:', error);
+      throw error;
+    }
+  }
+
+  // Método para actualizar un estudiante
+  async updateUser(formData: FormData): Promise<any> {
+    const url = `${this.apiUrl}/${formData.get('id')}`;
+    try {
+      return await firstValueFrom(this.httpClient.put<any>(url, formData));
     } catch (error: any) {
       console.error('Error updating student:', error);
       throw error;
