@@ -1,7 +1,7 @@
 <section class="container my-4">
   <h2>Lista de Clases</h2>
   <hr>
-  @if (bookings.length > 0) {
+
   <div>
     <form [formGroup]="filterForm" (ngSubmit)="getDataForm()">
       <div class="d-flex gap-3 mb-4 align-items-center">
@@ -34,6 +34,7 @@
       </div>
     </form>
   </div>
+  @if (bookings.length > 0) {
   <div class="table-responsive">
     <table class="table table-striped table-hover table-bordered">
       <thead class="thead-dark">

@@ -7,7 +7,6 @@ import { AuthGuard } from './guards/auth.guard';
 import { SignupComponent } from './pages/signup/signup.component';
 import { SignupTeacherComponent } from './pages/signup-teacher/signup-teacher.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { DashboardHomeComponent } from './pages/dashboard/dashboard-home/dashboard-home.component';
 import { MessagesComponent } from './pages/dashboard/messages/messages.component';
 import { NotificationsComponent } from './pages/dashboard/notifications/notifications.component';
 import {SettingsComponent} from './pages/dashboard/settings/settings.component';
@@ -27,11 +26,11 @@ export const routes: Routes = [
   { path: 'search', component: SearchComponent },
   { path: 'teacher/:id', component: TeacherViewComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], children: [
-    { path: '', redirectTo: 'dashboard-home', pathMatch: 'full' },
-    { path: 'dashboard-home', component: DashboardHomeComponent },
+    { path: '', redirectTo: 'classes', pathMatch: 'full' },
     { path: 'messages', component: MessagesComponent },
     { path: 'notifications', component: NotificationsComponent },
     { path: 'classes', component: ClassesComponent },
+    { path: 'settings', component: SettingsComponent },
     { path: 'students-list', component: StudentsListComponent, canActivate: [RoleGuard], data: { expectedRole: 'admin' } },
     { path: 'teachers-list', component: TeachersListComponent, canActivate: [RoleGuard], data: { expectedRole: 'admin' } },
 

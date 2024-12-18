@@ -18,13 +18,11 @@ export class NotificationsService {
   async createNotification(notification: INotification): Promise<any> {
     return firstValueFrom(this.http.post<INotification>(this.apiURL, notification))
   }
-}
-
-  async getNotificationsByUserId(userId: string): Promise<INotification[]> {
-    return firstValueFrom(this.http.get<INotification[]>(this.apiURL + '/user/' + userId));
-  }
 
   async watchedAllNotificationsByUserId(userId: string) {
     firstValueFrom(this.http.put<any>(this.apiURL + '/user/clear/' + userId, ""));
     }
   }
+
+
+

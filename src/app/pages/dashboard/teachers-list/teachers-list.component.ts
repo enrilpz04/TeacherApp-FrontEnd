@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { TeachersService } from '../../../services/teachers.service';
 import { ITeacher } from '../../../interfaces/iteacher.interface';
 import Swal from 'sweetalert2';
+import { INotification, Tipo } from '../../../interfaces/inotification.interface';
+import { NotificationsService } from '../../../services/notifications.service';
 
 @Component({
   selector: 'app-teachers-list',
@@ -13,6 +15,8 @@ import Swal from 'sweetalert2';
 export class TeachersListComponent {
 
   teachersService: TeachersService = inject(TeachersService)
+  notificationsService: NotificationsService = inject(NotificationsService)
+
   teachers!: ITeacher[]
   page: number = 1
   size: number = 5
@@ -45,6 +49,21 @@ export class TeachersListComponent {
 
     try {
       const response = await this.teachersService.updateTeacher(teacher);
+
+      const message = teacher.validated ? "validada" : "suspendida"
+      if(response) {
+        const notification : INotification = {
+          type: Tipo.teacher_validation,
+          message: "Tu perfil de profesor ha sido " + message + " por un administrador",
+          date: new Date(),
+          watched: false,
+          user: teacher.user
+        }
+        const responsenotification = await this.notificationsService.createNotification(notification)
+      }
+
+
+
       this.confirmation('Cambio realizado', 'Se ha modificado el estado del profesor', 'Ok');
     } catch (error) {
       console.error('Error updating student validation:', error);

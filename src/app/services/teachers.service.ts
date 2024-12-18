@@ -49,11 +49,7 @@ export class TeachersService {
     });
   }
 
-  async createTeacher(teacher: ITeacher) : Promise<ITeacher> {
-    const headers = new HttpHeaders({
-          'Content-Type': 'application/json'
-        });
-        const options = { headers: headers };
-    return firstValueFrom(this.http.post<ITeacher>(this.apiUrl, teacher, options))
+  async createTeacher(formData: FormData) : Promise<ITeacher> {
+    return firstValueFrom(this.http.post<ITeacher>(this.apiUrl, formData))
   }
 }

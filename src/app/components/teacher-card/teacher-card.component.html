@@ -1,6 +1,6 @@
 <div class="card-container d-flex w-100 p-4 gap-3">
   @if (teacher.user.avatar !== null) {
-    <figure class="h-100"><img src="{{teacher.user.avatar}}" alt="" width="100"></figure>
+    <figure class="h-100"><img [src]="'http://localhost:3000/uploads/avatars/' + teacher.user.avatar" alt="" width="100"></figure>
   } @else {
     <figure class="h-100"><img src="user-icon.png" alt="" width="100"></figure>
   }

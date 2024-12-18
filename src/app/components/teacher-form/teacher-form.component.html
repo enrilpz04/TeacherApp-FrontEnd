@@ -6,6 +6,13 @@
   <div class="form-div d-flex w-100 justify-content-center">
     <form [formGroup]="registerForm" class="card p-3 w-75 card-shadow align-content-center" (ngSubmit)="getDataForm()"
       validate>
+      <div class="text-center mb-4">
+        <img [src]="imageURL" alt="Profile Image" class="profile-image">
+        <div class="mt-2">
+          <label for="fileInput" class="btn btn-primary">Editar</label>
+          <input type="file" id="fileInput" (change)="onFileSelected($event)" hidden>
+        </div>
+      </div>
       <div class="my-2 d-flex gap-4">
         <div class="d-flex flex-column flex-grow-1">
           <label for="name" class="form-label">Nombre</label>
@@ -56,7 +63,7 @@
       </div>
       <div class="my-2">
         <label for="description" class="form-label">Descripcion</label>
-        <input type="text" class="form-control" formControlName="description" id="description">
+        <textarea type="text" class="form-control" formControlName="description" id="description" rows="3"></textarea>
         @if(checkControl('description','required')){
         <p class="text-danger">el campo es requerido</p>
         }
@@ -87,9 +94,24 @@
       </div>
       <div class="my-2">
         <label for="experience" class="form-label">Experiencia</label>
-        <textarea class="form-control" formControlName="experience" id="experience" rows="3"></textarea>
+        <input class="form-control" formControlName="experience" id="experience">
         <!-- <input type="text" class="form-control" formControlName="experience" id="experience" rows="3"> -->
         @if(checkControl('experience','required')){
+        <p class="text-danger">el campo es requerido</p>
+        }
+      </div>
+
+      <div class="my-2 fw-light col-md-6">
+        <label for="knowledges" class="form-label">Conocimientos</label>
+        @for (knowledge of knowledges; track $index) {
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" [value]="knowledge.id"
+            (change)="onKnowledgeChange($event, knowledge.id)">
+          <label class="form-check-label">{{ knowledge.name }}</label>
+        </div>
+
+        }
+        @if(checkControl('knowledges','required')){
         <p class="text-danger">el campo es requerido</p>
         }
       </div>
@@ -97,7 +119,7 @@
         <a [routerLink]="['/login']">Ya tienes una cuenta? Inicia sesión.</a>
       </div>
       <div class="my-3">
-        <a [routerLink]="['/signup-teacher']">Quieres ser estudiante? Registrate como estudiante.</a>
+        <a [routerLink]="['/signup']">Quieres ser estudiante? Registrate como estudiante.</a>
       </div>
       <input type="submit" class="mt-4" value="Enviar" [disabled]="!registerForm.valid">
     </form>

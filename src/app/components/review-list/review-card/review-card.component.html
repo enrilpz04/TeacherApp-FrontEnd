@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between flex-column">
       <div class="d-flex flex-row gap-3">
         @if (review.user.avatar !== null) {
-          <figure class="h-100"><img src="{{review.user.avatar}}" alt="" width="60"></figure>
+          <figure class="h-100"><img [src]="'http://localhost:3000/uploads/avatars/' + review.user.avatar" alt="" width="60"></figure>
         } @else {
           <figure class="h-100"><img src="user-icon.png" alt="" width="60"></figure>
         }

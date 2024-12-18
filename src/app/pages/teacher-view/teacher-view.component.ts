@@ -15,6 +15,7 @@ import { IMessage } from '../../interfaces/imessage.interface';
 import { MessagesService } from '../../services/messages.service';
 import { NotificationsService } from '../../services/notifications.service';
 import { AlertUtils } from '../../utils/alert-utils';
+import { Tipo } from '../../interfaces/inotification.interface';
 
 @Component({
   selector: 'app-teacher-view',
@@ -283,6 +284,17 @@ export class TeacherViewComponent {
     }
     const response = await this.bookingsService.createBooking(booking);
 
+    // Notification creation
+    const responseNotification = await this.notificationsService.createNotification(
+      {
+        type: Tipo.new_message,
+        message: 'Tienes una clase pendiente de ' + booking.student.name + ' ' + booking.student.surname + ' , el día ' + booking.date.toString(),
+        date: new Date(),
+        watched: false,
+        user: booking.teacher!.user
+      }
+    )
+
     this.closeDialog();
 
     // Confirmation alert
@@ -306,7 +318,20 @@ export class TeacherViewComponent {
     const response = await this.reviewsService.createReview(review)
     this.reviews.push(review)
 
+    // Notification creation
+    const responseNotification = await this.notificationsService.createNotification(
+      {
+        type: Tipo.new_message,
+        message: 'Tienes una nueva reseña de ' + review.user.name + ' ' + review.user.surname,
+        date: new Date(),
+        watched: false,
+        user: review.teacher!.user
+      }
+    )
+
     this.closeReviewDialog()
+    this.calculateAverageRating()
+    this.calculateStarPercentages()
 
     // Confirmation alert
     AlertUtils.confirmation('Reseña Creada', 'Tu reseña se ha enviado correctamente.', 'Ok');
@@ -333,10 +358,10 @@ export class TeacherViewComponent {
     // Notification creation
     const responseNotification = await this.notificationsService.createNotification(
       {
-        type: 'new_message',
-        message: 'Tienes un nuevo mensaje de ' + message.sender.name + ' ' + message.sender.surname + ' , el día ' + message.date.toString(),
+        type: Tipo.new_message,
+        message: 'Tienes un nuevo mensaje de ' + message.sender.name + ' ' + message.sender.surname,
         date: new Date(),
-        read: false,
+        watched: false,
         user: message.recipient
       }
     )

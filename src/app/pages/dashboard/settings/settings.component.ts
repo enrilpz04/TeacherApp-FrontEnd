@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-  private apiUrl = 'http://localhost:3000/api/';
+  private apiUrl = 'http://localhost:3000/uploads/avatars/';
 
   userForm: FormGroup;
   user!: IUser;

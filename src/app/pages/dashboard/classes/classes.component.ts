@@ -8,6 +8,8 @@ import { ITeacher } from '../../../interfaces/iteacher.interface';
 import { CommonModule } from '@angular/common';
 import { Form, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { NotificationsService } from '../../../services/notifications.service';
+import { Tipo } from '../../../interfaces/inotification.interface';
 
 @Component({
   selector: 'app-classes',
@@ -26,6 +28,7 @@ export class ClassesComponent {
 
   bookingsService = inject(BookingsService);
   teachersService = inject(TeachersService);
+  notificationsService = inject(NotificationsService)
   authService = inject(AuthService);
 
   constructor() {
@@ -63,6 +66,16 @@ export class ClassesComponent {
     booking.status = 'cancelled'
     const updatedBooking = await this.bookingsService.updateBooking(booking.id!, booking);
     this.updateBookingInList(updatedBooking);
+
+    const message: string = ""
+    if(this.user.rol !== 'student') {
+      const message = "Tu profesor " + booking.teacher.user.name + " " + booking.teacher.user.surname + " ha cancelado tu clase del día " + booking.date.toString();
+      await this.createNotification(message, booking.student)
+    } else {
+      const message = "Tu estudiante " + booking.student.name + " " + booking.student.surname + " ha cancelado tu clase del día " + booking.date.toString();
+      await this.createNotification(message, booking.teacher.user)
+    }
+
     this.confirmation('Cambio realizado', 'La clase ha sido cancelada', 'Ok');
   }
 
@@ -72,6 +85,16 @@ export class ClassesComponent {
     booking.status = 'confirmed'
     const updatedBooking = await this.bookingsService.updateBooking(booking.id!, booking);
     this.updateBookingInList(updatedBooking);
+
+    const message: string = ""
+    if(this.user.rol !== 'student') {
+      const message = "Tu profesor " + booking.teacher.user.name + " " + booking.teacher.user.surname + " ha aceptado tu clase del día " + booking.date.toString();
+      await this.createNotification(message, booking.student)
+    } else {
+      const message = "Tu estudiante " + booking.student.name + " " + booking.student.surname + " ha aceptado tu clase del día " + booking.date.toString();
+      await this.createNotification(message, booking.teacher.user)
+    }
+
     this.confirmation('Cambio realizado', 'La clase ha sido confirmada', 'Ok');
   }
 
@@ -81,6 +104,16 @@ export class ClassesComponent {
     booking.status = 'completed'
     const updatedBooking = await this.bookingsService.updateBooking(booking.id!, booking);
     this.updateBookingInList(updatedBooking);
+
+    const message: string = ""
+    if(this.user.rol !== 'student') {
+      const message = "Tu profesor " + booking.teacher.user.name + " " + booking.teacher.user.surname + " ha dado por completada tu clase del día " + booking.date.toString();
+      await this.createNotification(message, booking.student)
+    } else {
+      const message = "Tu estudiante " + booking.student.name + " " + booking.student.surname + " ha dado por completada tu clase del día " + booking.date.toString();
+      await this.createNotification(message, booking.teacher.user)
+    }
+
     this.confirmation('Cambio realizado', 'La clase ha sido completada', 'Ok');
   }
 
@@ -99,6 +132,18 @@ export class ClassesComponent {
     booking.status = 'confirmed'
     const updatedBooking = await this.bookingsService.updateBooking(booking.id!, booking);
     this.updateBookingInList(updatedBooking);
+
+    const message: string = ""
+    if(this.user.rol !== 'student') {
+      const message = "Tu profesor " + booking.teacher.user.name + " " + booking.teacher.user.surname + " ha reactivado tu clase del día " + booking.date.toString();
+      await this.createNotification(message, booking.student)
+    } else {
+      const message = "Tu estudiante " + booking.student.name + " " + booking.student.surname + " ha reactivado tu clase del día " + booking.date.toString();
+      await this.createNotification(message, booking.teacher.user)
+    }
+
+
+
     this.confirmation('Cambio realizado', 'La clase se ha reactivado', 'Ok');
   }
 
@@ -108,6 +153,20 @@ export class ClassesComponent {
       this.bookings[index] = updatedBooking;
     }
   }
+
+  async createNotification(message: string, user: IUser) {
+    const responseNotification = await this.notificationsService.createNotification(
+      {
+        type: Tipo.booking_status_change,
+        message:  message,
+        date: new Date(),
+        watched: false,
+        user: user
+      }
+    )
+  }
+  // Notification creation
+
 
   async alert(title: string, text: string, confirmButtonText: string, cancelButtonText: string): Promise<boolean> {
     return Swal.fire({

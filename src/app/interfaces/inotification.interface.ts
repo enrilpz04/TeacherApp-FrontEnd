@@ -1,11 +1,11 @@
 import { IUser } from './iuser.interface';
 
 export interface INotification {
-  id: number;
+  id?: number;
   type: Tipo;
   message: string;
   date: Date;
-  formatDate: string;
+  formatDate?: string;
   watched: boolean;
   user: IUser;
 }

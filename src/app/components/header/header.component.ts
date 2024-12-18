@@ -41,6 +41,7 @@ export class HeaderComponent {
         // Get Active User
         this.authService.getUser().subscribe(user => {
           if (user) {
+            console.log(user)
             this.user = user;
             this.isLoading = false;
           }

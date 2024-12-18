@@ -8,7 +8,7 @@
 
   <div class="d-flex flex-row align-content-center align-items-center gap-3" (click)="selectChat(chat)">
     @if (chat.avatar !== null) {
-    <img src="{{ chat.avatar }}" alt="{{ chat.name }}" class="rounded-circle" width="25%" />
+    <img [src]="'http://localhost:3000/uploads/avatars/' + chat.avatar" alt="{{ chat.name }}" class="rounded-circle" width="25%" />
     } @else {
     <img src="user-icon.png" alt="{{ chat.name }}" class="rounded-circle" width="25%" />
     }

@@ -44,7 +44,7 @@
       <div class="d-flex align-items-center gap-3 profile" id="profileDropdown" data-bs-toggle="dropdown"
         aria-expanded="false">
         @if (user.avatar !== null) {
-          <img src="{{user.avatar}}" alt="" width="50" >
+          <img [src]="'http://localhost:3000/uploads/avatars/' + user.avatar" alt="" width="50" >
         } @else {
           <img src="user-icon.png" alt="" width="50">
         }

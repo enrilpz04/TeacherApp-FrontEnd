@@ -44,5 +44,16 @@ export class MessagesComponent {
   async sendMessage(event : IMessage) {
     const message : IMessage = event as IMessage
     const response = await this.messagesService.createMessage(message)
+
+    // Notification creation
+    const responseNotification = await this.notificationsService.createNotification(
+      {
+        type: Tipo.new_message,
+        message: 'Tienes un nuevo mensaje de ' + message.sender.name + ' ' + message.sender.surname + ' , el día ' + message.date.toString(),
+        date: new Date(),
+        watched: false,
+        user: message.recipient
+      }
+    )
   }
 }

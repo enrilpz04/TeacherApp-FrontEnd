@@ -27,14 +27,15 @@ export class RegisterFormComponent {
     password: ""
   };
 
+  imageURL = 'user-icon.png'
+  selectedFile: File | null = null;
+
   // Mensaje de error
   errorMessage: any = "";
 
   // Formulario de registor
   registerForm: FormGroup;
 
-  // Servicios y router
-  serviceUser = inject(UserService)
   authService = inject(AuthService)
   router = inject(Router)
 
@@ -51,23 +52,34 @@ export class RegisterFormComponent {
     }, []);
   }
 
-  // Método para enviar el formulario
   async getDataForm() {
-
     // Asignaciones al nuevo user
     this.newUser.name = this.registerForm.value.name;
     this.newUser.surname = this.registerForm.value.surname;
     this.newUser.email = this.registerForm.value.email;
-    this.newUser.validated = true,
+    this.newUser.validated = true;
     this.newUser.password = this.registerForm.value.pssw;
     this.newUser.rol = Rol.STUDENT;
 
     try {
-      const response = await this.serviceUser.register(this.newUser);
+      // Crear FormData para enviar la imagen y los datos del usuario
+      const formData = new FormData();
+      formData.append('name', this.newUser.name);
+      formData.append('surname', this.newUser.surname);
+      formData.append('email', this.newUser.email);
+      formData.append('password', this.newUser.password);
+      formData.append('validated', this.newUser.validated.toString());
+      formData.append('rol', this.newUser.rol);
+      if (this.selectedFile) {
+        const resizedFile = await this.resizeImage(this.selectedFile, 200, 200); // Redimensionar la imagen a 200x200
+        formData.append('avatar', resizedFile);
+      }
+
+      const response = await this.authService.register(formData);
       if (response) {
-        console.log(response)
+        console.log(response);
         await this.confirmation("Registro completado", "Usuario registrado correctamente", "Aceptar");
-        await this.authService.login(response.email, this.newUser.password)
+        await this.authService.login(response.email, this.newUser.password);
         this.router.navigate(['/home']);
       } else {
         this.registerForm.reset();
@@ -75,7 +87,42 @@ export class RegisterFormComponent {
     } catch (error: any) {
       await this.error("Error en el registro", error.message || "Error al registrar el usuario", "Volver");
     }
+  }
 
+  async resizeImage(file: File, width: number, height: number): Promise<File> {
+    const img = document.createElement('img');
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    return new Promise((resolve, reject) => {
+      img.onload = () => {
+        const aspectRatio = img.width / img.height;
+        let srcX = 0, srcY = 0, srcWidth = img.width, srcHeight = img.height;
+
+        if (aspectRatio > 1) {
+          // Imagen horizontal
+          srcX = (img.width - img.height) / 2;
+          srcWidth = img.height;
+        } else {
+          // Imagen vertical
+          srcY = (img.height - img.width) / 2;
+          srcHeight = img.width;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        ctx?.drawImage(img, srcX, srcY, srcWidth, srcHeight, 0, 0, width, height);
+        canvas.toBlob(blob => {
+          if (blob) {
+            resolve(new File([blob], file.name, { type: file.type }));
+          } else {
+            reject(new Error('Error resizing image'));
+          }
+        }, file.type);
+      };
+      img.onerror = reject;
+      img.src = URL.createObjectURL(file);
+    });
   }
 
   checkControl(formControlNane: string, validator: string) {
@@ -92,6 +139,18 @@ export class RegisterFormComponent {
       this.registerForm.enabled
     }
     return (this.registerForm.valid) && this.valido;
+  }
+
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imageURL = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   async error(title: string, text: string, confirmButtonText: string): Promise<boolean> {

@@ -4,7 +4,7 @@
   <div class="w-100 h-100">
     <div class="d-flex w-100 p-3 header gap-3">
       @if (userChat.avatar !== null) {
-      <img src="{{ userChat.avatar }}" alt="{{ userChat.name }}" class="rounded-circle" width="50px" />
+      <img [src]="'http://localhost:3000/uploads/avatars/' + userChat.avatar" alt="{{ userChat.name }}" class="rounded-circle" width="50px" />
       } @else {
       <img src="user-icon.png" alt="{{ userChat.name }}" class="rounded-circle" width="50px" />
       }

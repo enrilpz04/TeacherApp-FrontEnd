@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-12 col-md-8 d-flex gap-4">
       @if (teacher.user.avatar !== null) {
-      <figure class="h-100"><img src="{{teacher.user.avatar}}" alt="" width="200"></figure>
+      <figure class="h-100"><img [src]="'http://localhost:3000/uploads/avatars/' + teacher.user.avatar" alt="" width="200"></figure>
       } @else {
       <figure class="h-100"><img src="user-icon.png" alt="" width="200"></figure>
       }
@@ -218,7 +218,7 @@
             <input type="text" id="comment" class="form-control" formControlName="comment">
           </div>
           <div class="dialog-footer">
-            <button type="submit" class="btn btn-primary" [disabled]="!bookingForm.valid">Confirmar reserva</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!bookingForm.valid">Confirmar reseña</button>
           </div>
         </form>
       </div>

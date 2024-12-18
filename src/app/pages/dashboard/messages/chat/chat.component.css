@@ -66,3 +66,8 @@ hr {
 .message-input {
   border-top: 1px solid lightgray;
 }
+
+h2 {
+  text-align: center;
+  margin-top: 8px;
+}

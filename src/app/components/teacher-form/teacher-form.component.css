@@ -89,3 +89,15 @@ input[type="submit"] {
   border: none;
   width: 100%;
 }
+
+.profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+}
+
+#fileInput {
+  display: none;
+}

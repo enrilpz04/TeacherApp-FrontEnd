@@ -6,6 +6,13 @@
   <div class="form-div d-flex w-100 justify-content-center">
     <form [formGroup]="registerForm" class="card p-3 w-75 card-shadow align-content-center" (ngSubmit)="getDataForm()"
       validate>
+      <div class="text-center mb-4">
+        <img [src]="imageURL" alt="Profile Image" class="profile-image">
+        <div class="mt-2">
+          <label for="fileInput" class="btn btn-primary">Editar</label>
+          <input type="file" id="fileInput" (change)="onFileSelected($event)" hidden>
+        </div>
+      </div>
       <div class="my-2 d-flex gap-4">
         <div class="d-flex flex-column flex-grow-1">
           <label for="name" class="form-label">Nombre</label>
