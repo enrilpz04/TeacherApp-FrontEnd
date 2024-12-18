@@ -30,6 +30,7 @@ export class TeacherFormComponent {
   selectedFile: File | null = null;
 
   myposition = new google.maps.LatLng(0, 0);
+  myposition2 = [0,0]
   mapa = new GoogleMap();
   mapa1 = new google.maps.Geocoder();
   loc = new google.maps.Geocoder();
@@ -70,7 +71,9 @@ export class TeacherFormComponent {
     this.loadKnowledges();
     //2º aqui cogemos la posicion actual
     navigator.geolocation.getCurrentPosition((position) => {
-      this.myposition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      this.myposition2[0]= position.coords.latitude;
+      this.myposition2[1]=position.coords.longitude;
+      this.myposition = new google.maps.LatLng(position.coords.latitude,position.coords.longitude)
       console.log(this.myposition)
     });
   }
@@ -125,8 +128,8 @@ export class TeacherFormComponent {
       formData.append('price_p_hour', this.registerForm.value.price)
       formData.append('experience', this.registerForm.value.experience)
       formData.append('rating', "0")
-      formData.append("latitude", this.myposition ? this.myposition.lat.toString() : "0")
-      formData.append("longitude", this.myposition ? this.myposition.lng.toString() : "0")
+      formData.append("latitude", this.myposition ? this.myposition2[0].toString() : "0")
+      formData.append("longitude", this.myposition ? this.myposition2[1].toString() : "0")
       formData.append("knowledgeIds", JSON.stringify(this.registerForm.value.knowledges));
 
       const response = await this.teacherServices.createTeacher(formData)
