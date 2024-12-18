@@ -1,0 +1,74 @@
+@if (!isLoading) {
+<nav class="navbar navbar-expand p-4">
+  <div class="d-flex">
+    <a class="navbar-brand" [routerLink]="['/home']">
+      <img src="logo.png" alt="Bootstrap" width="200">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" [routerLink]="['/search']">Buscar Tutores</a>
+        </li>
+        @if (!isLoggedIn) {
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/signup-teacher']">Conviértete en tutor</a>
+        </li>
+        }
+      </ul>
+    </div>
+  </div>
+  @if ( this.authService.isLoggedIn() === false ) {
+  <div class="d-flex ms-auto">
+    <button class="btn-signup" type="button" [routerLink]="['/signup']">Registrarse</button>
+    <button class="btn-login" type="button" [routerLink]="['/login']">Iniciar sesión</button>
+  </div>
+  } @else {
+  <div class="d-flex ms-auto gap-3 align-items-center">
+    @if (user.rol !== 'admin') {
+    <div class="position-relative">
+      <a [routerLink]="['/dashboard/messages']">
+        <i class="fa-regular fa-envelope fa-2xl"></i>
+      </a>
+    </div>
+    }
+    <div class="position-relative">
+      <a (click)="showNotifications()">
+        <i class="fa-regular fa-bell fa-2xl"></i>
+      </a>
+      @if (getNotificationsCount() > 0) {
+      <span class="badge bg-danger">{{getNotificationsCount()}}</span>
+      }
+
+    </div>
+    <div class="dropdown">
+      <div class="d-flex align-items-center gap-3 profile" id="profileDropdown" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        @if (user.avatar !== null) {
+        <img [src]="'http://localhost:3000/uploads/avatars/' + user.avatar" alt="" width="50">
+        } @else {
+        <img src="user-icon.png" alt="" width="50">
+        }
+        <h5 class="m-0">{{ user.name + " " + user.surname }}</h5>
+      </div>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+        @if (user.rol !== 'admin') {
+        <li><a class="dropdown-item" [routerLink]="['/dashboard/classes']">Clases</a></li>
+        <li><a class="dropdown-item" [routerLink]="['/dashboard/messages']">Mensajes</a></li>
+        <li><a class="dropdown-item" [routerLink]="['/dashboard/notifications']">Notificaciones</a></li>
+        <li><a class="dropdown-item" [routerLink]="['/dashboard/settings']">Ajustes</a></li>
+        } @else if (user.rol === 'admin') {
+        <li><a class="dropdown-item" [routerLink]="['/dashboard/students-list']">Lista de Estudiantes</a></li>
+        <li><a class="dropdown-item" [routerLink]="['/dashboard/teachers-list']">Lista de Profesores</a></li>
+        <li><a class="dropdown-item" [routerLink]="['/dashboard/notifications']">Notificaciones</a></li>
+        }
+        <li><a class="dropdown-item" href="#" (click)="logout()">Cerrar sesión</a></li>
+      </ul>
+    </div>
+  </div>
+  }
+</nav>
+}

@@ -1,0 +1,127 @@
+<section class="container my-5">
+  <div class="header">
+    <h3>¡Bienvenido a Teach4Dev!</h3>
+    <p>Completa el formulario de registro para darte de alta como profesor.</p>
+  </div>
+  <div class="form-div d-flex w-100 justify-content-center">
+    <form [formGroup]="registerForm" class="card p-3 w-75 card-shadow align-content-center" (ngSubmit)="getDataForm()"
+      validate>
+      <div class="text-center mb-4">
+        <img [src]="imageURL" alt="Profile Image" class="profile-image">
+        <div class="mt-2">
+          <label for="fileInput" class="btn btn-primary">Editar</label>
+          <input type="file" id="fileInput" (change)="onFileSelected($event)" hidden>
+        </div>
+      </div>
+      <div class="my-2 d-flex gap-4">
+        <div class="d-flex flex-column flex-grow-1">
+          <label for="name" class="form-label">Nombre</label>
+          <input type="text" class="form-control" formControlName="name" id="name">
+          @if(checkControl('name','required')){
+          <p class="text-danger">el campo es requerido</p>
+          }
+          @if(checkControl('name','minlength')){
+          <p class="error">La longitud minima es de 3 caracteres</p>
+          }
+        </div>
+        <div class="d-flex flex-column flex-grow-1">
+          <label for="surname" class="form-label">Apellidos</label>
+          <input type="text" class="form-control" formControlName="surname" id="surname">
+          @if(checkControl('surname','required')){
+          <p class="text-danger">el campo es requerido</p>
+          }
+          @if(checkControl('surname','minlength')){
+          <p class="error">La longitud minima es de 3 caracteres</p>
+          }
+        </div>
+      </div>
+      <div class="my-2">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" formControlName="email" id="email">
+        @if(checkControl('email','required')){
+        <p class="text-danger">el campo es requerido</p>
+        }
+      </div>
+
+      <div class="my-2">
+        <label for="pssw" class="form-label">Contraseña</label>
+        <input type="password" class="form-control" formControlName="pssw" id="pssw">
+        @if(checkControl('pssw','required')){
+        <p class="text-danger">el campo es requerido</p>
+
+        }
+      </div>
+      <div class="my-2">
+        <label for="repssw" class="form-label">Repite Contraseña</label>
+        <input type="password" class="form-control" formControlName="repssw" id="repssw">
+        @if(checkControl('repsw','required')){
+        <p class="text-danger">el campo es requerido</p>
+        }
+        @if(checkRepitPassw()){
+        <p class="text-danger">Las contraseñas no coinciden</p>
+        }
+      </div>
+      <div class="my-2">
+        <label for="description" class="form-label">Descripcion</label>
+        <textarea type="text" class="form-control" formControlName="description" id="description" rows="3"></textarea>
+        @if(checkControl('description','required')){
+        <p class="text-danger">el campo es requerido</p>
+        }
+      </div>
+      <div>
+        <label for="schedule" class="form-label">Disponibilidad</label>
+        <select name="schedule" formControlName="schedule" class="form-select" aria-label="Default select example"
+          (ngModelChange)="selectChanged()">
+          <option value="Mornig">Mañana</option>
+          <option value="Afternoon">Tarde</option>
+          <option value="Night">Noche</option>
+
+        </select>
+        @if(checkControl('schedule','required')){
+        <p class="text-danger">el campo es requerido</p>
+
+        }
+
+      </div>
+      <div class="my-2">
+        <label for="price" class="form-label">Precio</label>
+        <input type="number" class="form-control" formControlName="price" id="price">
+        @if(checkControl('price','required')){
+        <p class="text-danger">el campo es requerido</p>
+
+        }
+
+      </div>
+      <div class="my-2">
+        <label for="experience" class="form-label">Experiencia</label>
+        <input class="form-control" formControlName="experience" id="experience">
+        <!-- <input type="text" class="form-control" formControlName="experience" id="experience" rows="3"> -->
+        @if(checkControl('experience','required')){
+        <p class="text-danger">el campo es requerido</p>
+        }
+      </div>
+
+      <div class="my-2 fw-light col-md-6">
+        <label for="knowledges" class="form-label">Conocimientos</label>
+        @for (knowledge of knowledges; track $index) {
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" [value]="knowledge.id"
+            (change)="onKnowledgeChange($event, knowledge.id)">
+          <label class="form-check-label">{{ knowledge.name }}</label>
+        </div>
+
+        }
+        @if(checkControl('knowledges','required')){
+        <p class="text-danger">el campo es requerido</p>
+        }
+      </div>
+      <div class="my-3">
+        <a [routerLink]="['/login']">Ya tienes una cuenta? Inicia sesión.</a>
+      </div>
+      <div class="my-3">
+        <a [routerLink]="['/signup']">Quieres ser estudiante? Registrate como estudiante.</a>
+      </div>
+      <input type="submit" class="mt-4" value="Enviar" [disabled]="!registerForm.valid">
+    </form>
+  </div>
+</section>

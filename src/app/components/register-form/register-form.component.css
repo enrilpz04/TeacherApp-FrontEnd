@@ -1,0 +1,103 @@
+/* General */
+body {
+  background-color: #f7f7f7;
+  font-family: 'Arial', sans-serif;
+}
+
+.container {
+  margin-top: 50px;
+  padding: 20px;
+}
+
+/* Encabezado */
+.header h3 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.header p {
+  font-size: 1.1rem;
+  color: #777;
+  text-align: center;
+}
+
+/* Formulario */
+.form-div {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+form.card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 80%;
+}
+
+.card-shadow {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Inputs y etiquetas */
+.form-label {
+  font-weight: 500;
+  color: #555;
+}
+
+input.form-control {
+  border-radius: 4px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-top: 5px;
+}
+
+input.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Mensajes de error */
+.text-danger {
+  font-size: 0.9rem;
+  color: #dc3545;
+  margin-top: 5px;
+}
+
+.error {
+  color: tomato;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  form.card {
+    width: 100%;
+    padding: 20px;
+  }
+}
+
+input[type="submit"] {
+  padding: 1rem 1rem;
+  border-radius: 4px;
+  background-color: #A3F7BF;
+  color: #435055;
+  border: none;
+  width: 100%;
+}
+
+.profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+}
+
+#fileInput {
+  display: none;
+}

@@ -1,0 +1,31 @@
+<section class="container my-5">
+  <div class="header">
+    <h3>¡Bienvenido de nuevo a Teach4Dev!</h3>
+    <p>Inicia sesión con tu cuenta.</p>
+  </div>
+  <div class="form-div d-flex w-100 justify-content-center">
+    <form [formGroup]="userForm" class="card p-3 w-75 card-shadow align-content-center" (ngSubmit)="login()"
+      validate>
+      <div class="my-2">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" formControlName="email" id="email">
+        @if(checkControl('email','required')){
+        <p class="text-danger">el campo es requerido</p>
+        }
+      </div>
+
+      <div class="my-2">
+        <label for="pssw" class="form-label">Contraseña</label>
+        <input type="password" class="form-control" formControlName="password" id="pssw">
+        @if(checkControl('password','required')){
+        <p class="text-danger">el campo es requerido</p>
+
+        }
+      </div>
+      <div class="my-3">
+        <a [routerLink]="['/signup']">No tienes una cuenta? Registrate.</a>
+      </div>
+      <input type="submit" class="mt-4" value="Enviar" [disabled]="!userForm.valid">
+    </form>
+  </div>
+</section>

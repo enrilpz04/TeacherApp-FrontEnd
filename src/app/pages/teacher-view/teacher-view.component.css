@@ -1,0 +1,70 @@
+.align {
+  display: flex;
+  align-items: center;
+  color: gray;
+}
+
+.align i {
+  margin-right: 2px; /* Ajusta el espacio entre el icono y el texto */
+}
+
+.align p {
+  margin: 0; /* Elimina el margen del párrafo para una mejor alineación */
+}
+
+div .card h5 {
+  text-align: center;
+}
+
+.progress-bar {
+  background-color: #63b87f;
+  width: 80%;
+}
+
+span {
+  align-items: end;
+}
+
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.dialog {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dialog-body {
+  margin-top: 10px;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}

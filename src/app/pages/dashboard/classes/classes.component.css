@@ -1,0 +1,74 @@
+.col-date {
+  width: 10%;
+}
+
+.col-time {
+  width: 10%;
+}
+
+.col-name {
+  width: 15%;
+}
+
+.col-email {
+  width: 25%;
+}
+
+.col-status {
+  width: 15%;
+}
+
+.col-actions {
+  width: 25%;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #dee2e6;
+}
+
+.table-bordered thead th {
+  border-bottom-width: 2px;
+}
+
+.pending {
+  background-color: lightsalmon;
+}
+
+.completed {
+  background-color: lightblue;
+}
+
+.cancelled {
+  background-color: lightcoral;
+}
+
+.confirmed {
+  background-color: lightgreen;
+}
+
+.archived {
+  background-color: lightgray;
+}
+
+a {
+  cursor: pointer;
+}
+
+.fa-check {
+  color: green;
+}
+
+.fa-xmark {
+  color: red;
+}
+
+.fa-box-archive {
+  color: gray;
+}
+
+.fa-clock{
+  color: orange;
+}
+
+

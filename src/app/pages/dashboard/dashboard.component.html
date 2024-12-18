@@ -1,0 +1,40 @@
+<section class="container">
+  <nav class="navbar navbar-expand mt-3">
+    <div class="d-flex">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav gap-3">
+          @if (user.rol === 'admin') {
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/dashboard/students-list']">Lista de Estudiantes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/dashboard/teachers-list']">Lista de Profesores</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/dashboard/notifications']">Notificaciones</a>
+            </li>
+          } @else {
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/dashboard/classes']">Clases</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/dashboard/messages']">Mensajes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/dashboard/notifications']">Notificaciones</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/dashboard/settings']">Ajustes</a>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+    </nav>
+  <router-outlet></router-outlet>
+</section>
+

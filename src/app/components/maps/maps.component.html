@@ -1,0 +1,24 @@
+<section class="container my-4 p-2">
+  <div class="align-items-center w-100">
+    <h2>¡Encuentra profesores en cualquier parte del mundo!</h2>
+    <p>Pincha sobre los iconos del mapa para acceder a los perfiles de los profesores</p>
+  </div>
+  <div class="w-100">
+    <google-map class="map-container" width="100%" height="80vh" [zoom]="4" [center]="myposition()">
+      <map-marker #miPosicion="mapMarker" [position]="myposition()">
+        <map-info-window #infoWindow="mapInfoWindow" (mapClick)="consolaPosicion()">
+          <h4>Soy yo</h4>
+        </map-info-window>
+      </map-marker>
+      @for (teacher of arrTeachers; track teacher.id){
+      <map-marker #teacherMarker="mapMarker" [position]="getPositionTeacher(teacher.latitude, teacher.longitude)"
+        (mapClick)="openInfoWindow(teacherMarker,infoWindow)" (mapMouseover)="closeInfoWindow(infoWindow)">
+        <map-info-window #infoWindow="mapInfoWindow">
+          <app-teacher-card [teacher]="teacher"></app-teacher-card>
+
+        </map-info-window>
+      </map-marker>
+      }
+    </google-map>
+  </div>
+</section>

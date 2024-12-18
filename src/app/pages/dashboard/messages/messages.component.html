@@ -1,0 +1,18 @@
+<section class="container my-4">
+    <h2>Lista de Mensajes</h2>
+    <hr>
+  @if (chats.length === 0) {
+    <div class="alert alert-warning" role="alert">
+      No tienes mensajes con ningún usuario.
+    </div>
+  } @else {
+    <div class="d-flex flex-row">
+      <div class="w-25">
+        <app-chats-list [chats]="chats" (chatSelected)="selectChat($event)"></app-chats-list>
+      </div>
+      <div class="w-75">
+        <app-chat [chat]="selectedChat" [activeUser]="user" [userChat]="selectedUser" (message)="sendMessage($event)"></app-chat>
+      </div>
+    </div>
+  }
+</section>

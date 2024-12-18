@@ -1,0 +1,25 @@
+<section class="h-100">
+  <div class="chat-search">
+    <h4 class="">Lista de chats</h4>
+    <input class="form-control" type="text" [(ngModel)]="searchText" placeholder="Buscar chats...">
+  </div>
+
+  @for (chat of filteredChats; track $index) {
+
+  <div class="d-flex flex-row align-content-center align-items-center gap-3" (click)="selectChat(chat)">
+    @if (chat.avatar !== null) {
+    <img [src]="'http://localhost:3000/uploads/avatars/' + chat.avatar" alt="{{ chat.name }}" class="rounded-circle" width="25%" />
+    } @else {
+    <img src="user-icon.png" alt="{{ chat.name }}" class="rounded-circle" width="25%" />
+    }
+    <h5 class="w-50">{{chat.name + " " + chat.surname}}</h5>
+    @if (chat.rol === 'student') {
+    <p class="w-25">Estudiante</p>
+    } @else {
+    <p class="w-25">Profesor</p>
+    }
+  </div>
+  }
+
+
+</section>

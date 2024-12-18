@@ -1,0 +1,34 @@
+<section class="mt-4">
+  <h2>Lista de Estudiantes</h2>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col" class="col-id">Id</th>
+          <th scope="col" class="col-name">Nombre</th>
+          <th scope="col" class="col-surname">Apellido</th>
+          <th scope="col" class="col-email">Email</th>
+          <th scope="col" class="col-validated">Validado</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (student of students; track $index) {
+          <tr>
+            <td>{{student.id}}</td>
+            <td>{{student.name}}</td>
+            <td>{{student.surname}}</td>
+            <td>{{student.email}}</td>
+            <td>
+              <input type="checkbox" [checked]="student.validated" (change)="updateStudentValidation(student, $event)">
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="pagination-buttons d-flex gap-3 justify-content-center align-items-center">
+    <button class="btn btn-primary" (click)="previousPage()" [disabled]="page === 1"><i class="fa-solid fa-arrow-left"></i></button>
+    <span>Página {{page}}</span>
+    <button class="btn btn-primary" (click)="nextPage()" [disabled]="page === totalPages"><i class="fa-solid fa-arrow-right"></i></button>
+  </div>
+</section>
